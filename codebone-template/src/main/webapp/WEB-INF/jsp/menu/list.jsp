@@ -21,13 +21,14 @@
 <body>
 
 	<form class="well form-search"
-		action="<%=request.getContextPath()%>/admin/manager/search" method="post">
+		action="<%=request.getContextPath()%>/admin/manager/search"
+		method="post">
 		<div class="controls" style="text-align: right">
 			<select id="manager_search_select" name="property">
 				<option>idx</option>
 				<option>name</option>
-				<option>pri_order</option>
-				<option>sub_order</option>
+				<option>priOrder</option>
+				<option>subOrder</option>
 				<option>isSeperate</option>
 				<option>isExternal</option>
 				<option>url</option>
@@ -42,8 +43,9 @@
 			<tr>
 				<th>idx</th>
 				<th>name</th>
-				<th>pri_order</th>
-				<th>sub_order</th>
+				<th>priOrder</th>
+				<th>subOrder</th>
+				<th>menuAction</th>
 				<th>isSeperate</th>
 				<th>isExternal</th>
 				<th>url</th>
@@ -61,9 +63,24 @@
 				%>
 				<td><%=menuModel.getIdx()%></td>
 				<td><%=menuModel.getName()%></td>
-				<td><%=menuModel.getPri_order()%></td>
-				<td><%=menuModel.getSub_order()%></td>
-				<td><%=menuModel.getIsSeperate()%></td>
+				<td><%=menuModel.getPriOrder()%></td>
+				<td><%=menuModel.getSubOrder()%></td>
+				<td>
+				<div class="btn-group">
+						<%if (menuModel.getSubOrder() == 0) {%> <!-- 메인메뉴 -> 서브메뉴 격하 -->
+							<a class="btn btn-primary" href="<%=request.getContextPath()%>/admin/menu/changeLevel?priOrder=<%=menuModel.getPriOrder()%>&subOrder=<%=menuModel.getSubOrder()%>&idx=<%=menuModel.getIdx()%>"><i 
+								class="icon-arrow-right icon-white"></i></a>
+						<%} else {%><!-- 서브메뉴 -> 메인메뉴 격상 -->
+							<a class="btn btn-warning" href="<%=request.getContextPath()%>/admin/menu/changeLevel?priOrder=<%=menuModel.getPriOrder()%>&subOrder=<%=menuModel.getSubOrder()%>&idx=<%=menuModel.getIdx()%>"><i 
+							class="icon-arrow-left icon-white"></i></a>
+						<%}%>
+						<a class="btn btn-success" href="<%=request.getContextPath()%>/admin/menu/changeOrder?priOrder=<%=menuModel.getPriOrder()%>&subOrder=<%=menuModel.getSubOrder()%>&up=Y"><i 
+							class="icon-arrow-up icon-white"></i></a>
+						<a class="btn btn-danger" href="<%=request.getContextPath()%>/admin/menu/changeOrder?priOrder=<%=menuModel.getPriOrder()%>&subOrder=<%=menuModel.getSubOrder()%>&up=N"><i 
+							class="icon-arrow-down icon-white"></i></a>
+					</div>
+				</td>
+				<td><%=menuModel.getIsSeparate()%></td>
 				<td><%=menuModel.getIsExternal()%></td>
 				<td><%=menuModel.getUrl()%></td>
 				<td><%=menuModel.getManagerIdx()%></td>
@@ -91,7 +108,7 @@
 
 	<%
 		PagingNavigation pagingNavigation = new PagingNavigation();
-		pagingNavigation.setCurrentPage(currentPage);
+		pagingNavigation.setCurrentPage(currentPage + 1);
 		pagingNavigation.setPagePerBlock(5L);
 		pagingNavigation.setRecordPerPage(20L);
 		pagingNavigation.setTotalRecord(allCount);

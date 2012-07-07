@@ -86,7 +86,7 @@
 
 	<%
 		PagingNavigation pagingNavigation = new PagingNavigation();
-		pagingNavigation.setCurrentPage(currentPage);
+		pagingNavigation.setCurrentPage(currentPage+1);
 		pagingNavigation.setPagePerBlock(5L);
 		pagingNavigation.setRecordPerPage(20L);
 		pagingNavigation.setTotalRecord(allCount);

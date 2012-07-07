@@ -5,7 +5,7 @@ import java.util.Date;
 import org.codebone.framework.generic.AbstractModel;
 
 
-public class BaseModel extends AbstractModel{
+public class BaseModel{
 	
 	protected Date date = new Date();
 	

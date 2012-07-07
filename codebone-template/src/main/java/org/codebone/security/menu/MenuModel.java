@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.codebone.framework.generic.AbstractModel;
@@ -12,8 +14,9 @@ import org.codebone.framework.generic.AbstractModel;
 @Entity
 public class MenuModel extends AbstractModel{
 	
-	@Column
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column
 	private Long idx;
 	
 	@Column
@@ -23,17 +26,17 @@ public class MenuModel extends AbstractModel{
 	private String url = "";
 	
 	@Column
-	private Integer pri_order = 0;
+	private Integer priOrder = 0;
 	
 	@Column
-	private Integer sub_order = 0;
+	private Integer subOrder = 0;
 	
 	/**
 	 * 일단은 2단메뉴까지만 생각ㅇㅋ
 	 */
 	
 	@Column(length=1)
-	private String isSeperate = "N";
+	private String isSeparate = "N";
 	
 	@Column(length=1)
 	private String isExternal = "N";
@@ -65,28 +68,28 @@ public class MenuModel extends AbstractModel{
 		this.url = url;
 	}
 
-	public Integer getPri_order() {
-		return pri_order;
+	public Integer getPriOrder() {
+		return priOrder;
 	}
 
-	public void setPri_order(Integer pri_order) {
-		this.pri_order = pri_order;
+	public void setPriOrder(Integer priOrder) {
+		this.priOrder = priOrder;
 	}
 
-	public Integer getSub_order() {
-		return sub_order;
+	public Integer getSubOrder() {
+		return subOrder;
 	}
 
-	public void setSub_order(Integer sub_order) {
-		this.sub_order = sub_order;
+	public void setSubOrder(Integer subOrder) {
+		this.subOrder = subOrder;
 	}
 
-	public String getIsSeperate() {
-		return isSeperate;
+	public String getIsSeparate() {
+		return isSeparate;
 	}
 
-	public void setIsSeperate(String isSeperate) {
-		this.isSeperate = isSeperate;
+	public void setIsSeparate(String isSeparate) {
+		this.isSeparate = isSeparate;
 	}
 
 	public String getIsExternal() {
@@ -106,15 +109,15 @@ public class MenuModel extends AbstractModel{
 	}
 
 	public MenuModel(Date createdDate, Date updatedDate, Long idx, String name,
-			String url, Integer pri_order, Integer sub_order,
-			String isSeperate, String isExternal, Long managerIdx) {
+			String url, Integer priOrder, Integer subOrder,
+			String isSeparate, String isExternal, Long managerIdx) {
 		super(createdDate, updatedDate);
 		this.idx = idx;
 		this.name = name;
 		this.url = url;
-		this.pri_order = pri_order;
-		this.sub_order = sub_order;
-		this.isSeperate = isSeperate;
+		this.priOrder = priOrder;
+		this.subOrder = subOrder;
+		this.isSeparate = isSeparate;
 		this.isExternal = isExternal;
 		this.managerIdx = managerIdx;
 	}
@@ -132,8 +135,8 @@ public class MenuModel extends AbstractModel{
 	@Override
 	public String toString() {
 		return "MenuModel [idx=" + idx + ", name=" + name + ", url=" + url
-				+ ", pri_order=" + pri_order + ", sub_order=" + sub_order
-				+ ", isSeperate=" + isSeperate + ", isExternal=" + isExternal
+				+ ", priOrder=" + priOrder + ", subOrder=" + subOrder
+				+ ", isSeparate=" + isSeparate + ", isExternal=" + isExternal
 				+ ", managerIdx=" + managerIdx + ", createdDate=" + createdDate
 				+ ", updatedDate=" + updatedDate + "]";
 	}

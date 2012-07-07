@@ -22,7 +22,7 @@ public abstract class AbstractDao<M extends AbstractModel> {
 	public void create(M m){
 		logger.info("create model " + m);
 		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(m);
+		session.save(m);
 		session.flush();
 	}
 	
