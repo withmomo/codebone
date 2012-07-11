@@ -1,21 +1,14 @@
 package org.codebone.security.group;
 
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 
 import org.codebone.framework.generic.AbstractModel;
-import org.codebone.security.authorities.AuthoritiesModel;
-import org.codebone.security.manager.ManagerModel;
 
 
 @Entity
@@ -27,12 +20,117 @@ public class GroupModel extends AbstractModel{
 	private Long idx;
 	
 	@Column
-	private String name;
+	private String id = "";
 	
 	@Column
-	private String description;
+	private String password = "";
 	
-	@ManyToMany(targetEntity=AuthoritiesModel.class)
-	@JoinColumn(name="idx")
-	private List<AuthoritiesModel> authoritiesList;
+	@Column
+	private String email = "";
+	
+	@Column
+	private String phoneNumber = "";
+	
+	@Column
+	private Boolean enabled = true;
+	
+	@Column
+	private Integer level = 0;
+	
+	@Column
+	private String name = "";
+
+	public GroupModel(Date createdDate, Date updatedDate, Long idx,
+			String id, String password, String email, String phoneNumber,
+			Boolean enabled, Integer level, String name) {
+		super(createdDate, updatedDate);
+		this.idx = idx;
+		this.id = id;
+		this.password = password;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.enabled = enabled;
+		this.level = level;
+		this.name = name;
+	}
+
+	public Long getIdx() {
+		return idx;
+	}
+
+	public void setIdx(Long idx) {
+		this.idx = idx;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Integer getLevel() {
+		return level;
+	}
+
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public GroupModel() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public String toString() {
+		return "ManagerModel [idx=" + idx + ", id=" + id + ", password="
+				+ password + ", email=" + email + ", phoneNumber="
+				+ phoneNumber + ", enabled=" + enabled + ", level=" + level
+				+ ", name=" + name + ", createdDate=" + createdDate
+				+ ", updatedDate=" + updatedDate + "]";
+	}
+	
+	
 }
