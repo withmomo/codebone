@@ -35,14 +35,14 @@ public class ManagerModel extends AbstractModel{
 	private Boolean enabled = true;
 	
 	@Column
-	private Integer level = 0;
+	private Long groupIdx;
 	
 	@Column
 	private String name = "";
 
 	public ManagerModel(Date createdDate, Date updatedDate, Long idx,
 			String id, String password, String email, String phoneNumber,
-			Boolean enabled, Integer level, String name) {
+			Boolean enabled, Long groupIdx, String name) {
 		super(createdDate, updatedDate);
 		this.idx = idx;
 		this.id = id;
@@ -50,7 +50,7 @@ public class ManagerModel extends AbstractModel{
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.enabled = enabled;
-		this.level = level;
+		this.groupIdx = groupIdx;
 		this.name = name;
 	}
 
@@ -102,12 +102,12 @@ public class ManagerModel extends AbstractModel{
 		this.enabled = enabled;
 	}
 
-	public Integer getLevel() {
-		return level;
+	public Long getGroupIdx() {
+		return groupIdx;
 	}
 
-	public void setLevel(Integer level) {
-		this.level = level;
+	public void setGroupIdx(Long groupIdx) {
+		this.groupIdx = groupIdx;
 	}
 
 	public String getName() {
@@ -127,7 +127,7 @@ public class ManagerModel extends AbstractModel{
 	public String toString() {
 		return "ManagerModel [idx=" + idx + ", id=" + id + ", password="
 				+ password + ", email=" + email + ", phoneNumber="
-				+ phoneNumber + ", enabled=" + enabled + ", level=" + level
+				+ phoneNumber + ", enabled=" + enabled + ", groupIdx=" + groupIdx
 				+ ", name=" + name + ", createdDate=" + createdDate
 				+ ", updatedDate=" + updatedDate + "]";
 	}

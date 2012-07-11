@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/manager")
+@RequestMapping("/group")
 public class GroupController extends AbstractController<MenuModel>{
 
 	@Autowired

@@ -1,5 +1,7 @@
 package org.codebone.security.authorities;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,7 +12,7 @@ import org.codebone.framework.generic.AbstractModel;
 
 
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames={"principle", "authority"}))
+@Table
 public class AuthoritiesModel extends AbstractModel{
 	
 	@Column
@@ -18,7 +20,7 @@ public class AuthoritiesModel extends AbstractModel{
 	private Long idx;
 	
 	@Column
-	private Long principle;
+	private Long groupIdx;
 	
 	@Column
 	private String authority;
@@ -31,12 +33,12 @@ public class AuthoritiesModel extends AbstractModel{
 		this.idx = idx;
 	}
 
-	public Long getPrinciple() {
-		return principle;
+	public Long getGroupIdx() {
+		return groupIdx;
 	}
 
-	public void setPrinciple(Long principle) {
-		this.principle = principle;
+	public void setGroupIdx(Long groupIdx) {
+		this.groupIdx = groupIdx;
 	}
 
 	public String getAuthority() {
@@ -47,22 +49,27 @@ public class AuthoritiesModel extends AbstractModel{
 		this.authority = authority;
 	}
 
-	@Override
-	public String toString() {
-		return "AuthoritiesModel [idx=" + idx + ", principle=" + principle
-				+ ", authority=" + authority + "]";
-	}
-
-	public AuthoritiesModel(Long idx, Long principle, String authority) {
-		super();
-		this.idx = idx;
-		this.principle = principle;
-		this.authority = authority;
-	}
-
 	public AuthoritiesModel() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+
+	public AuthoritiesModel(Date createdDate, Date updatedDate) {
+		super(createdDate, updatedDate);
+		// TODO Auto-generated constructor stub
+	}
+
+	public AuthoritiesModel(Date createdDate, Date updatedDate, Long idx,
+			Long groupIdx, String authority) {
+		super(createdDate, updatedDate);
+		this.idx = idx;
+		this.groupIdx = groupIdx;
+		this.authority = authority;
+	}
+
+	@Override
+	public String toString() {
+		return "AuthoritiesModel [idx=" + idx + ", groupIdx=" + groupIdx
+				+ ", authority=" + authority + "]";
+	}
 }

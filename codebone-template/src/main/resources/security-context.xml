@@ -29,9 +29,10 @@
 		</beans:property>
 		<beans:property name="authoritiesByUsernameQuery">
 			<beans:value>
-				SELECT principle, authority
-				FROM authoritiesmodel
-				WHERE principle = ?
+				SELECT auth.groupIdx, auth.authority
+				FROM authoritiesmodel as auth, managermodel as manager
+				WHERE manager.idx = ?
+				and manager.groupIdx = auth.groupIdx
 			</beans:value>
 		</beans:property>
 	</beans:bean>
