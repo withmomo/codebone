@@ -43,7 +43,7 @@
 				<th>email</th>
 				<th>name</th>
 				<th>phoneNumber</th>
-				<th>level</th>
+				<th>groupIdx</th>
 				<th>createdDate</th>
 				<th>Action</th>
 			</tr>
@@ -61,7 +61,7 @@
 				<td><%=managerModel.getEmail()%></td>
 				<td><%=managerModel.getName()%></td>
 				<td><%=managerModel.getPhoneNumber()%></td>
-				<td><%=managerModel.getLevel()%></td>
+				<td><%=managerModel.getGroupIdx()%></td>
 				<td><%=managerModel.getCreatedDate()%></td>
 				<td>
 					<div class="btn-group">

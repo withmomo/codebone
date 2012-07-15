@@ -66,9 +66,9 @@
 					value="<%=managerModel.getPhoneNumber()%>"></td>
 			</tr>
 			<tr>
-				<th>level</th>
+				<th>groupIdx</th>
 				<td><input type="text" class="form-vertical" name="level"
-					value="<%=managerModel.getLevel()%>"></td>
+					value="<%=managerModel.getGroupIdx()%>"></td>
 			</tr>
 			</tbody>
 		</table>

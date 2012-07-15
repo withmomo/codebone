@@ -20,10 +20,6 @@
 		</authentication-provider>
 	</authentication-manager>
 
-	<bean id="passwordEncoder"
-		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder">
-	</bean>
-
 	<beans:bean id="securityService"
 		class="org.codebone.security.authentication.AuthenticationDao">
 		<beans:property name="dataSource" ref="dataSource" />
@@ -45,5 +41,8 @@
 				and manager.groupIdx = auth.groupIdx
 			</beans:value>
 		</beans:property>
+	</beans:bean>
+	<beans:bean id="passwordEncoder"
+		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder">
 	</beans:bean>
 </beans:beans>
