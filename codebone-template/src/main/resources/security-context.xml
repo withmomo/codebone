@@ -15,8 +15,12 @@
 	</http>
 
 	<authentication-manager>
-		<authentication-provider user-service-ref="securityService" />
+		<authentication-provider user-service-ref="securityService">
+			<password-encoder ref="passwordEncoder" />
+		</authentication-provider>
 	</authentication-manager>
+	
+	<bean id="passwordEncoder" class="org.acegisecurity.providers.encoding.Md5PasswordEncoder" />
 
 	<beans:bean id="securityService" class="org.codebone.security.authentication.AuthenticationDao">
 		<beans:property name="dataSource" ref="dataSource" />
