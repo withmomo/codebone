@@ -19,23 +19,29 @@
 			<password-encoder ref="passwordEncoder" />
 		</authentication-provider>
 	</authentication-manager>
-	
-	<bean id="passwordEncoder" class="org.acegisecurity.providers.encoding.Md5PasswordEncoder" />
 
-	<beans:bean id="securityService" class="org.codebone.security.authentication.AuthenticationDao">
+	<bean id="passwordEncoder"
+		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder">
+	</bean>
+
+	<beans:bean id="securityService"
+		class="org.codebone.security.authentication.AuthenticationDao">
 		<beans:property name="dataSource" ref="dataSource" />
 		<beans:property name="usersByUsernameQuery">
 			<beans:value>
 				SELECT idx, password, enabled
 				FROM managermodel
-				WHERE id = ?
+				WHERE id =
+				?
 			</beans:value>
 		</beans:property>
 		<beans:property name="authoritiesByUsernameQuery">
 			<beans:value>
 				SELECT auth.groupIdx, auth.authority
-				FROM authoritiesmodel as auth, managermodel as manager
-				WHERE manager.idx = ?
+				FROM
+				authoritiesmodel as auth, managermodel as manager
+				WHERE manager.idx =
+				?
 				and manager.groupIdx = auth.groupIdx
 			</beans:value>
 		</beans:property>
