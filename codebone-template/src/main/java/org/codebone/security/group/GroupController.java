@@ -51,7 +51,7 @@ public class GroupController {
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
 		ManagerModel currentLoginManager = (ManagerModel) managerService.read(
-				Long.parseLong(auth.getName())).getData();
+				auth.getName()).getData();
 		List<MenuModel> list = (List<MenuModel>) menuService.listAll()
 				.getData();
 		System.out.println(list);

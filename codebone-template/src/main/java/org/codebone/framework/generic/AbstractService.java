@@ -22,12 +22,6 @@ public abstract class AbstractService<M extends AbstractModel> {
 		return new SuccessModel();
 	}
 	
-	public BaseModel read (Serializable key){
-		logger.info("read model by" + key);
-		M m = (M) getDao().read(key);
-		return new SuccessModel(m);
-	}
-	
 	public BaseModel read (String key){
 		logger.info("read model by" + key);
 		M m = (M) getDao().read(key);

@@ -26,13 +26,6 @@ public abstract class AbstractDao<M extends AbstractModel> {
 		session.flush();
 	}
 	
-	public M read(Serializable key){
-		logger.info("read model by" + key);
-		Session session = sessionFactory.getCurrentSession();
-		M m = (M) session.get(getEntityClass(), key);
-		return m;
-	}
-	
 	public M read(String key){
 		logger.info("read model by" + key);
 		Session session = sessionFactory.getCurrentSession();

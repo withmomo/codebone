@@ -4,6 +4,7 @@
 	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+	xmlns:sec="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="
 			http://www.springframework.org/schema/mvc 
 			http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
@@ -14,7 +15,9 @@
 			http://www.springframework.org/schema/context
 			http://www.springframework.org/schema/context/spring-context-3.0.xsd
 			http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring
-            http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd">
+            http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd
+            http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
 	<!-- Configures the annotation-driven Spring MVC Controller programming 
 		model. Note that, with Spring 3.0, this tag works in Servlet MVC only! -->
@@ -40,5 +43,8 @@
 		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
 		<property name="defaultLocale" value="" />
 	</bean>
+
+	<sec:global-method-security
+		pre-post-annotations="enabled"/>
 
 </beans>
