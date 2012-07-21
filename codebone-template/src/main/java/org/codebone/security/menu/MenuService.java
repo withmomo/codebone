@@ -7,13 +7,15 @@ import org.codebone.framework.FailModel;
 import org.codebone.framework.SuccessModel;
 import org.codebone.framework.generic.AbstractDao;
 import org.codebone.framework.generic.AbstractService;
+import org.codebone.framework.generic.AbstractServiceSecurityInterface;
+import org.codebone.security.manager.ManagerModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 
 @Component
-
-public class MenuService extends AbstractService<MenuModel> {
+public class MenuService extends AbstractService<MenuModel>{
 	
 	@Autowired
 	private MenuDao dao;
@@ -21,16 +23,6 @@ public class MenuService extends AbstractService<MenuModel> {
 	@Override
 	public AbstractDao getDao() {
 		return dao;
-	}
-	
-	public BaseModel deleteFamily(String idx){
-		MenuModel menuModel = dao.read(idx);
-		int result = dao.deleteFamily(menuModel.getPriOrder(), menuModel.getSubOrder());
-		if(result!=0){
-			return new SuccessModel();
-		}else{
-			return new FailModel();
-		}
 	}
 	
 	public BaseModel changeOrder(Integer priOrder, Integer subOrder, boolean isUp){
@@ -49,5 +41,15 @@ public class MenuService extends AbstractService<MenuModel> {
 			}
 		}
 		return new SuccessModel();
+	}
+
+	public BaseModel deleteFamily(String idx){
+		MenuModel menuModel = dao.read(idx);
+		int result = dao.deleteFamily(menuModel.getPriOrder(), menuModel.getSubOrder());
+		if(result!=0){
+			return new SuccessModel();
+		}else{
+			return new FailModel();
+		}
 	}
 }

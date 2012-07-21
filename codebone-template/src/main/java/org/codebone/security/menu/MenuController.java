@@ -11,9 +11,12 @@ import javax.servlet.http.HttpSession;
 
 import org.codebone.framework.generic.AbstractController;
 import org.codebone.framework.generic.AbstractService;
+import org.codebone.security.manager.ManagerModel;
+import org.codebone.security.manager.ManagerService;
 import org.codebone.security.menu.MenuModel;
 import org.codebone.security.menu.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -26,46 +29,134 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("/menu")
-public class MenuController extends AbstractController<MenuModel>{
+@PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_MENU_ADMIN')")
+public class MenuController {
 
 	@Autowired
 	private MenuService service;
-	
-	@Override
-	public AbstractService getService() {
-		return service;
-	}
 
-	@Override
-	protected String getContextName() {
+	@Autowired
+	protected ManagerService managerService;
+
+	private String getContextName() {
 		return "menu";
 	}
 	
-	@Override
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_MENU_DELETE')")
 	public ModelAndView delete(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String idx) {
-		((MenuService) getService()).deleteFamily(idx);
+		service.deleteFamily(idx);
 		return list(req, res, session, 0);
 	}
-	
+
 	@RequestMapping(value = "/changeOrder", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_MENU_UPDATE')")
 	public View changeOrder(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer priOrder, Integer subOrder, String up) {
 		boolean isUp, isFirst;
-		if(up.equals("Y")){
+		if (up.equals("Y")) {
 			isUp = true;
-		}else{
+		} else {
 			isUp = false;
 		}
-		((MenuService) getService()).changeOrder(priOrder, subOrder, isUp);
+		service.changeOrder(priOrder, subOrder, isUp);
 		return new RedirectView("list");
 	}
-	
+
 	@RequestMapping(value = "/changeLevel", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_MENU_UPDATE')")
 	public View chageLevel(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer priOrder, Integer subOrder, Long idx) {
-		((MenuService) getService()).changeLevel(priOrder, subOrder, idx);
+		service.changeLevel(priOrder, subOrder, idx);
 		return new RedirectView("list");
+	}
+
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public ModelAndView getCommonModelAndView(String target,
+			Map<String, Object> map) {
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		ManagerModel currentLoginManager = (ManagerModel) managerService.read(
+				auth.getName()).getData();
+		List<MenuModel> list = (List<MenuModel>) service.listAll()
+				.getData();
+		System.out.println(list);
+		map.put("loginManager", currentLoginManager);
+		map.put("menu", list);
+		return new ModelAndView(target, map);
+	}
+
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_MENU_READ')")
+	public ModelAndView list(HttpServletRequest req, HttpServletResponse res,
+			HttpSession session, Integer page) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (page == null) {
+			page = 1;
+		}
+		map.put("data", service.list(page));
+		map.put("page", page);
+
+		return getCommonModelAndView(getContextName() + "/list", map);
+	}
+
+	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_MENU_READ')")
+	public ModelAndView search(HttpServletRequest req, HttpServletResponse res,
+			HttpSession session, Integer page) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String property = req.getParameter("property");
+		String keyword = req.getParameter("keyword");
+		if (page == null) {
+			page = 0;
+		}
+		map.put("data",service.search(property, keyword, page));
+		map.put("page", page);
+		return getCommonModelAndView(getContextName() + "/list", map);
+	}
+
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_MENU_CREATE')")
+	public ModelAndView create(HttpServletRequest req, HttpServletResponse res,
+			HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("isCreate", "Y");
+		return getCommonModelAndView(getContextName() + "/update", map);
+	}
+
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_MENU_CREATE')")
+	public ModelAndView create_POST(HttpServletRequest req,
+			HttpServletResponse res, HttpSession session,
+			@ModelAttribute MenuModel model) throws ParseException {
+		service.create(model);
+		/**
+		 * Create Complete
+		 */
+		return list(req, res, session, 0);
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_MENU_UPDATE')")
+	public ModelAndView update(HttpServletRequest req, HttpServletResponse res,
+			HttpSession session, String idx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("data", service.read(idx));
+		map.put("id", idx);
+		map.put("isCreate", "N");
+		return getCommonModelAndView(getContextName() + "/update", map);
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_MENU_UPDATE')")
+	public ModelAndView update_POST(HttpServletRequest req,
+			HttpServletResponse res, HttpSession session,
+			@ModelAttribute MenuModel managerModel) throws ParseException {
+		service.update(managerModel);
+		/**
+		 * Update Complete
+		 */
+		return list(req, res, session, 0);
 	}
 }

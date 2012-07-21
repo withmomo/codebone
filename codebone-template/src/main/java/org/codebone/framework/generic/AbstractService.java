@@ -34,29 +34,12 @@ public abstract class AbstractService<M extends AbstractModel> {
 		return new SuccessModel(list);
 	}
 	
-	public BaseModel list(){
-		logger.info("read model list");
-		List<M> list = getDao().list();
-		return new SuccessModel(list);
-	}
-	
 	public BaseModel list(int page){
 		page=page-1;
 		logger.info("read model list");
 		List<M> list = getDao().list(page, 20+1);
 		if(list.size()==21){
 			list.remove(20);
-			return new SuccessModel(list, true, getDao().count());
-		}
-		return new SuccessModel(list, false, getDao().count());
-	}
-	
-	public BaseModel list(int page, int row){
-		page=page-1;
-		logger.info("read model list");
-		List<M> list = getDao().list(page, row+1);
-		if(list.size()==row+1){
-			list.remove(row);
 			return new SuccessModel(list, true, getDao().count());
 		}
 		return new SuccessModel(list, false, getDao().count());
@@ -79,22 +62,9 @@ public abstract class AbstractService<M extends AbstractModel> {
 		return new SuccessModel(returnModel);
 	}
 	
-	public BaseModel merge (M m){
-		logger.info("merge model " + m);
-		getDao().merge(m);
-		return new SuccessModel();
-	}
-	
 	public BaseModel delete (M m){
 		logger.info("delete model " + m);
 		getDao().delete(m);
 		return new SuccessModel();
 	}
-	
-	public BaseModel evict (M m){
-		logger.info("evict model " + m);
-		getDao().evict(m);
-		return new SuccessModel();
-	}
-
 }

@@ -42,16 +42,6 @@ public abstract class AbstractDao<M extends AbstractModel> {
 		return list;
 	}
 	
-	public List<M> list(){
-		logger.info("read model list");
-		Session session = sessionFactory.getCurrentSession();
-		List<M> list = null;
-		list = (List<M>) session.createCriteria(getEntityClass())
-				.setMaxResults(20)
-				.list();
-		return list;
-	}
-	
 	public List<M> list(int page, int row){
 		logger.info("read model list - page : "+page+", row : "+row);
 		Session session = sessionFactory.getCurrentSession();
