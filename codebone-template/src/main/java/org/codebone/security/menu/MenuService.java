@@ -7,7 +7,6 @@ import org.codebone.framework.FailModel;
 import org.codebone.framework.SuccessModel;
 import org.codebone.framework.generic.AbstractDao;
 import org.codebone.framework.generic.AbstractService;
-import org.codebone.framework.generic.AbstractServiceSecurityInterface;
 import org.codebone.security.manager.ManagerModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

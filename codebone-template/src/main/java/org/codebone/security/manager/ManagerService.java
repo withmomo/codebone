@@ -7,7 +7,6 @@ import org.codebone.framework.BaseModel;
 import org.codebone.framework.SuccessModel;
 import org.codebone.framework.generic.AbstractDao;
 import org.codebone.framework.generic.AbstractService;
-import org.codebone.framework.generic.AbstractServiceSecurityInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
