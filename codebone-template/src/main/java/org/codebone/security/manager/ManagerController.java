@@ -25,7 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/manager")
-@PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_MANAGER_ADMIN')")
 public class ManagerController{
 
 	@Autowired
@@ -38,7 +37,6 @@ public class ManagerController{
 		return "manager";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
 	public ModelAndView getCommonModelAndView(String target,
 			Map<String, Object> map) {
 		Authentication auth = SecurityContextHolder.getContext()
