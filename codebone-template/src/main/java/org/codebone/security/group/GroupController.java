@@ -17,6 +17,7 @@ import org.codebone.security.manager.ManagerService;
 import org.codebone.security.menu.MenuModel;
 import org.codebone.security.menu.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -66,6 +67,7 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_GROUP_READ')")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer page, Long groupIdx) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -88,6 +90,7 @@ public class GroupController {
 	
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_GROUP_READ')")
 	public ModelAndView search(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer page) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -102,6 +105,7 @@ public class GroupController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_GROUP_CREATE')")
 	public ModelAndView create(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -110,6 +114,7 @@ public class GroupController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_GROUP_CREATE')")
 	public ModelAndView create_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
 			@ModelAttribute GroupModel model) throws ParseException {
@@ -121,6 +126,7 @@ public class GroupController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_GROUP_UPDATE')")
 	public ModelAndView update(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String idx) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -131,6 +137,7 @@ public class GroupController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_GROUP_UPDATE')")
 	public ModelAndView update_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
 			@ModelAttribute GroupModel managerModel) throws ParseException {
@@ -142,6 +149,7 @@ public class GroupController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_GROUP_DELETE')")
 	public ModelAndView delete(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String idx) {
 		GroupModel model = (GroupModel) getService().read(idx).getData();
