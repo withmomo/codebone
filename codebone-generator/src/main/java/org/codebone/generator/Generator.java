@@ -17,15 +17,13 @@ public class Generator {
 	private List<Column> columns;
 	
 	public void generate() {
-		makeGeneratedDirectory();
+		replaceAbsolutePath();
 		try {
 			new FileScanner(teamplatePath, new FileScanner.FileListner() {
 				public void found(File file) {
-					if( file.getPath().endsWith(".template") ) {
-						String source = FileUtils.read(file);
-						String generatedSource = mappingTemplate(source);
-						FileUtils.write(getGeneratedFile(file), generatedSource);
-					}
+					String source = FileUtils.read(file);
+					String generatedSource = mappingTemplate(source);
+					generateTemplateFile(file, generatedSource);
 				}
 			});
 		} catch (FileNotFoundException e) {
@@ -33,16 +31,44 @@ public class Generator {
 		}
 	}
 	
-	private File getGeneratedFile(File file) {
+	private void generateTemplateFile(File file, String generatedSource) {
+		String rootDirectoryPath = replaceFolderSperator(file.getAbsolutePath());
+		rootDirectoryPath = rootDirectoryPath.replaceAll(teamplatePath,generatePath);
+		rootDirectoryPath = rootDirectoryPath.substring(0,rootDirectoryPath.lastIndexOf("/"));
+		if( !rootDirectoryPath.endsWith("/") )
+			rootDirectoryPath = rootDirectoryPath + "/";
+		
 		String fileName = file.getName();
-		String camelTableName = transformCamelcase(tableName);
-		fileName = fileName.replaceAll("\\{TABLE_NAME\\}",camelTableName);
-		fileName = fileName.replaceAll(".template",".java");
-		return new File(generatePath + fileName);
+		int directorySeperatorIndex = fileName.indexOf("&");
+		if( directorySeperatorIndex > -1 ) {
+			String directoryPath = fileName.substring(0,directorySeperatorIndex);
+			if("{PACKAGE}".equals(directoryPath))
+				directoryPath = packageName.replaceAll("\\.","/");
+			else if("{MAPPING_URI}".equals(directoryPath)) 
+				directoryPath = uri;
+			
+			rootDirectoryPath += directoryPath;;
+			fileName = fileName.substring(directorySeperatorIndex+1);
+		}
+		createDirectory(rootDirectoryPath);
+		
+		fileName = fileName.replaceAll("\\{TABLE_NAME\\}",tableName);
+		fileName = fileName.replaceAll("\\{TABLE_NAME_CAMELCASE\\}",transformCamelcase(tableName));
+		String absolutePath = rootDirectoryPath + "/" + fileName;
+		FileUtils.write(absolutePath, generatedSource);
 	}
 	
-	private void makeGeneratedDirectory() {
-		File file = new File(generatePath);
+	private void replaceAbsolutePath() {
+		teamplatePath = replaceFolderSperator(new File(teamplatePath).getAbsolutePath());
+		generatePath = replaceFolderSperator(new File(generatePath).getAbsolutePath());
+	}
+	
+	private String replaceFolderSperator(String path) {
+		return path.replaceAll("\\\\", "/");
+	}
+	
+	private void createDirectory(String path) {
+		File file = new File(path);
 		if( !file.exists() ) {
 			file.mkdirs();
 		}
