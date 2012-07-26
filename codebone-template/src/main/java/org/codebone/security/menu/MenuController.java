@@ -72,7 +72,6 @@ public class MenuController {
 		return new RedirectView("list");
 	}
 
-	@PreAuthorize("hasRole('ROLE_USER')")
 	public ModelAndView getCommonModelAndView(String target,
 			Map<String, Object> map) {
 		Authentication auth = SecurityContextHolder.getContext()
