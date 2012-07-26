@@ -51,7 +51,7 @@ public class ManagerController{
 		return new ModelAndView(target, map);
 	}
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_MANAGER_READ')")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer page) {

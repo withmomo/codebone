@@ -86,7 +86,7 @@ public class MenuController {
 		return new ModelAndView(target, map);
 	}
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_MENU_READ')")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer page) {

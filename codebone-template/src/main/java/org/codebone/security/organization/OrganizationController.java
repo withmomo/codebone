@@ -66,7 +66,7 @@ public class OrganizationController {
 		return list(req, res, session, page, null);
 	}
 	
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_ORGANIZATION_READ')")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer page, Long organizationIdx) {
