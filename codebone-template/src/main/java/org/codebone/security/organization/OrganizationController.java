@@ -69,20 +69,20 @@ public class OrganizationController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_ORGANIZATION_READ')")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse res,
-			HttpSession session, Integer page, Long groupIdx) {
+			HttpSession session, Integer page, Long organizationIdx) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (page == null) {
 			page = 1;
 		}
-		BaseModel groupList = getService().list(page);
-		if(groupIdx == null){
-			Organization first = (Organization) ((List) groupList.getData()).get(0);
-			groupIdx = first.getIdx();
+		BaseModel organizationList = getService().list(page);
+		if(organizationIdx == null){
+			Organization first = (Organization) ((List) organizationList.getData()).get(0);
+			organizationIdx = first.getIdx();
 		}
-		map.put("data", groupList);
-		map.put("authorities", ((OrganizationService) getService()).getAuthorities(groupIdx));
+		map.put("data", organizationList);
+		map.put("authorities", ((OrganizationService) getService()).getAuthorities(organizationIdx));
 		map.put("page", page);
-		map.put("groupIdx", groupIdx);
+		map.put("organizationIdx", organizationIdx);
 
 		return getCommonModelAndView(getContextName()+"/list", map);
 	}

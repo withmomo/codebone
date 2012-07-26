@@ -66,8 +66,8 @@
 					value="<%=managerModel.getPhoneNumber()%>"></td>
 			</tr>
 			<tr>
-				<th>groupIdx</th>
-				<td><input type="text" class="form-vertical" name="level"
+				<th>organizationIdx</th>
+				<td><input type="text" class="form-vertical" name="organizationIdx"
 					value="<%=managerModel.getOrganizationIdx()%>"></td>
 			</tr>
 			</tbody>

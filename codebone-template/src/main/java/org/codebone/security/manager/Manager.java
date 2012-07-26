@@ -106,7 +106,7 @@ public class Manager extends AbstractModel{
 		return organizationIdx;
 	}
 
-	public void setOrganizationIdx(Long groupIdx) {
+	public void setOrganizationIdx(Long organizationIdx) {
 		this.organizationIdx = organizationIdx;
 	}
 

@@ -40,7 +40,7 @@ public class Organization extends AbstractModel{
 
 	@Override
 	public String toString() {
-		return "GroupModel [idx=" + idx + ", name=" + name + ", description="
+		return "OrganizationModel [idx=" + idx + ", name=" + name + ", description="
 				+ description + ", authoritiesList=" + authoritiesList
 				+ ", managerList=" + managerList + "]";
 	}

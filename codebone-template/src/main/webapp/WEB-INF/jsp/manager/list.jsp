@@ -29,6 +29,7 @@
 				<option>email</option>
 				<option>name</option>
 				<option>phoneNumber</option>
+				<option>organizationIdx</option>
 				<option>level</option>
 				<option>createdDate</option>
 			</select> <input type="text" class="input-xlarge search-query" name="keyword">
@@ -43,7 +44,7 @@
 				<th>email</th>
 				<th>name</th>
 				<th>phoneNumber</th>
-				<th>groupIdx</th>
+				<th>organizationIdx</th>
 				<th>createdDate</th>
 				<th>Action</th>
 			</tr>
