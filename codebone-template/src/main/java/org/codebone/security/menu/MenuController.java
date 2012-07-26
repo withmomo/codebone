@@ -121,7 +121,7 @@ public class MenuController {
 			HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("isCreate", "Y");
-		return getCommonModelAndView(getContextName() + "/update", map);
+		return getCommonModelAndView(getContextName() + "/write", map);
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -144,7 +144,7 @@ public class MenuController {
 		map.put("data", service.read(idx));
 		map.put("id", idx);
 		map.put("isCreate", "N");
-		return getCommonModelAndView(getContextName() + "/update", map);
+		return getCommonModelAndView(getContextName() + "/write", map);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
