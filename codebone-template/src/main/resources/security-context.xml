@@ -5,13 +5,13 @@
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
 	<http auto-config="true" use-expressions="true">
-		<intercept-url pattern="/admin/auth/login" access="permitAll" />
-		<intercept-url pattern="/admin/**" access="hasRole('ROLE_USER')" />
-		<logout invalidate-session="true" logout-url="/admin/auth/logout"
+		<intercept-url pattern="/app/auth/login" access="permitAll" />
+		<intercept-url pattern="/app/**" access="hasRole('ROLE_USER')" />
+		<logout invalidate-session="true" logout-url="/app/auth/logout"
 			logout-success-url="/" />
-		<form-login login-page="/admin/auth/login"
+		<form-login login-page="/app/auth/login"
 			username-parameter="username" password-parameter="password"
-			login-processing-url="/admin/authentication" />
+			login-processing-url="/app/authentication" />
 	</http>
 
 	<authentication-manager>

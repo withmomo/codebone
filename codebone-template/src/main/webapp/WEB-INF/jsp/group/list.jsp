@@ -24,7 +24,7 @@
 <body>
 	<div class="row">
 		<form class="well form-search"
-			action="<%=request.getContextPath()%>/admin/group/search"
+			action="<%=request.getContextPath()%>/app/group/search"
 			method="post">
 			<div class="controls" style="text-align: right">
 				<select id="group_search_select" name="property">
@@ -65,9 +65,9 @@
 								</button>
 								<ul class="dropdown-menu">
 									<li><a
-										href="<%=request.getContextPath()%>/admin/group/update?idx=<%=idx%>">Update</a></li>
+										href="<%=request.getContextPath()%>/app/group/update?idx=<%=idx%>">Update</a></li>
 									<li><a
-										href="<%=request.getContextPath()%>/admin/group/delete?idx=<%=idx%>">Delete</a></li>
+										href="<%=request.getContextPath()%>/app/group/delete?idx=<%=idx%>">Delete</a></li>
 								</ul>
 							</div>
 						</td>
@@ -78,7 +78,7 @@
 											buttonToggle = "btn btn-primary disabled";
 										}
 						%>
-						<a class="<%=buttonToggle%>" data-toggle="button" href="<%=request.getContextPath()%>/admin/group/list?groupIdx=<%=idx%>">
+						<a class="<%=buttonToggle%>" data-toggle="button" href="<%=request.getContextPath()%>/app/group/list?groupIdx=<%=idx%>">
 							<i class="icon-chevron-right icon-white"></i>
 							</a>
 						</td>
@@ -127,7 +127,7 @@
 
 	<div style="text-align: right">
 		<a class="btn btn-primary "
-			href="<%=request.getContextPath()%>/admin/group/create"> <i
+			href="<%=request.getContextPath()%>/app/group/create"> <i
 			class="icon-file icon-white"></i> Create
 		</a>
 	</div>

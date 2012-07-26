@@ -31,7 +31,7 @@
 <title><%=Menu.class.getSimpleName() + " " + isCreate%></title>
 <body>
 	<form class="well form-search"
-		action="<%=request.getContextPath()%>/admin/menu/<%=isCreate.toLowerCase()%>"
+		action="<%=request.getContextPath()%>/app/menu/<%=isCreate.toLowerCase()%>"
 		method="post">
 		<table class="table table-striped">
 			<thead>

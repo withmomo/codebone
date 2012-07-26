@@ -29,7 +29,7 @@
 <title><%=Manager.class.getSimpleName() + " " + isCreate%></title>
 <body>
 	<form class="well form-search"
-		action="<%=request.getContextPath()%>/admin/manager/<%=isCreate.toLowerCase() %>"
+		action="<%=request.getContextPath()%>/app/manager/<%=isCreate.toLowerCase() %>"
 		method="post">
 		<table class="table table-striped">
 			<thead>

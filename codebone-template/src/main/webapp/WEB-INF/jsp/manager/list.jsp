@@ -21,7 +21,7 @@
 <body>
 
 	<form class="well form-search"
-		action="<%=request.getContextPath()%>/admin/manager/search" method="post">
+		action="<%=request.getContextPath()%>/app/manager/search" method="post">
 		<div class="controls" style="text-align: right">
 			<select id="manager_search_select" name="property">
 				<option>idx</option>
@@ -71,9 +71,9 @@
 						</button>
 						<ul class="dropdown-menu">
 							<li><a
-								href="<%=request.getContextPath()%>/admin/manager/update?idx=<%=idx%>">Update</a></li>
+								href="<%=request.getContextPath()%>/app/manager/update?idx=<%=idx%>">Update</a></li>
 							<li><a
-								href="<%=request.getContextPath()%>/admin/manager/delete?idx=<%=idx%>">Delete</a></li>
+								href="<%=request.getContextPath()%>/app/manager/delete?idx=<%=idx%>">Delete</a></li>
 						</ul>
 					</div>
 				</td>
@@ -97,7 +97,7 @@
 
 	<div style="text-align: right">
 		<a class="btn btn-primary "
-			href="<%=request.getContextPath()%>/admin/manager/create"> <i
+			href="<%=request.getContextPath()%>/app/manager/create"> <i
 			class="icon-file icon-white"></i> Create
 		</a>
 	</div>

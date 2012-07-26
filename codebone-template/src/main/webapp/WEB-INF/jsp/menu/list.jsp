@@ -21,7 +21,7 @@
 <body>
 
 	<form class="well form-search"
-		action="<%=request.getContextPath()%>/admin/manager/search"
+		action="<%=request.getContextPath()%>/app/manager/search"
 		method="post">
 		<div class="controls" style="text-align: right">
 			<select id="manager_search_select" name="property">
@@ -68,15 +68,15 @@
 				<td>
 				<div class="btn-group">
 						<%if (menuModel.getSubOrder() == 0) {%> <!-- 메인메뉴 -> 서브메뉴 격하 -->
-							<a class="btn btn-primary" href="<%=request.getContextPath()%>/admin/menu/changeLevel?priOrder=<%=menuModel.getPriOrder()%>&subOrder=<%=menuModel.getSubOrder()%>&idx=<%=menuModel.getIdx()%>"><i 
+							<a class="btn btn-primary" href="<%=request.getContextPath()%>/app/menu/changeLevel?priOrder=<%=menuModel.getPriOrder()%>&subOrder=<%=menuModel.getSubOrder()%>&idx=<%=menuModel.getIdx()%>"><i 
 								class="icon-arrow-right icon-white"></i></a>
 						<%} else {%><!-- 서브메뉴 -> 메인메뉴 격상 -->
-							<a class="btn btn-warning" href="<%=request.getContextPath()%>/admin/menu/changeLevel?priOrder=<%=menuModel.getPriOrder()%>&subOrder=<%=menuModel.getSubOrder()%>&idx=<%=menuModel.getIdx()%>"><i 
+							<a class="btn btn-warning" href="<%=request.getContextPath()%>/app/menu/changeLevel?priOrder=<%=menuModel.getPriOrder()%>&subOrder=<%=menuModel.getSubOrder()%>&idx=<%=menuModel.getIdx()%>"><i 
 							class="icon-arrow-left icon-white"></i></a>
 						<%}%>
-						<a class="btn btn-success" href="<%=request.getContextPath()%>/admin/menu/changeOrder?priOrder=<%=menuModel.getPriOrder()%>&subOrder=<%=menuModel.getSubOrder()%>&up=Y"><i 
+						<a class="btn btn-success" href="<%=request.getContextPath()%>/app/menu/changeOrder?priOrder=<%=menuModel.getPriOrder()%>&subOrder=<%=menuModel.getSubOrder()%>&up=Y"><i 
 							class="icon-arrow-up icon-white"></i></a>
-						<a class="btn btn-danger" href="<%=request.getContextPath()%>/admin/menu/changeOrder?priOrder=<%=menuModel.getPriOrder()%>&subOrder=<%=menuModel.getSubOrder()%>&up=N"><i 
+						<a class="btn btn-danger" href="<%=request.getContextPath()%>/app/menu/changeOrder?priOrder=<%=menuModel.getPriOrder()%>&subOrder=<%=menuModel.getSubOrder()%>&up=N"><i 
 							class="icon-arrow-down icon-white"></i></a>
 					</div>
 				</td>
@@ -93,9 +93,9 @@
 						</button>
 						<ul class="dropdown-menu">
 							<li><a
-								href="<%=request.getContextPath()%>/admin/menu/update?idx=<%=idx%>">Update</a></li>
+								href="<%=request.getContextPath()%>/app/menu/update?idx=<%=idx%>">Update</a></li>
 							<li><a
-								href="<%=request.getContextPath()%>/admin/menu/delete?idx=<%=idx%>">Delete</a></li>
+								href="<%=request.getContextPath()%>/app/menu/delete?idx=<%=idx%>">Delete</a></li>
 						</ul>
 					</div>
 				</td>
@@ -119,7 +119,7 @@
 
 	<div style="text-align: right">
 		<a class="btn btn-primary "
-			href="<%=request.getContextPath()%>/admin/menu/create"> <i
+			href="<%=request.getContextPath()%>/app/menu/create"> <i
 			class="icon-file icon-white"></i> Create
 		</a>
 	</div>
