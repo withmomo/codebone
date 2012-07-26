@@ -41,14 +41,6 @@ public class MenuController {
 	private String getContextName() {
 		return "menu";
 	}
-	
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_MENU_DELETE')")
-	public ModelAndView delete(HttpServletRequest req, HttpServletResponse res,
-			HttpSession session, String idx) {
-		service.deleteFamily(idx);
-		return list(req, res, session, 0);
-	}
 
 	@RequestMapping(value = "/changeOrder", method = RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_MENU_UPDATE')")
@@ -126,14 +118,14 @@ public class MenuController {
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_MENU_CREATE')")
-	public ModelAndView create_POST(HttpServletRequest req,
+	public RedirectView create_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
 			@ModelAttribute Menu model) throws ParseException {
 		service.create(model);
 		/**
 		 * Create Complete
 		 */
-		return list(req, res, session, 0);
+		return new RedirectView("");
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
@@ -149,13 +141,21 @@ public class MenuController {
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_MENU_UPDATE')")
-	public ModelAndView update_POST(HttpServletRequest req,
+	public RedirectView update_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
 			@ModelAttribute Menu managerModel) throws ParseException {
 		service.update(managerModel);
 		/**
 		 * Update Complete
 		 */
-		return list(req, res, session, 0);
+		return new RedirectView("");
+	}
+	
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_MENU_DELETE')")
+	public RedirectView delete(HttpServletRequest req, HttpServletResponse res,
+			HttpSession session, String idx) {
+		service.deleteFamily(idx);
+		return new RedirectView("");
 	}
 }

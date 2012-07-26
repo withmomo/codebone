@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("/organization")
@@ -115,14 +116,14 @@ public class OrganizationController {
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_ORGANIZATION_CREATE')")
-	public ModelAndView create_POST(HttpServletRequest req,
+	public RedirectView create_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
 			@ModelAttribute Organization model) throws ParseException {
 		getService().create(model);
 		/**
 		 * Create Complete
 		 */
-		return list(req, res, session, 0);
+		return new RedirectView("");
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
@@ -138,23 +139,23 @@ public class OrganizationController {
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_ORGANIZATION_UPDATE')")
-	public ModelAndView update_POST(HttpServletRequest req,
+	public RedirectView update_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
 			@ModelAttribute Organization managerModel) throws ParseException {
 		getService().update(managerModel);
 		/**
 		 * Update Complete
 		 */
-		return list(req, res, session, 0);
+		return new RedirectView("");
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_ORGANIZATION_DELETE')")
-	public ModelAndView delete(HttpServletRequest req, HttpServletResponse res,
+	public RedirectView delete(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String idx) {
 		Organization model = (Organization) getService().read(idx).getData();
 		getService().delete(model);
 
-		return list(req, res, session, 0);
+		return new RedirectView("");
 	}
 }
