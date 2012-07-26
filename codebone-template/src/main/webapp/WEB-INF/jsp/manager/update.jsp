@@ -68,7 +68,7 @@
 			<tr>
 				<th>groupIdx</th>
 				<td><input type="text" class="form-vertical" name="level"
-					value="<%=managerModel.getGroupIdx()%>"></td>
+					value="<%=managerModel.getOrganizationIdx()%>"></td>
 			</tr>
 			</tbody>
 		</table>

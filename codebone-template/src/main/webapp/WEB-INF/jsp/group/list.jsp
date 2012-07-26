@@ -3,12 +3,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page
-	import="org.codebone.framework.BaseModel,java.util.List,org.codebone.security.group.Group,org.codebone.security.authorities.Authorities"%>
+	import="org.codebone.framework.BaseModel,java.util.List,org.codebone.security.organization.Organization,org.codebone.security.authorities.Authorities"%>
 <%@ page
 	import="java.lang.reflect.Field,java.lang.reflect.Method,javax.persistence.Id,java.util.Date,org.codebone.framework.util.PagingNavigation"%>
 <%
 	BaseModel model = (BaseModel) request.getAttribute("data");
-	List<Group> list = (List<Group>) model.getData();
+	List<Organization> list = (List<Organization>) model.getData();
 	BaseModel authModel = (BaseModel) request.getAttribute("authorities");
 	List<Authorities> authList = (List<Authorities>) authModel.getData();
 	boolean hasNext = model.isHasNext();
@@ -19,7 +19,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title><%=Group.class.getSimpleName()%> List</title>
+<title><%=Organization.class.getSimpleName()%> List</title>
 </head>
 <body>
 	<div class="row">
@@ -48,7 +48,7 @@
 				</thead>
 				<tbody>
 					<%
-						for (Group groupModel : list) {
+						for (Organization groupModel : list) {
 					%>
 					<tr>
 						<%

@@ -31,11 +31,11 @@ public class Organization extends AbstractModel{
 	private String description = "";
 	
 	@OneToMany
-	@JoinColumn(name="groupIdx")
+	@JoinColumn(name="organizationIdx")
 	private List<Authorities> authoritiesList;
 	
 	@OneToMany
-	@JoinColumn(name="groupIdx")
+	@JoinColumn(name="organizationIdx")
 	private List<Manager> managerList;
 
 	@Override

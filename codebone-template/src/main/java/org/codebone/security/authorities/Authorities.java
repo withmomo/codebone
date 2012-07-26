@@ -23,7 +23,7 @@ public class Authorities extends AbstractModel{
 	private Long idx;
 	
 	@Column
-	private Long groupIdx;
+	private Long organizationIdx;
 	
 	@Column
 	private String authority;
@@ -36,12 +36,12 @@ public class Authorities extends AbstractModel{
 		this.idx = idx;
 	}
 
-	public Long getGroupIdx() {
-		return groupIdx;
+	public Long getOrganizationIdx() {
+		return organizationIdx;
 	}
 
-	public void setGroupIdx(Long groupIdx) {
-		this.groupIdx = groupIdx;
+	public void setOrganizationIdx(Long organizationIdx) {
+		this.organizationIdx = organizationIdx;
 	}
 
 	public String getAuthority() {
@@ -63,16 +63,16 @@ public class Authorities extends AbstractModel{
 	}
 
 	public Authorities(Date createdDate, Date updatedDate, Long idx,
-			Long groupIdx, String authority) {
+			Long organizationIdx, String authority) {
 		super(createdDate, updatedDate);
 		this.idx = idx;
-		this.groupIdx = groupIdx;
+		this.organizationIdx = organizationIdx;
 		this.authority = authority;
 	}
 
 	@Override
 	public String toString() {
-		return "AuthoritiesModel [idx=" + idx + ", groupIdx=" + groupIdx
+		return "AuthoritiesModel [idx=" + idx + ", organizationIdx=" + organizationIdx
 				+ ", authority=" + authority + "]";
 	}
 }

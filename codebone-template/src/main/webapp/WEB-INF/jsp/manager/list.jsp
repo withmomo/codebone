@@ -61,7 +61,7 @@
 				<td><%=managerModel.getEmail()%></td>
 				<td><%=managerModel.getName()%></td>
 				<td><%=managerModel.getPhoneNumber()%></td>
-				<td><%=managerModel.getGroupIdx()%></td>
+				<td><%=managerModel.getOrganizationIdx()%></td>
 				<td><%=managerModel.getCreatedDate()%></td>
 				<td>
 					<div class="btn-group">

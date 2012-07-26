@@ -23,7 +23,7 @@ public class OrganizationService extends AbstractService<Organization> {
 		return dao;
 	}
 	
-	public BaseModel getAuthorities(Long groupIdx){
-		return authoritiesService.getAuthorities(groupIdx);
+	public BaseModel getAuthorities(Long organizationIdx){
+		return authoritiesService.getAuthorities(organizationIdx);
 	}
 }

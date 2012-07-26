@@ -22,8 +22,8 @@ public class AuthoritiesService extends AbstractService<Authorities> {
 		return dao;
 	}
 
-	public BaseModel getAuthorities(Long groupIdx) {
-		List authoritiesList = dao.getAuthorities(groupIdx);
+	public BaseModel getAuthorities(Long organizationIdx) {
+		List authoritiesList = dao.getAuthorities(organizationIdx);
 		return new SuccessModel(authoritiesList);
 	}
 }
