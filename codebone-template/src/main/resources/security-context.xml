@@ -33,12 +33,12 @@
 		</beans:property>
 		<beans:property name="authoritiesByUsernameQuery">
 			<beans:value>
-				SELECT auth.groupIdx, auth.authority
+				SELECT auth.organizationIdx, auth.authority
 				FROM
 				authoritiesmodel as auth, managermodel as manager
 				WHERE manager.idx =
 				?
-				and manager.groupIdx = auth.groupIdx
+				and manager.organizationIdx = auth.organizationIdx
 			</beans:value>
 		</beans:property>
 	</beans:bean>
@@ -70,11 +70,11 @@
 				ROLE_MANAGER_ADMIN > ROLE_MANAGER_UPDATE
 				ROLE_MANAGER_ADMIN > ROLE_MANAGER_DELETE
 				
-				ROLE_ADMIN > ROLE_GROUP_ADMIN
-				ROLE_GROUP_ADMIN > ROLE_GROUP_CREATE
-				ROLE_GROUP_ADMIN > ROLE_GROUP_READ
-				ROLE_GROUP_ADMIN > ROLE_GROUP_UPDATE
-				ROLE_GROUP_ADMIN > ROLE_GROUP_DELETE
+				ROLE_ADMIN > ROLE_ORGANIZATION_ADMIN
+				ROLE_ORGANIZATION_ADMIN > ROLE_ORGANIZATION_CREATE
+				ROLE_ORGANIZATION_ADMIN > ROLE_ORGANIZATION_READ
+				ROLE_ORGANIZATION_ADMIN > ROLE_ORGANIZATION_UPDATE
+				ROLE_ORGANIZATION_ADMIN > ROLE_ORGANIZATION_DELETE
 				
 				ROLE_ADMIN > ROLE_MENU_ADMIN
 				ROLE_MENU_ADMIN > ROLE_MENU_CREATE
