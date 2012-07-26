@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.codebone.security.manager.ManagerModel;
+import org.codebone.security.manager.Manager;
 import org.codebone.security.manager.ManagerService;
-import org.codebone.security.menu.MenuModel;
+import org.codebone.security.menu.Menu;
 import org.codebone.security.menu.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -39,9 +39,9 @@ public abstract class AbstractController<M extends AbstractModel> {
 			Map<String, Object> map) {
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
-		ManagerModel currentLoginManager = (ManagerModel) managerService.read(
+		Manager currentLoginManager = (Manager) managerService.read(
 				auth.getName()).getData();
-		List<MenuModel> list = (List<MenuModel>) menuService.listAll()
+		List<Menu> list = (List<Menu>) menuService.listAll()
 				.getData();
 		System.out.println(list);
 		map.put("loginManager", currentLoginManager);

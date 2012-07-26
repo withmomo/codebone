@@ -11,9 +11,9 @@ import javax.servlet.http.HttpSession;
 
 import org.codebone.framework.generic.AbstractController;
 import org.codebone.framework.generic.AbstractService;
-import org.codebone.security.manager.ManagerModel;
+import org.codebone.security.manager.Manager;
 import org.codebone.security.manager.ManagerService;
-import org.codebone.security.menu.MenuModel;
+import org.codebone.security.menu.Menu;
 import org.codebone.security.menu.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -77,9 +77,9 @@ public class MenuController {
 			Map<String, Object> map) {
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
-		ManagerModel currentLoginManager = (ManagerModel) managerService.read(
+		Manager currentLoginManager = (Manager) managerService.read(
 				auth.getName()).getData();
-		List<MenuModel> list = (List<MenuModel>) service.listAll()
+		List<Menu> list = (List<Menu>) service.listAll()
 				.getData();
 		System.out.println(list);
 		map.put("loginManager", currentLoginManager);
@@ -129,7 +129,7 @@ public class MenuController {
 	@PreAuthorize("hasRole('ROLE_MENU_CREATE')")
 	public ModelAndView create_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
-			@ModelAttribute MenuModel model) throws ParseException {
+			@ModelAttribute Menu model) throws ParseException {
 		service.create(model);
 		/**
 		 * Create Complete
@@ -152,7 +152,7 @@ public class MenuController {
 	@PreAuthorize("hasRole('ROLE_MENU_UPDATE')")
 	public ModelAndView update_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
-			@ModelAttribute MenuModel managerModel) throws ParseException {
+			@ModelAttribute Menu managerModel) throws ParseException {
 		service.update(managerModel);
 		/**
 		 * Update Complete

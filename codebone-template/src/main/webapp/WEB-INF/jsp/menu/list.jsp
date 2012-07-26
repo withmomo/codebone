@@ -3,12 +3,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page
-	import="org.codebone.framework.BaseModel,java.util.List,org.codebone.security.menu.MenuModel"%>
+	import="org.codebone.framework.BaseModel,java.util.List,org.codebone.security.menu.Menu"%>
 <%@ page
 	import="java.lang.reflect.Field,java.lang.reflect.Method,javax.persistence.Id,java.util.Date,org.codebone.framework.util.PagingNavigation"%>
 <%
 	BaseModel model = (BaseModel) request.getAttribute("data");
-	List<MenuModel> list = (List<MenuModel>) model.getData();
+	List<Menu> list = (List<Menu>) model.getData();
 	boolean hasNext = model.isHasNext();
 	int allCount = model.getAllCount();
 	int currentPage = (Integer) request.getAttribute("page");
@@ -16,7 +16,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title><%=MenuModel.class.getSimpleName()%> List</title>
+<title><%=Menu.class.getSimpleName()%> List</title>
 </head>
 <body>
 
@@ -55,7 +55,7 @@
 		</thead>
 		<tbody>
 			<%
-				for (MenuModel menuModel : list) {
+				for (Menu menuModel : list) {
 			%>
 			<tr>
 				<%

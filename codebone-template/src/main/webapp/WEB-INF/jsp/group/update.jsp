@@ -4,20 +4,20 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page
-	import="org.codebone.framework.BaseModel,java.util.List,org.codebone.security.manager.ManagerModel"%>
+	import="org.codebone.framework.BaseModel,java.util.List,org.codebone.security.manager.Manager"%>
 <%@ page
 	import="java.lang.reflect.Field,java.lang.reflect.Method,javax.persistence.Id,java.util.Date"%>
 <%
 	String isCreate = (String) request.getAttribute("isCreate");
-	ManagerModel managerModel = null;
+	Manager managerModel = null;
 	String key = null;
 	if (isCreate.equals("Y")) {
-		managerModel = new ManagerModel();
+		managerModel = new Manager();
 		isCreate = "Create";
 	} else {
 		BaseModel model = (BaseModel) request.getAttribute("data");
 		key = (String) request.getAttribute("id");
-		managerModel = (ManagerModel) model.getData();
+		managerModel = (Manager) model.getData();
 		isCreate = "Update";
 	}
 %>
@@ -26,7 +26,7 @@
 <%@ include file="/WEB-INF/jsp/import/config.jsp"%>
 <link href="../../../css/datepicker.css" rel="stylesheet">
 <script type="text/javascript" src="../../../js/bootstrap-datepicker.js"></script>
-<title><%=ManagerModel.class.getSimpleName() + " " + isCreate%></title>
+<title><%=Manager.class.getSimpleName() + " " + isCreate%></title>
 <body>
 	<form class="well form-search"
 		action="<%=request.getContextPath()%>/admin/manager/<%=isCreate.toLowerCase() %>"

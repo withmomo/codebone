@@ -3,14 +3,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page
-	import="org.codebone.framework.BaseModel,java.util.List,org.codebone.security.group.GroupModel, org.codebone.security.authorities.AuthoritiesModel"%>
+	import="org.codebone.framework.BaseModel,java.util.List,org.codebone.security.group.Group,org.codebone.security.authorities.Authorities"%>
 <%@ page
 	import="java.lang.reflect.Field,java.lang.reflect.Method,javax.persistence.Id,java.util.Date,org.codebone.framework.util.PagingNavigation"%>
 <%
 	BaseModel model = (BaseModel) request.getAttribute("data");
-	List<GroupModel> list = (List<GroupModel>) model.getData();
+	List<Group> list = (List<Group>) model.getData();
 	BaseModel authModel = (BaseModel) request.getAttribute("authorities");
-	List<AuthoritiesModel> authList = (List<AuthoritiesModel>) authModel.getData();
+	List<Authorities> authList = (List<Authorities>) authModel.getData();
 	boolean hasNext = model.isHasNext();
 	int allCount = model.getAllCount();
 	int currentPage = (Integer) request.getAttribute("page");
@@ -19,7 +19,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title><%=GroupModel.class.getSimpleName()%> List</title>
+<title><%=Group.class.getSimpleName()%> List</title>
 </head>
 <body>
 	<div class="row">
@@ -48,7 +48,7 @@
 				</thead>
 				<tbody>
 					<%
-						for (GroupModel groupModel : list) {
+						for (Group groupModel : list) {
 					%>
 					<tr>
 						<%
@@ -73,12 +73,12 @@
 						</td>
 						<td>
 						<%
-						String buttonToggle = "btn btn-primary";
-						if(groupIdx==Long.parseLong(idx)){
-							buttonToggle = "btn btn-primary disabled";
-						}
+							String buttonToggle = "btn btn-primary";
+										if(groupIdx==Long.parseLong(idx)){
+											buttonToggle = "btn btn-primary disabled";
+										}
 						%>
-						<a class="<%=buttonToggle %>" data-toggle="button" href="<%=request.getContextPath()%>/admin/group/list?groupIdx=<%=idx%>">
+						<a class="<%=buttonToggle%>" data-toggle="button" href="<%=request.getContextPath()%>/admin/group/list?groupIdx=<%=idx%>">
 							<i class="icon-chevron-right icon-white"></i>
 							</a>
 						</td>
@@ -101,7 +101,7 @@
 				</thead>
 				<tbody>
 					<%
-						for (AuthoritiesModel authoritiesModel : authList) {
+						for (Authorities authoritiesModel : authList) {
 					%>
 					<tr>
 						<td><%=authoritiesModel.getIdx() %></td>

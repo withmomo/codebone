@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.codebone.framework.generic.AbstractController;
 import org.codebone.framework.generic.AbstractService;
-import org.codebone.security.menu.MenuModel;
+import org.codebone.security.menu.Menu;
 import org.codebone.security.menu.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,9 +41,9 @@ public class ManagerController{
 			Map<String, Object> map) {
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
-		ManagerModel currentLoginManager = (ManagerModel) service.read(
+		Manager currentLoginManager = (Manager) service.read(
 				auth.getName()).getData();
-		List<MenuModel> list = (List<MenuModel>) menuService.listAll()
+		List<Menu> list = (List<Menu>) menuService.listAll()
 				.getData();
 		System.out.println(list);
 		map.put("loginManager", currentLoginManager);
@@ -93,7 +93,7 @@ public class ManagerController{
 	@PreAuthorize("hasRole('ROLE_MANAGER_CREATE')")
 	public ModelAndView create_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
-			@ModelAttribute ManagerModel model) throws ParseException {
+			@ModelAttribute Manager model) throws ParseException {
 		service.create(model);
 		/**
 		 * Create Complete
@@ -116,7 +116,7 @@ public class ManagerController{
 	@PreAuthorize("hasRole('ROLE_MANAGER_UPDATE')")
 	public ModelAndView update_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
-			@ModelAttribute ManagerModel managerModel) throws ParseException {
+			@ModelAttribute Manager managerModel) throws ParseException {
 		service.update(managerModel);
 		/**
 		 * Update Complete
@@ -128,7 +128,7 @@ public class ManagerController{
 	@PreAuthorize("hasRole('ROLE_MANAGER_DELETE')")
 	public ModelAndView delete(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String idx) {
-		ManagerModel model = (ManagerModel) service.read(idx).getData();
+		Manager model = (Manager) service.read(idx).getData();
 		service.delete(model);
 
 		return list(req, res, session, 0);

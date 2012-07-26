@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 
-public class GroupService extends AbstractService<GroupModel> {
+public class GroupService extends AbstractService<Group> {
 	
 	@Autowired
 	private GrouprDao dao;

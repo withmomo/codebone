@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 
-public class AuthoritiesService extends AbstractService<AuthoritiesModel> {
+public class AuthoritiesService extends AbstractService<Authorities> {
 	
 	@Autowired
 	private AuthoritiesDao dao;

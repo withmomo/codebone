@@ -12,12 +12,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import org.codebone.framework.generic.AbstractModel;
-import org.codebone.security.authorities.AuthoritiesModel;
-import org.codebone.security.manager.ManagerModel;
+import org.codebone.security.authorities.Authorities;
+import org.codebone.security.manager.Manager;
 
 
 @Entity
-public class GroupModel extends AbstractModel{
+public class Group extends AbstractModel{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,11 +32,11 @@ public class GroupModel extends AbstractModel{
 	
 	@OneToMany
 	@JoinColumn(name="groupIdx")
-	private List<AuthoritiesModel> authoritiesList;
+	private List<Authorities> authoritiesList;
 	
 	@OneToMany
 	@JoinColumn(name="groupIdx")
-	private List<ManagerModel> managerList;
+	private List<Manager> managerList;
 
 	@Override
 	public String toString() {
@@ -69,26 +69,26 @@ public class GroupModel extends AbstractModel{
 		this.description = description;
 	}
 
-	public List<AuthoritiesModel> getAuthoritiesList() {
+	public List<Authorities> getAuthoritiesList() {
 		return authoritiesList;
 	}
 
-	public void setAuthoritiesList(List<AuthoritiesModel> authoritiesList) {
+	public void setAuthoritiesList(List<Authorities> authoritiesList) {
 		this.authoritiesList = authoritiesList;
 	}
 
-	public List<ManagerModel> getManagerList() {
+	public List<Manager> getManagerList() {
 		return managerList;
 	}
 
-	public void setManagerList(List<ManagerModel> managerList) {
+	public void setManagerList(List<Manager> managerList) {
 		this.managerList = managerList;
 	}
 
-	public GroupModel(Date createdDate, Date updatedDate, Long idx,
+	public Group(Date createdDate, Date updatedDate, Long idx,
 			String name, String description,
-			List<AuthoritiesModel> authoritiesList,
-			List<ManagerModel> managerList) {
+			List<Authorities> authoritiesList,
+			List<Manager> managerList) {
 		super(createdDate, updatedDate);
 		this.idx = idx;
 		this.name = name;
@@ -97,12 +97,12 @@ public class GroupModel extends AbstractModel{
 		this.managerList = managerList;
 	}
 
-	public GroupModel() {
+	public Group() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public GroupModel(Date createdDate, Date updatedDate) {
+	public Group(Date createdDate, Date updatedDate) {
 		super(createdDate, updatedDate);
 		// TODO Auto-generated constructor stub
 	}

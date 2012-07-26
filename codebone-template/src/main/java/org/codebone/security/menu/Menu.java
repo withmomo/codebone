@@ -12,7 +12,7 @@ import org.codebone.framework.generic.AbstractModel;
 
 
 @Entity
-public class MenuModel extends AbstractModel{
+public class Menu extends AbstractModel{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -108,7 +108,7 @@ public class MenuModel extends AbstractModel{
 		this.managerIdx = managerIdx;
 	}
 
-	public MenuModel(Date createdDate, Date updatedDate, Long idx, String name,
+	public Menu(Date createdDate, Date updatedDate, Long idx, String name,
 			String url, Integer priOrder, Integer subOrder,
 			String isSeparate, String isExternal, Long managerIdx) {
 		super(createdDate, updatedDate);
@@ -122,12 +122,12 @@ public class MenuModel extends AbstractModel{
 		this.managerIdx = managerIdx;
 	}
 
-	public MenuModel() {
+	public Menu() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public MenuModel(Date createdDate, Date updatedDate) {
+	public Menu(Date createdDate, Date updatedDate) {
 		super(createdDate, updatedDate);
 		// TODO Auto-generated constructor stub
 	}

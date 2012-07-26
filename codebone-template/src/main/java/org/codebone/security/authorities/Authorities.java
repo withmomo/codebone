@@ -13,7 +13,7 @@ import org.codebone.framework.generic.AbstractModel;
 
 @Entity
 @Table
-public class AuthoritiesModel extends AbstractModel{
+public class Authorities extends AbstractModel{
 	
 	@Column
 	@Id
@@ -49,17 +49,17 @@ public class AuthoritiesModel extends AbstractModel{
 		this.authority = authority;
 	}
 
-	public AuthoritiesModel() {
+	public Authorities() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public AuthoritiesModel(Date createdDate, Date updatedDate) {
+	public Authorities(Date createdDate, Date updatedDate) {
 		super(createdDate, updatedDate);
 		// TODO Auto-generated constructor stub
 	}
 
-	public AuthoritiesModel(Date createdDate, Date updatedDate, Long idx,
+	public Authorities(Date createdDate, Date updatedDate, Long idx,
 			Long groupIdx, String authority) {
 		super(createdDate, updatedDate);
 		this.idx = idx;

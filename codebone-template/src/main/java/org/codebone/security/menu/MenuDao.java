@@ -10,29 +10,29 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class MenuDao extends AbstractDao<MenuModel>{
+public class MenuDao extends AbstractDao<Menu>{
 
 	@Override
-	protected Class<MenuModel> getEntityClass() {
-		return MenuModel.class;
+	protected Class<Menu> getEntityClass() {
+		return Menu.class;
 	}
 	
-	public List<MenuModel> listAll(){
+	public List<Menu> listAll(){
 		logger.info("read model list");
 		Session session = sessionFactory.getCurrentSession();
-		List<MenuModel> list = null;
-		list = (List<MenuModel>) session.createCriteria(getEntityClass())
+		List<Menu> list = null;
+		list = (List<Menu>) session.createCriteria(getEntityClass())
 				.addOrder(Order.asc("priOrder"))
 				.addOrder(Order.asc("subOrder"))
 				.list();
 		return list;
 	}
 	
-	public List<MenuModel> list(){
+	public List<Menu> list(){
 		logger.info("read model list");
 		Session session = sessionFactory.getCurrentSession();
-		List<MenuModel> list = null;
-		list = (List<MenuModel>) session.createCriteria(getEntityClass())
+		List<Menu> list = null;
+		list = (List<Menu>) session.createCriteria(getEntityClass())
 				.addOrder(Order.asc("priOrder"))
 				.addOrder(Order.asc("subOrder"))
 				.setMaxResults(20)
@@ -40,11 +40,11 @@ public class MenuDao extends AbstractDao<MenuModel>{
 		return list;
 	}
 	
-	public List<MenuModel> list(int page, int row){
+	public List<Menu> list(int page, int row){
 		logger.info("read model list - page : "+page+", row : "+row);
 		Session session = sessionFactory.getCurrentSession();
-		List<MenuModel> list = null;
-		list = (List<MenuModel>) session.createCriteria(getEntityClass())
+		List<Menu> list = null;
+		list = (List<Menu>) session.createCriteria(getEntityClass())
 				.addOrder(Order.asc("priOrder"))
 				.addOrder(Order.asc("subOrder"))
 				.setMaxResults(row).setFirstResult(page)

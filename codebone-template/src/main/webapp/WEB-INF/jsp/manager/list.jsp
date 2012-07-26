@@ -3,12 +3,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page
-	import="org.codebone.framework.BaseModel,java.util.List,org.codebone.security.manager.ManagerModel"%>
+	import="org.codebone.framework.BaseModel,java.util.List,org.codebone.security.manager.Manager"%>
 <%@ page
 	import="java.lang.reflect.Field,java.lang.reflect.Method,javax.persistence.Id,java.util.Date,org.codebone.framework.util.PagingNavigation"%>
 <%
 	BaseModel model = (BaseModel) request.getAttribute("data");
-	List<ManagerModel> list = (List<ManagerModel>) model.getData();
+	List<Manager> list = (List<Manager>) model.getData();
 	boolean hasNext = model.isHasNext();
 	int allCount = model.getAllCount();
 	int currentPage = (Integer) request.getAttribute("page");
@@ -16,7 +16,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title><%=ManagerModel.class.getSimpleName()%> List</title>
+<title><%=Manager.class.getSimpleName()%> List</title>
 </head>
 <body>
 
@@ -50,7 +50,7 @@
 		</thead>
 		<tbody>
 			<%
-				for (ManagerModel managerModel : list) {
+				for (Manager managerModel : list) {
 			%>
 			<tr>
 				<%

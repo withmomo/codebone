@@ -5,10 +5,10 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class ManagerDao extends AbstractDao<ManagerModel>{
+public class ManagerDao extends AbstractDao<Manager>{
 
 	@Override
-	protected Class<ManagerModel> getEntityClass() {
-		return ManagerModel.class;
+	protected Class<Manager> getEntityClass() {
+		return Manager.class;
 	}
 }

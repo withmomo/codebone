@@ -10,18 +10,18 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class AuthoritiesDao extends AbstractDao<AuthoritiesModel>{
+public class AuthoritiesDao extends AbstractDao<Authorities>{
 
 	@Override
-	protected Class<AuthoritiesModel> getEntityClass() {
-		return AuthoritiesModel.class;
+	protected Class<Authorities> getEntityClass() {
+		return Authorities.class;
 	}
 
-	public List<AuthoritiesModel> getAuthorities(Long groupIdx) {
+	public List<Authorities> getAuthorities(Long groupIdx) {
 		logger.info("read authorities by groupIdx "+ groupIdx);
 		Session session = sessionFactory.getCurrentSession();
-		List<AuthoritiesModel> list = null;
-		list = (List<AuthoritiesModel>) session.createCriteria(getEntityClass())
+		List<Authorities> list = null;
+		list = (List<Authorities>) session.createCriteria(getEntityClass())
 				.add(Restrictions.eq("groupIdx", groupIdx))
 				.list();
 		return list;

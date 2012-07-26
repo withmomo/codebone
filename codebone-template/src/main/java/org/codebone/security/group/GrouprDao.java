@@ -5,10 +5,10 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class GrouprDao extends AbstractDao<GroupModel>{
+public class GrouprDao extends AbstractDao<Group>{
 
 	@Override
-	protected Class<GroupModel> getEntityClass() {
-		return GroupModel.class;
+	protected Class<Group> getEntityClass() {
+		return Group.class;
 	}
 }

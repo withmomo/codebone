@@ -12,9 +12,9 @@ import javax.servlet.http.HttpSession;
 import org.codebone.framework.BaseModel;
 import org.codebone.framework.generic.AbstractController;
 import org.codebone.framework.generic.AbstractService;
-import org.codebone.security.manager.ManagerModel;
+import org.codebone.security.manager.Manager;
 import org.codebone.security.manager.ManagerService;
-import org.codebone.security.menu.MenuModel;
+import org.codebone.security.menu.Menu;
 import org.codebone.security.menu.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -51,9 +51,9 @@ public class GroupController {
 			Map<String, Object> map) {
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
-		ManagerModel currentLoginManager = (ManagerModel) managerService.read(
+		Manager currentLoginManager = (Manager) managerService.read(
 				auth.getName()).getData();
-		List<MenuModel> list = (List<MenuModel>) menuService.listAll()
+		List<Menu> list = (List<Menu>) menuService.listAll()
 				.getData();
 		System.out.println(list);
 		map.put("loginManager", currentLoginManager);
@@ -76,7 +76,7 @@ public class GroupController {
 		}
 		BaseModel groupList = getService().list(page);
 		if(groupIdx == null){
-			GroupModel first = (GroupModel) ((List) groupList.getData()).get(0);
+			Group first = (Group) ((List) groupList.getData()).get(0);
 			groupIdx = first.getIdx();
 		}
 		map.put("data", groupList);
@@ -117,7 +117,7 @@ public class GroupController {
 	@PreAuthorize("hasRole('ROLE_GROUP_CREATE')")
 	public ModelAndView create_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
-			@ModelAttribute GroupModel model) throws ParseException {
+			@ModelAttribute Group model) throws ParseException {
 		getService().create(model);
 		/**
 		 * Create Complete
@@ -140,7 +140,7 @@ public class GroupController {
 	@PreAuthorize("hasRole('ROLE_GROUP_UPDATE')")
 	public ModelAndView update_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
-			@ModelAttribute GroupModel managerModel) throws ParseException {
+			@ModelAttribute Group managerModel) throws ParseException {
 		getService().update(managerModel);
 		/**
 		 * Update Complete
@@ -152,7 +152,7 @@ public class GroupController {
 	@PreAuthorize("hasRole('ROLE_GROUP_DELETE')")
 	public ModelAndView delete(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String idx) {
-		GroupModel model = (GroupModel) getService().read(idx).getData();
+		Group model = (Group) getService().read(idx).getData();
 		getService().delete(model);
 
 		return list(req, res, session, 0);
