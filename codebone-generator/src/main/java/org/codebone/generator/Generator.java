@@ -63,7 +63,7 @@ public class Generator {
 		generatePath = replaceFolderSperator(new File(generatePath).getAbsolutePath());
 	}
 	
-	private String replaceFolderSperator(String path) {
+	public static String replaceFolderSperator(String path) {
 		return path.replaceAll("\\\\", "/");
 	}
 	

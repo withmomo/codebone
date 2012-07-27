@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<title>codebone-generator</title>
+	<meta name="generator" content="hand" />
+	<meta name="author" content="realbeast" />
+	<meta http-equiv="Content-Type" content="text/html;charset=EUC-KR">
+	<meta http-equiv="Cache-Control" content="No-Cache">
+	<meta http-equiv="Pragma"	content="No-Cache">
+	
+	<link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+	<script type="text/javascript" src="javascripts/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="javascripts/jquery.validate.js"></script>
+	<script type="text/javascript" src="javascripts/json2.js"></script>
+	<script type="text/javascript" src="javascripts/bootstrap.min.js"></script>
+	<script type="text/javascript" src="javascripts/codebone.js"></script>
+	
+
+	<script type="text/javascript">
+	function sendData() {
+		var form = $("#formdata");
+		if( !form.valid() )
+			return;
+		
+		var data = JSON.stringify(form.serializeArray());
+		sendDataToNativeApplication(data);
+	}
+
+	function fillDemoData() {
+		$('#host').val('localhost');
+		$('#port').val('3306');
+		$('#database').val('binoo');
+		$('#id').val('binoo');
+		$('#password').val('binoo#@!');
+	}
+	
+	function sendDataToNativeApplication(data) {
+		alert(data);
+    }
+	</script>
+</head>
+
+<body>
+	<div class="container">
+	
+	<ul class="nav nav-tabs">
+	  <li class="active"><a>1. Fill database configuration</a></li>
+	  <li><a>2. Choose database table</a></li>
+	  <li><a>3. Fill columns</a></li>
+	  <li><a>4. Fill setting</a></li>
+	</ul>
+
+	<h2>Database Configuration</h2>
+	<hr>
+	<form name="formdata" id="formdata" onsubmit="return false;" method="post" class="form-horizontal">
+	<fieldset>
+		<div class="control-group">
+			<label class="control-label" for="databaseType">Database Type</label>
+			<div class="controls">
+			<select id="databaseType" name="databaseType">
+				<option value="MySQL">MySQL</option>
+				<option value="MSSQL">MSSQL</option>
+			</select>
+		</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="host">Host</label>
+			<div class="controls">
+				<input class="input-xlarge focused required" id="host" name="host" type="text" value="">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="port">Port</label>
+			<div class="controls">
+				<input class="input-xlarge focused required" id="port" name="port" type="text" value="">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="database">Database Name</label>
+			<div class="controls">
+				<input class="input-xlarge focused required" id="database" name="database" type="text" value="">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="id">ID</label>
+			<div class="controls">
+				<input class="input-xlarge focused required" id="id" name="id" type="text" value="">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="password">Password</label>
+			<div class="controls">
+				<input class="input-xlarge focused required" id="password" name="password" type="password" value="">
+			</div>
+		</div>
+		<div class="form-actions">
+			<button class="btn" type="submit" onclick="fillDemoData()">Demo</button>
+			<button class="btn btn-primary" type="submit" onclick="sendData()">Next</button>
+		</div>
+	</fieldset>
+	</form>
+
+	<hr>
+
+	<footer>
+	<p>&copy; Copyright codebone - <a href="https://github.com/realbeast/codebone">https://github.com/realbeast/codebone</a></p>
+	</footer>
+
+	</div>
+</body>
+
+</html>

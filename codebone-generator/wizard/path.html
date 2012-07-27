@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<title>codebone-generator</title>
+	<meta name="generator" content="hand" />
+	<meta name="author" content="realbeast" />
+	<meta http-equiv="Content-Type" content="text/html;charset=EUC-KR">
+	<meta http-equiv="Cache-Control" content="No-Cache">
+	<meta http-equiv="Pragma"	content="No-Cache">
+	
+	<link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+	<script type="text/javascript" src="javascripts/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="javascripts/jquery.validate.js"></script>
+	<script type="text/javascript" src="javascripts/json2.js"></script>
+	<script type="text/javascript" src="javascripts/bootstrap.min.js"></script>
+	<script type="text/javascript" src="javascripts/codebone.js"></script>
+
+	<script type="text/javascript">
+	function sendData() {
+		var form2 = document.formdata;
+		var file = $('#generateFile').val();
+		form2.generatePath.value = file;
+		file = $('#templateFile').val();
+		form2.templatePath.value = file;
+		
+		var form = $("#formdata");
+		if( !form.valid() )
+			return;
+		
+		var data = JSON.stringify(form.serializeArray());
+
+		sendDataToNativeApplication(data);
+	}
+
+	function fillDemoData() {
+		var list = [{"description":"","name":"idx","primaryKey":true,"searchable":false,"size":19,"type":-5,"typeName":"BIGINT"},{"description":"","name":"isExternal","primaryKey":false,"searchable":false,"size":1,"type":12,"typeName":"VARCHAR"},{"description":"","name":"isSeparate","primaryKey":false,"searchable":false,"size":1,"type":12,"typeName":"VARCHAR"},{"description":"","name":"managerIdx","primaryKey":false,"searchable":false,"size":19,"type":-5,"typeName":"BIGINT"},{"description":"","name":"name","primaryKey":false,"searchable":false,"size":255,"type":12,"typeName":"VARCHAR"},{"description":"","name":"priOrder","primaryKey":false,"searchable":false,"size":10,"type":4,"typeName":"INT"},{"description":"","name":"subOrder","primaryKey":false,"searchable":false,"size":10,"type":4,"typeName":"INT"},{"description":"","name":"url","primaryKey":false,"searchable":false,"size":255,"type":12,"typeName":"VARCHAR"}];
+		displayList(list);
+	}
+
+	function receiveDataFromNativeApplication(operation, data) {
+		if(operation == 'data') {
+			eval(data);
+			displayList(list);
+		}
+    }
+	
+	function sendDataToNativeApplication(data) {
+		alert(data);
+    }
+
+	function displayList(list) {
+		var i = 1;
+		jQuery.each(list, function() {
+			var column = this.name;
+			column += this.primaryKey ? '&nbsp;<img src="img/icon_PK.png"/>' : '';
+			var checked = this.searchable ? ' checked' : '';
+			var searchable = '<label class="checkbox"><input type="checkbox" name="searchable" class="unique"'+checked+'>&nbsp;Searchable</label>';
+			var description = '<input type="text" name="'+this.name+'_description" class="required" value="'+this.description+'">';
+			addRow('table', i, column, description, this.typeName + '('+this.size+')', searchable );
+			i++;
+		});
+	}
+
+	function addRow(id){
+	    var args = this.addRow.arguments;
+		var tbody = document.getElementById(id).getElementsByTagName("tbody")[0];
+		var row = document.createElement("tr");
+		for(var i=1; i< args.length ; i++) {
+			var cell = document.createElement("td");
+			cell.appendChild(document.createTextNode(''));
+			cell.innerHTML = args[i];
+			row.appendChild(cell);
+		}
+		tbody.appendChild(row);
+	}
+	</script>
+</head>
+
+<body>
+	<div class="container">
+	
+	<ul class="nav nav-tabs">
+	  <li><a>1. Fill database configuration</a></li>
+	  <li><a>2. Choose database table</a></li>
+	  <li><a>3. Fill columns</a></li>
+	  <li class="active"><a>4. Fill setting</a></li>
+	</ul>
+
+	<h2>Setting</h2>
+
+	<hr>
+
+	<form name="formdata" id="formdata" onsubmit="return false;" method="post" class="form-horizontal">
+	<input type="hidden" name="generatePath" value="">
+	<input type="hidden" name="templatePath" value="">
+
+	<fieldset>
+		<div class="control-group">
+			<label class="control-label" for="title">Title</label>
+			<div class="controls">
+				<input class="input-xlarge focused required" id="title" name="title" type="text" value="">
+				<span class="label">Webpage title</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="uri">URI</label>
+			<div class="controls">
+				<input class="input-xlarge focused required" id="uri" name="uri" type="text" value="">
+				<span class="label">cf. @RequestMapping("/app")</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="package">Package</label>
+			<div class="controls">
+				<input class="input-xlarge focused required" id="package" name="package" type="text" value="">
+				<span class="label">(Java Package, C# Namespace etc.)</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="templateFile">template folder</label>
+			<div class="controls">
+				<input class="required" id="templateFile" name="templateFile" type="file">
+				<span class="label">Open the template file.</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="generateFile">generate folder</label>
+			<div class="controls">
+				<input class="required" id="generateFile" name="generateFile" type="file">
+				<span class="label">Open the generate file.</span>
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button class="btn" type="submit" onclick="fillDemoData()">Demo</button>
+			<button class="btn btn-primary" type="submit" onclick="sendData()">Generate</button>
+		</div>
+
+	</fieldset>
+	</form>
+
+	<hr>
+
+	<footer>
+	<p>&copy; Copyright codebone - <a href="https://github.com/realbeast/codebone">https://github.com/realbeast/codebone</a></p>
+	</footer>
+
+	</div>
+</body>
+
+</html>
