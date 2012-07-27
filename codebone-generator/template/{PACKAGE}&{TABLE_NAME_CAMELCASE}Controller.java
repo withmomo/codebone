@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.codebone.framework.generic.AbstractController;
-import org.codebone.framework.generic.AbstractService;
+import org.codebone.security.manager.Manager;
+import org.codebone.security.manager.ManagerService;
+import org.codebone.security.menu.Menu;
+import org.codebone.security.menu.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -20,31 +22,38 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("/<MAPPING_URI>")
-public class <TABLE_NAME>Controller{
+public class <TABLE_NAME_CAMELCASE>Controller{
 
-	@Autowired private <TABLE_NAME>Service service;
-	@Autowired protected MenuService menuService;
+	@Autowired
+	private <TABLE_NAME_CAMELCASE>Service service;
+
+	@Autowired
+	private ManagerService managerService;
+
+	@Autowired
+	protected MenuService menuService;
 	
 	private String getContextName(){
-		return "<TABLE_NAME>";
+		return "<MAPPING_URI>";
 	}
 	
 	public ModelAndView getCommonModelAndView(String target, Map<String, Object> map) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		ManagerModel currentLoginManager = (ManagerModel) service.read(auth.getName()).getData();
-		List<MenuModel> list = (List<MenuModel>) menuService.listAll().getData();
+		Manager currentLoginManager = (Manager) managerService.read(auth.getName()).getData();
+		List<Menu> list = (List<Menu>) menuService.listAll().getData();
+		System.out.println(list);
 		map.put("loginManager", currentLoginManager);
 		map.put("menu", list);
 		return new ModelAndView(target, map);
 	}
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_MANAGER_READ')")
-	public ModelAndView list(HttpServletRequest req, HttpServletResponse res,
-			HttpSession session, Integer page) {
+	@RequestMapping(method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE<TABLE_NAME_UPPERCASE>READ')")
+	public ModelAndView list(HttpServletRequest req, HttpServletResponse res, HttpSession session, Integer page) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (page == null) {
 			page = 1;
@@ -56,9 +65,8 @@ public class <TABLE_NAME>Controller{
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_MANAGER_READ')")
-	public ModelAndView search(HttpServletRequest req, HttpServletResponse res,
-			HttpSession session, Integer page) {
+	@PreAuthorize("hasRole('ROLE<TABLE_NAME_UPPERCASE>READ')")
+	public ModelAndView search(HttpServletRequest req, HttpServletResponse res, HttpSession session, Integer page) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String property = req.getParameter("property");
 		String keyword = req.getParameter("keyword");
@@ -71,57 +79,44 @@ public class <TABLE_NAME>Controller{
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_MANAGER_CREATE')")
-	public ModelAndView create(HttpServletRequest req, HttpServletResponse res,
-			HttpSession session) {
+	@PreAuthorize("hasRole('ROLE<TABLE_NAME_UPPERCASE>CREATE')")
+	public ModelAndView create(HttpServletRequest req, HttpServletResponse res, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("isCreate", "Y");
-		return getCommonModelAndView(getContextName()+"/update", map);
+		return getCommonModelAndView(getContextName()+"/write", map);
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_MANAGER_CREATE')")
-	public ModelAndView create_POST(HttpServletRequest req,
-			HttpServletResponse res, HttpSession session,
-			@ModelAttribute ManagerModel model) throws ParseException {
+	@PreAuthorize("hasRole('ROLE<TABLE_NAME_UPPERCASE>CREATE')")
+	public RedirectView create_POST(HttpServletRequest req,
+			HttpServletResponse res, HttpSession session, @ModelAttribute <TABLE_NAME_CAMELCASE> model) throws ParseException {
 		service.create(model);
-		/**
-		 * Create Complete
-		 */
-		return list(req, res, session, 0);
+		return new RedirectView("");
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_MANAGER_UPDATE')")
-	public ModelAndView update(HttpServletRequest req, HttpServletResponse res,
-			HttpSession session, String idx) {
+	@PreAuthorize("hasRole('ROLE<TABLE_NAME_UPPERCASE>UPDATE')")
+	public ModelAndView update(HttpServletRequest req, HttpServletResponse res, HttpSession session, String idx) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("data", service.read(idx));
 		map.put("id", idx);
 		map.put("isCreate", "N");
-		return getCommonModelAndView(getContextName()+"/update", map);
+		return getCommonModelAndView(getContextName()+"/write", map);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_MANAGER_UPDATE')")
-	public ModelAndView update_POST(HttpServletRequest req,
-			HttpServletResponse res, HttpSession session,
-			@ModelAttribute ManagerModel managerModel) throws ParseException {
-		service.update(managerModel);
-		/**
-		 * Update Complete
-		 */
-		return list(req, res, session, 0);
+	@PreAuthorize("hasRole('ROLE<TABLE_NAME_UPPERCASE>UPDATE')")
+	public RedirectView update_POST(HttpServletRequest req,
+			HttpServletResponse res, HttpSession session, @ModelAttribute <TABLE_NAME_CAMELCASE> model) throws ParseException {
+		service.update(model);
+		return new RedirectView("");
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_MANAGER_DELETE')")
-	public ModelAndView delete(HttpServletRequest req, HttpServletResponse res,
-			HttpSession session, String idx) {
-		ManagerModel model = (ManagerModel) service.read(idx).getData();
+	@PreAuthorize("hasRole('ROLE<TABLE_NAME_UPPERCASE>DELETE')")
+	public RedirectView delete(HttpServletRequest req, HttpServletResponse res, HttpSession session, String idx) {
+		<TABLE_NAME_CAMELCASE> model = (<TABLE_NAME_CAMELCASE>) service.read(idx).getData();
 		service.delete(model);
-
-		return list(req, res, session, 0);
+		return new RedirectView("");
 	}
-
 }

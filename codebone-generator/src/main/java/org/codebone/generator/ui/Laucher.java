@@ -39,6 +39,7 @@ public class Laucher {
 	private static String tableName;
 	private static String packageName;
 	private static String uri;
+	private static String siteTitle;
 
 	private static DatabaseConfiguration databaseConfiguration;
 	private static String host;
@@ -143,13 +144,17 @@ public class Laucher {
 			packageName = map.get("package");
 			uri = map.get("uri");
 			
+			siteTitle = map.get("title");
+			
 			Generator generator = new Generator();
+			generator.setDatabaseType(DatabaseType.MYSQL);
 			generator.setTeamplatePath(templatePath);
 			generator.setGeneratePath(generatePath);
 			generator.setColumns(columns);
 			generator.setTableName(tableName);
 			generator.setPackageName(packageName);
 			generator.setUri(uri);
+			generator.setSiteTitle(siteTitle);
 			generator.generate();
 			//browser.setUrl(directory+"columns.html");
 			System.out.println(map);

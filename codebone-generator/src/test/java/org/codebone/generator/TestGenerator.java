@@ -23,9 +23,11 @@ public class TestGenerator {
 		String tableName = "user";
 		String packageName = "kr.io";
 		String uri = "test";
+		String siteTitle = "title";
 		loadData(tableName);
 		
 		Generator generator = new Generator();
+		generator.setSiteTitle(siteTitle);
 		generator.setTeamplatePath(teamplatePath);
 		generator.setGeneratePath(generatePath);
 		generator.setColumns(columns);

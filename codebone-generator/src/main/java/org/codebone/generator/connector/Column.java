@@ -19,11 +19,13 @@ public class Column {
 		this.isSearchable = isSearchable;
 	}
 
-	public static String transformJavaType(String type) {
+	public static String transformJavaType(String type, DatabaseType databaseType) {
 		type = type.toLowerCase();
 		String transformedType = null;
-		if ("int".equals(type)) {
+		if ("int".equals(type) && DatabaseType.MSSQL == databaseType) {
 			transformedType = "Integer";
+		} else if ("int".equals(type) && DatabaseType.MYSQL == databaseType) {
+			transformedType = "Long";
 		} else if ("tinyint".equals(type)) {
 			transformedType = "Integer";
 		} else if ("float".equals(type)) {

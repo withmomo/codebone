@@ -7,8 +7,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.codebone.generator.connector.Column;
+import org.codebone.generator.connector.DatabaseType;
 
 public class Generator {
+	
+	private String siteTitle;
+	private DatabaseType databaseType;
 	private String teamplatePath;
 	private String generatePath;
 	private String tableName;
@@ -95,17 +99,19 @@ public class Generator {
 		
 		String camelTableName = transformCamelcase(tableName);
 		String generatedSource = builder.toString();
+		generatedSource = replaceReservedKeyword(generatedSource, Template.SITE_TITLE, siteTitle);
 		generatedSource = replaceReservedKeyword(generatedSource, Template.PACKAGE, packageName);
 		generatedSource = replaceReservedKeyword(generatedSource, Template.MAPPING_URI, uri);
 		generatedSource = replaceReservedKeyword(generatedSource, Template.TABLE_NAME, tableName);
 		generatedSource = replaceReservedKeyword(generatedSource, Template.TABLE_NAME_CAMELCASE, camelTableName);
+		generatedSource = replaceReservedKeyword(generatedSource, Template.TABLE_NAME_UPPERCASE, tableName.toUpperCase());
 		return generatedSource;
 	}
 
 	private String generateColumLoopSource(String columnLoopSouce) {
 		StringBuilder builder = new StringBuilder();
 		for(Column column : columns) {
-			String generatedColumnSource = replaceReservedKeyword(columnLoopSouce, Template.COLUMN_TYPE, Column.transformJavaType(column.getTypeName()));
+			String generatedColumnSource = replaceReservedKeyword(columnLoopSouce, Template.COLUMN_TYPE, Column.transformJavaType(column.getTypeName(),databaseType));
 			generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_NAME, column.getName());
 			String camelcase = transformCamelcase(column.getName());
 			generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_NAME_CAMELCASE, camelcase);
@@ -180,5 +186,21 @@ public class Generator {
 			generatePath = generatePath + "/";
 		
 		this.generatePath = generatePath;
+	}
+
+	public DatabaseType getDatabaseType() {
+		return databaseType;
+	}
+
+	public void setDatabaseType(DatabaseType databaseType) {
+		this.databaseType = databaseType;
+	}
+
+	public String getSiteTitle() {
+		return siteTitle;
+	}
+
+	public void setSiteTitle(String siteTitle) {
+		this.siteTitle = siteTitle;
 	}
 }

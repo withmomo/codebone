@@ -22,13 +22,4 @@ public class <TABLE_NAME_CAMELCASE>Service extends AbstractService<<TABLE_NAME_C
 	public AbstractDao getDao() {
 		return dao;
 	}
-	
-	public BaseModel create (<TABLE_NAME_CAMELCASE> model){
-		return new SuccessModel();
-	}
-	
-	public BaseModel update (<TABLE_NAME_CAMELCASE> model){
-		<TABLE_NAME_CAMELCASE> returnModel = (<TABLE_NAME_CAMELCASE>) getDao().update(model);
-		return new SuccessModel(returnModel);
-	}
 }
