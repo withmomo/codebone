@@ -12,7 +12,7 @@ import org.codebone.framework.generic.AbstractModel;
 
 
 @Entity
-public class ManagerModel extends AbstractModel{
+public class Manager extends AbstractModel{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,14 +35,14 @@ public class ManagerModel extends AbstractModel{
 	private Boolean enabled = true;
 	
 	@Column
-	private Long groupIdx;
+	private Long organizationIdx;
 	
 	@Column
 	private String name = "";
 
-	public ManagerModel(Date createdDate, Date updatedDate, Long idx,
+	public Manager(Date createdDate, Date updatedDate, Long idx,
 			String id, String password, String email, String phoneNumber,
-			Boolean enabled, Long groupIdx, String name) {
+			Boolean enabled, Long organizationIdx, String name) {
 		super(createdDate, updatedDate);
 		this.idx = idx;
 		this.id = id;
@@ -50,7 +50,7 @@ public class ManagerModel extends AbstractModel{
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.enabled = enabled;
-		this.groupIdx = groupIdx;
+		this.organizationIdx = organizationIdx;
 		this.name = name;
 	}
 
@@ -102,12 +102,12 @@ public class ManagerModel extends AbstractModel{
 		this.enabled = enabled;
 	}
 
-	public Long getGroupIdx() {
-		return groupIdx;
+	public Long getOrganizationIdx() {
+		return organizationIdx;
 	}
 
-	public void setGroupIdx(Long groupIdx) {
-		this.groupIdx = groupIdx;
+	public void setOrganizationIdx(Long organizationIdx) {
+		this.organizationIdx = organizationIdx;
 	}
 
 	public String getName() {
@@ -118,7 +118,7 @@ public class ManagerModel extends AbstractModel{
 		this.name = name;
 	}
 
-	public ManagerModel() {
+	public Manager() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -127,7 +127,7 @@ public class ManagerModel extends AbstractModel{
 	public String toString() {
 		return "ManagerModel [idx=" + idx + ", id=" + id + ", password="
 				+ password + ", email=" + email + ", phoneNumber="
-				+ phoneNumber + ", enabled=" + enabled + ", groupIdx=" + groupIdx
+				+ phoneNumber + ", enabled=" + enabled + ", organizationIdx=" + organizationIdx
 				+ ", name=" + name + ", createdDate=" + createdDate
 				+ ", updatedDate=" + updatedDate + "]";
 	}

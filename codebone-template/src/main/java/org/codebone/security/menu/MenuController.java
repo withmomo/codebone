@@ -11,9 +11,9 @@ import javax.servlet.http.HttpSession;
 
 import org.codebone.framework.generic.AbstractController;
 import org.codebone.framework.generic.AbstractService;
-import org.codebone.security.manager.ManagerModel;
+import org.codebone.security.manager.Manager;
 import org.codebone.security.manager.ManagerService;
-import org.codebone.security.menu.MenuModel;
+import org.codebone.security.menu.Menu;
 import org.codebone.security.menu.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,14 +41,6 @@ public class MenuController {
 	private String getContextName() {
 		return "menu";
 	}
-	
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_MENU_DELETE')")
-	public ModelAndView delete(HttpServletRequest req, HttpServletResponse res,
-			HttpSession session, String idx) {
-		service.deleteFamily(idx);
-		return list(req, res, session, 0);
-	}
 
 	@RequestMapping(value = "/changeOrder", method = RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_MENU_UPDATE')")
@@ -72,14 +64,13 @@ public class MenuController {
 		return new RedirectView("list");
 	}
 
-	@PreAuthorize("hasRole('ROLE_USER')")
 	public ModelAndView getCommonModelAndView(String target,
 			Map<String, Object> map) {
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
-		ManagerModel currentLoginManager = (ManagerModel) managerService.read(
+		Manager currentLoginManager = (Manager) managerService.read(
 				auth.getName()).getData();
-		List<MenuModel> list = (List<MenuModel>) service.listAll()
+		List<Menu> list = (List<Menu>) service.listAll()
 				.getData();
 		System.out.println(list);
 		map.put("loginManager", currentLoginManager);
@@ -87,7 +78,7 @@ public class MenuController {
 		return new ModelAndView(target, map);
 	}
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_MENU_READ')")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer page) {
@@ -122,19 +113,19 @@ public class MenuController {
 			HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("isCreate", "Y");
-		return getCommonModelAndView(getContextName() + "/update", map);
+		return getCommonModelAndView(getContextName() + "/write", map);
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_MENU_CREATE')")
-	public ModelAndView create_POST(HttpServletRequest req,
+	public RedirectView create_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
-			@ModelAttribute MenuModel model) throws ParseException {
+			@ModelAttribute Menu model) throws ParseException {
 		service.create(model);
 		/**
 		 * Create Complete
 		 */
-		return list(req, res, session, 0);
+		return new RedirectView("");
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
@@ -145,18 +136,26 @@ public class MenuController {
 		map.put("data", service.read(idx));
 		map.put("id", idx);
 		map.put("isCreate", "N");
-		return getCommonModelAndView(getContextName() + "/update", map);
+		return getCommonModelAndView(getContextName() + "/write", map);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_MENU_UPDATE')")
-	public ModelAndView update_POST(HttpServletRequest req,
+	public RedirectView update_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
-			@ModelAttribute MenuModel managerModel) throws ParseException {
+			@ModelAttribute Menu managerModel) throws ParseException {
 		service.update(managerModel);
 		/**
 		 * Update Complete
 		 */
-		return list(req, res, session, 0);
+		return new RedirectView("");
+	}
+	
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_MENU_DELETE')")
+	public RedirectView delete(HttpServletRequest req, HttpServletResponse res,
+			HttpSession session, String idx) {
+		service.deleteFamily(idx);
+		return new RedirectView("");
 	}
 }

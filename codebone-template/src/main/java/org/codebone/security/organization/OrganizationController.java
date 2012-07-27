@@ -1,4 +1,4 @@
-package org.codebone.security.group;
+package org.codebone.security.organization;
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -12,9 +12,9 @@ import javax.servlet.http.HttpSession;
 import org.codebone.framework.BaseModel;
 import org.codebone.framework.generic.AbstractController;
 import org.codebone.framework.generic.AbstractService;
-import org.codebone.security.manager.ManagerModel;
+import org.codebone.security.manager.Manager;
 import org.codebone.security.manager.ManagerService;
-import org.codebone.security.menu.MenuModel;
+import org.codebone.security.menu.Menu;
 import org.codebone.security.menu.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,13 +25,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-@RequestMapping("/group")
-public class GroupController {
+@RequestMapping("/organization")
+public class OrganizationController {
 
 	@Autowired
-	private GroupService service;
+	private OrganizationService service;
 	
 	@Autowired
 	protected ManagerService managerService;
@@ -44,16 +45,16 @@ public class GroupController {
 	}
 	
 	protected String getContextName() {
-		return "group";
+		return "organization";
 	}
 	
 	public ModelAndView getCommonModelAndView(String target,
 			Map<String, Object> map) {
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
-		ManagerModel currentLoginManager = (ManagerModel) managerService.read(
+		Manager currentLoginManager = (Manager) managerService.read(
 				auth.getName()).getData();
-		List<MenuModel> list = (List<MenuModel>) menuService.listAll()
+		List<Menu> list = (List<Menu>) menuService.listAll()
 				.getData();
 		System.out.println(list);
 		map.put("loginManager", currentLoginManager);
@@ -66,23 +67,23 @@ public class GroupController {
 		return list(req, res, session, page, null);
 	}
 	
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_GROUP_READ')")
+	@RequestMapping(method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_ORGANIZATION_READ')")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse res,
-			HttpSession session, Integer page, Long groupIdx) {
+			HttpSession session, Integer page, Long organizationIdx) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (page == null) {
 			page = 1;
 		}
-		BaseModel groupList = getService().list(page);
-		if(groupIdx == null){
-			GroupModel first = (GroupModel) ((List) groupList.getData()).get(0);
-			groupIdx = first.getIdx();
+		BaseModel organizationList = getService().list(page);
+		if(organizationIdx == null){
+			Organization first = (Organization) ((List) organizationList.getData()).get(0);
+			organizationIdx = first.getIdx();
 		}
-		map.put("data", groupList);
-		map.put("authorities", ((GroupService) getService()).getAuthorities(groupIdx));
+		map.put("data", organizationList);
+		map.put("authorities", ((OrganizationService) getService()).getAuthorities(organizationIdx));
 		map.put("page", page);
-		map.put("groupIdx", groupIdx);
+		map.put("organizationIdx", organizationIdx);
 
 		return getCommonModelAndView(getContextName()+"/list", map);
 	}
@@ -90,7 +91,7 @@ public class GroupController {
 	
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_GROUP_READ')")
+	@PreAuthorize("hasRole('ROLE_ORGANIZATION_READ')")
 	public ModelAndView search(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer page) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -105,56 +106,56 @@ public class GroupController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_GROUP_CREATE')")
+	@PreAuthorize("hasRole('ROLE_ORGANIZATION_CREATE')")
 	public ModelAndView create(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("isCreate", "Y");
-		return getCommonModelAndView(getContextName()+"/update", map);
+		return getCommonModelAndView(getContextName()+"/write", map);
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_GROUP_CREATE')")
-	public ModelAndView create_POST(HttpServletRequest req,
+	@PreAuthorize("hasRole('ROLE_ORGANIZATION_CREATE')")
+	public RedirectView create_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
-			@ModelAttribute GroupModel model) throws ParseException {
+			@ModelAttribute Organization model) throws ParseException {
 		getService().create(model);
 		/**
 		 * Create Complete
 		 */
-		return list(req, res, session, 0);
+		return new RedirectView("");
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_GROUP_UPDATE')")
+	@PreAuthorize("hasRole('ROLE_ORGANIZATION_UPDATE')")
 	public ModelAndView update(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String idx) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("data", getService().read(idx));
 		map.put("id", idx);
 		map.put("isCreate", "N");
-		return getCommonModelAndView(getContextName()+"/update", map);
+		return getCommonModelAndView(getContextName()+"/write", map);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_GROUP_UPDATE')")
-	public ModelAndView update_POST(HttpServletRequest req,
+	@PreAuthorize("hasRole('ROLE_ORGANIZATION_UPDATE')")
+	public RedirectView update_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
-			@ModelAttribute GroupModel managerModel) throws ParseException {
+			@ModelAttribute Organization managerModel) throws ParseException {
 		getService().update(managerModel);
 		/**
 		 * Update Complete
 		 */
-		return list(req, res, session, 0);
+		return new RedirectView("");
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_GROUP_DELETE')")
-	public ModelAndView delete(HttpServletRequest req, HttpServletResponse res,
+	@PreAuthorize("hasRole('ROLE_ORGANIZATION_DELETE')")
+	public RedirectView delete(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String idx) {
-		GroupModel model = (GroupModel) getService().read(idx).getData();
+		Organization model = (Organization) getService().read(idx).getData();
 		getService().delete(model);
 
-		return list(req, res, session, 0);
+		return new RedirectView("");
 	}
 }

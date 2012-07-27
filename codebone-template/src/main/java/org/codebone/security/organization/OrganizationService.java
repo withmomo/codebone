@@ -1,4 +1,4 @@
-package org.codebone.security.group;
+package org.codebone.security.organization;
 
 import org.codebone.framework.BaseModel;
 import org.codebone.framework.generic.AbstractDao;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 
-public class GroupService extends AbstractService<GroupModel> {
+public class OrganizationService extends AbstractService<Organization> {
 	
 	@Autowired
-	private GrouprDao dao;
+	private OrganizationDao dao;
 	
 	@Autowired
 	private AuthoritiesService authoritiesService;
@@ -23,7 +23,7 @@ public class GroupService extends AbstractService<GroupModel> {
 		return dao;
 	}
 	
-	public BaseModel getAuthorities(Long groupIdx){
-		return authoritiesService.getAuthorities(groupIdx);
+	public BaseModel getAuthorities(Long organizationIdx){
+		return authoritiesService.getAuthorities(organizationIdx);
 	}
 }

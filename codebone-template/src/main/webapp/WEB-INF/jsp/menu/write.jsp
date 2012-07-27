@@ -4,22 +4,22 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page
-	import="org.codebone.framework.BaseModel,java.util.List,org.codebone.security.menu.MenuModel,org.codebone.security.manager.ManagerModel"%>
+	import="org.codebone.framework.BaseModel,java.util.List,org.codebone.security.menu.Menu,org.codebone.security.manager.Manager"%>
 <%@ page
 	import="java.lang.reflect.Field,java.lang.reflect.Method,javax.persistence.Id,java.util.Date"%>
 <%
 	String isCreate = (String) request.getAttribute("isCreate");
-	ManagerModel currentLoginManager = (ManagerModel) request
-			.getAttribute("loginManager");
-	MenuModel menuModel = null;
+	Manager currentLoginManager = (Manager) request
+	.getAttribute("loginManager");
+	Menu menuModel = null;
 	String key = null;
 	if (isCreate.equals("Y")) {
-		menuModel = new MenuModel();
+		menuModel = new Menu();
 		isCreate = "Create";
 	} else {
 		BaseModel model = (BaseModel) request.getAttribute("data");
 		key = (String) request.getAttribute("id");
-		menuModel = (MenuModel) model.getData();
+		menuModel = (Menu) model.getData();
 		isCreate = "Update";
 	}
 %>
@@ -28,10 +28,10 @@
 <%@ include file="/WEB-INF/jsp/import/config.jsp"%>
 <link href="../../../css/datepicker.css" rel="stylesheet">
 <script type="text/javascript" src="../../../js/bootstrap-datepicker.js"></script>
-<title><%=MenuModel.class.getSimpleName() + " " + isCreate%></title>
+<title><%=Menu.class.getSimpleName() + " " + isCreate%></title>
 <body>
 	<form class="well form-search"
-		action="<%=request.getContextPath()%>/admin/menu/<%=isCreate.toLowerCase()%>"
+		action="<%=request.getContextPath()%>/app/menu/<%=isCreate.toLowerCase()%>"
 		method="post">
 		<table class="table table-striped">
 			<thead>

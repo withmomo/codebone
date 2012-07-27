@@ -5,12 +5,12 @@
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
 	prefix="decorator"%>
 <%@ page
-	import="org.codebone.framework.BaseModel,java.util.List,org.codebone.security.manager.ManagerModel,org.codebone.security.menu.MenuModel"%>
+	import="org.codebone.framework.BaseModel,java.util.List,org.codebone.security.manager.Manager,org.codebone.security.menu.Menu"%>
 <%
-	ManagerModel currentLoginManager = (ManagerModel) request
-			.getAttribute("loginManager");
-	List<MenuModel> list = (List<MenuModel>) request
-			.getAttribute("menu");
+	Manager currentLoginManager = (Manager) request
+	.getAttribute("loginManager");
+	List<Menu> list = (List<Menu>) request
+	.getAttribute("menu");
 %>
 <!DOCTYPE HTML>
 <html>
@@ -77,26 +77,26 @@
 					<ul class="nav nav-list">
 					<%
 						for(int i=0;i<list.size();i++){
-							MenuModel menu = list.get(i);
-							MenuModel nextMenu;
-							if(list.size()!=i+1){
-								nextMenu = list.get(i+1);
-							}else{
-								nextMenu = menu;
-							}
-							String classDef = "";
-							if(menu.getUrl().equals(request.getRequestURI())){
-								classDef = "active";
-							}
-							if(menu.getIsSeparate().equals("Y")){
-								if(menu.getName().isEmpty()){
-									//메뉴 문자열이 비어있음 - 구분자
-									classDef = classDef + " divider";
-								}else{
-									//메뉴 문자열이 비어있지 않음 - 헤더
-									classDef = classDef + " nav-header";
-								}
-								%><li class="<%=classDef %>"><%
+										Menu menu = list.get(i);
+										Menu nextMenu;
+										if(list.size()!=i+1){
+											nextMenu = list.get(i+1);
+										}else{
+											nextMenu = menu;
+										}
+										String classDef = "";
+										if(menu.getUrl().equals(request.getRequestURI())){
+											classDef = "active";
+										}
+										if(menu.getIsSeparate().equals("Y")){
+											if(menu.getName().isEmpty()){
+												//메뉴 문자열이 비어있음 - 구분자
+												classDef = classDef + " divider";
+											}else{
+												//메뉴 문자열이 비어있지 않음 - 헤더
+												classDef = classDef + " nav-header";
+											}
+					%><li class="<%=classDef %>"><%
 							}else{
 								%><li><%
 							}

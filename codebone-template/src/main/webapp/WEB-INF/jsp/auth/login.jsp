@@ -13,7 +13,7 @@
           <div class="row">
               <div class="login-form">
                   <h2>Codebone - Login</h2>
-                  <form action="<%=request.getContextPath()%>/admin/authentication" method="post">
+                  <form action="<%=request.getContextPath()%>/app/authentication" method="post">
                       <fieldset>
                           <div class="clearfix">
                               <input type="text" placeholder="아이디" name="username">

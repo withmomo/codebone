@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 
-public class AuthoritiesService extends AbstractService<AuthoritiesModel> {
+public class AuthoritiesService extends AbstractService<Authorities> {
 	
 	@Autowired
 	private AuthoritiesDao dao;
@@ -22,8 +22,8 @@ public class AuthoritiesService extends AbstractService<AuthoritiesModel> {
 		return dao;
 	}
 
-	public BaseModel getAuthorities(Long groupIdx) {
-		List authoritiesList = dao.getAuthorities(groupIdx);
+	public BaseModel getAuthorities(Long organizationIdx) {
+		List authoritiesList = dao.getAuthorities(organizationIdx);
 		return new SuccessModel(authoritiesList);
 	}
 }

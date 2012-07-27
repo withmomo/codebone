@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class ManagerService extends AbstractService<ManagerModel>{
+public class ManagerService extends AbstractService<Manager>{
 	
 	@Autowired
 	private ManagerDao dao;
@@ -26,7 +26,7 @@ public class ManagerService extends AbstractService<ManagerModel>{
 		return dao;
 	}
 	
-	public BaseModel create (ManagerModel model){
+	public BaseModel create (Manager model){
 		logger.info("create model " + model);
 		String encodedPassword = passwordEncoder.encodePassword(model.getPassword(), null);
 		model.setPassword(encodedPassword);
@@ -34,11 +34,11 @@ public class ManagerService extends AbstractService<ManagerModel>{
 		return new SuccessModel();
 	}
 	
-	public BaseModel update (ManagerModel model){
+	public BaseModel update (Manager model){
 		logger.info("update model " + model);
 		String encodedPassword = passwordEncoder.encodePassword(model.getPassword(), null);
 		model.setPassword(encodedPassword);
-		ManagerModel returnModel = (ManagerModel) getDao().update(model);
+		Manager returnModel = (Manager) getDao().update(model);
 		return new SuccessModel(returnModel);
 	}
 }
