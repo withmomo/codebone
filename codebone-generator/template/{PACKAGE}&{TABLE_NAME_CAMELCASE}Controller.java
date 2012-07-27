@@ -41,18 +41,27 @@ public class <TABLE_NAME_CAMELCASE>Controller{
 		return "<MAPPING_URI>";
 	}
 	
-	public ModelAndView getCommonModelAndView(String target, Map<String, Object> map) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Manager currentLoginManager = (Manager) managerService.read(auth.getName()).getData();
-		List<Menu> list = (List<Menu>) menuService.listAll().getData();
-		System.out.println(list);
+	public ModelAndView getCommonModelAndView(String target,
+			Map<String, Object> map, HttpSession session) {
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		Manager currentLoginManager = (Manager) service.read(
+				auth.getName()).getData();
+		List<Menu> menuList = null;
+		if(session.getAttribute("menuList")==null){
+			menuList = (List<Menu>) menuService.listAll()
+					.getData();
+			session.setAttribute("menuList", menuList);
+		}else{
+			menuList = (List<Menu>) session.getAttribute("menuList");
+		}
 		map.put("loginManager", currentLoginManager);
-		map.put("menu", list);
+		map.put("menu", menuList);
 		return new ModelAndView(target, map);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE<TABLE_NAME_UPPERCASE>READ')")
+	@PreAuthorize("hasRole('ROLE_<TABLE_NAME_UPPERCASE>_READ')")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse res, HttpSession session, Integer page) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (page == null) {
@@ -61,11 +70,11 @@ public class <TABLE_NAME_CAMELCASE>Controller{
 		map.put("data", service.list(page));
 		map.put("page", page);
 
-		return getCommonModelAndView(getContextName()+"/list", map);
+		return getCommonModelAndView(getContextName()+"/list", map, session);
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE<TABLE_NAME_UPPERCASE>READ')")
+	@PreAuthorize("hasRole('ROLE_<TABLE_NAME_UPPERCASE>_READ')")
 	public ModelAndView search(HttpServletRequest req, HttpServletResponse res, HttpSession session, Integer page) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String property = req.getParameter("property");
@@ -75,19 +84,19 @@ public class <TABLE_NAME_CAMELCASE>Controller{
 		}
 		map.put("data", service.search(property, keyword, page));
 		map.put("page", page);
-		return getCommonModelAndView(getContextName()+"/list", map);
+		return getCommonModelAndView(getContextName()+"/list", map, session);
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE<TABLE_NAME_UPPERCASE>CREATE')")
+	@PreAuthorize("hasRole('ROLE_<TABLE_NAME_UPPERCASE>_CREATE')")
 	public ModelAndView create(HttpServletRequest req, HttpServletResponse res, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("isCreate", "Y");
-		return getCommonModelAndView(getContextName()+"/write", map);
+		return getCommonModelAndView(getContextName()+"/write", map, session);
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE<TABLE_NAME_UPPERCASE>CREATE')")
+	@PreAuthorize("hasRole('ROLE_<TABLE_NAME_UPPERCASE>_CREATE')")
 	public RedirectView create_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session, @ModelAttribute <TABLE_NAME_CAMELCASE> model) throws ParseException {
 		service.create(model);
@@ -95,17 +104,17 @@ public class <TABLE_NAME_CAMELCASE>Controller{
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE<TABLE_NAME_UPPERCASE>UPDATE')")
+	@PreAuthorize("hasRole('ROLE_<TABLE_NAME_UPPERCASE>_UPDATE')")
 	public ModelAndView update(HttpServletRequest req, HttpServletResponse res, HttpSession session, String idx) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("data", service.read(idx));
 		map.put("id", idx);
 		map.put("isCreate", "N");
-		return getCommonModelAndView(getContextName()+"/write", map);
+		return getCommonModelAndView(getContextName()+"/write", map, session);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE<TABLE_NAME_UPPERCASE>UPDATE')")
+	@PreAuthorize("hasRole('ROLE_<TABLE_NAME_UPPERCASE>_UPDATE')")
 	public RedirectView update_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session, @ModelAttribute <TABLE_NAME_CAMELCASE> model) throws ParseException {
 		service.update(model);
@@ -113,7 +122,7 @@ public class <TABLE_NAME_CAMELCASE>Controller{
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE<TABLE_NAME_UPPERCASE>DELETE')")
+	@PreAuthorize("hasRole('ROLE_<TABLE_NAME_UPPERCASE>_DELETE')")
 	public RedirectView delete(HttpServletRequest req, HttpServletResponse res, HttpSession session, String idx) {
 		<TABLE_NAME_CAMELCASE> model = (<TABLE_NAME_CAMELCASE>) service.read(idx).getData();
 		service.delete(model);
