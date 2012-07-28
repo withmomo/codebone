@@ -25,7 +25,7 @@ public class Column {
 		if ("int".equals(type) && DatabaseType.MSSQL == databaseType) {
 			transformedType = "Integer";
 		} else if ("int".equals(type) && DatabaseType.MYSQL == databaseType) {
-			transformedType = "Long";
+			transformedType = "Integer";
 		} else if ("tinyint".equals(type)) {
 			transformedType = "Integer";
 		} else if ("float".equals(type)) {
