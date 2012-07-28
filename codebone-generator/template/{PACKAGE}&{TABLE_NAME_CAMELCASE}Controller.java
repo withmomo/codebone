@@ -45,7 +45,7 @@ public class <TABLE_NAME_CAMELCASE>Controller{
 			Map<String, Object> map, HttpSession session) {
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
-		Manager currentLoginManager = (Manager) service.read(
+		Manager currentLoginManager = (Manager) managerService.read(
 				auth.getName()).getData();
 		List<Menu> menuList = null;
 		if(session.getAttribute("menuList")==null){
