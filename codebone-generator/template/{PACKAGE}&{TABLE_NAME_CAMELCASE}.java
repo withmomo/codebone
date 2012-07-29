@@ -16,7 +16,7 @@ import org.codebone.framework.generic.AbstractModel;
 public class <TABLE_NAME_CAMELCASE> extends AbstractModel{
 	<COLUMN_LOOP>
 	<COLUMN_HIBERNATE_ID_ANNOATION>@Column
-	private <COLUMN_TYPE> <COLUMN_NAME>;
+	private <COLUMN_TYPE> <COLUMN_NAME> = <COLUMN_DEFAULT_VALUE>;
 	</COLUMN_LOOP>
 	
 	<COLUMN_LOOP>

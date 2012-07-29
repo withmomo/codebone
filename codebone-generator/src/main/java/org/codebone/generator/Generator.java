@@ -116,6 +116,7 @@ public class Generator {
 			String camelcase = transformCamelcase(column.getName());
 			generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_NAME_CAMELCASE, camelcase);
 			generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_DESCRIPTION, column.getDescription());
+			generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_DEFAULT_VALUE, column.getDefaultValue());
 			
 			if( column.isPrimaryKey() )
 				generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_ID, Template.COLUMN_ID_GENERATE);

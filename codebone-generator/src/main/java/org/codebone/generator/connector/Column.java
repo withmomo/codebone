@@ -4,19 +4,47 @@ public class Column {
 	private String name;
 	private int type;
 	private String typeName;
+	private String defaultValue;
 	private int size;
 	private String description;
 	private boolean isPrimaryKey;
 	private boolean isSearchable;
 
-	public Column(String name, int type, String typeName, int size, String description, boolean isPrimaryKey, boolean isSearchable) {
+	public Column(String name, int type, String typeName, int size, String defaultValue, String description, boolean isPrimaryKey, boolean isSearchable) {
 		this.name = name;
 		this.type = type;
 		this.typeName = typeName;
 		this.size = size;
+		this.defaultValue = defaultValue;
 		this.description = description;
 		this.isPrimaryKey = isPrimaryKey;
 		this.isSearchable = isSearchable;
+	}
+	
+	public static String defaultValue(String type) {
+		type = type.toLowerCase();
+		String defaultValue = null;
+		if ("int".equals(type)) {
+			defaultValue = "0";
+		} else if ("tinyint".equals(type)) {
+			defaultValue = "0";
+		} else if ("float".equals(type)) {
+			defaultValue = "0f";
+		} else if ("double".equals(type)) {
+			defaultValue = "0.0";
+		} else if ("bigint".equals(type)) {
+			defaultValue = "0";
+		} else if ("smallint".equals(type)) {
+			defaultValue = "0";
+		} else if ("varchar".equals(type) || "datetime".equals(type) || "smalldatetime".equals(type) || "text".equals(type)) {
+			defaultValue = "\"\"";
+		} else if ("timestamp".equals(type)) {
+			defaultValue = "new Date()";
+		} else {
+			defaultValue = "\"\"";
+		}
+		
+		return defaultValue;
 	}
 
 	public static String transformJavaType(String type, DatabaseType databaseType) {
@@ -102,5 +130,13 @@ public class Column {
 
 	public void setSearchable(boolean isSearchable) {
 		this.isSearchable = isSearchable;
+	}
+
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
 	}
 }

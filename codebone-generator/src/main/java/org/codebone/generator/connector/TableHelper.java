@@ -31,16 +31,18 @@ public class TableHelper {
 				int type = datas.getInt("DATA_TYPE");
 				String typeName = datas.getString("TYPE_NAME");
 				int size = datas.getInt("COLUMN_SIZE");
-				String description = datas.getString("REMARKS");
-				if(description.equals("")){
-					description = name;
+				String defaultValue = datas.getString("COLUMN_DEF");
+				if( defaultValue == null ) {
+					defaultValue = Column.defaultValue(typeName);
 				}
+				
+				String description = datas.getString("REMARKS");
 				boolean isPrimaryKey = false;
 				if( primaryKeyColumnName != null ) {
 					isPrimaryKey = primaryKeyColumnName.equals(name) ? true : false;
 				}
 				
-				list.add( new Column(name, type, typeName, size, description, isPrimaryKey, false) );
+				list.add( new Column(name, type, typeName, size, defaultValue, description, isPrimaryKey, false) );
 			}
 			datas.close();
 		} catch (SQLException e) {

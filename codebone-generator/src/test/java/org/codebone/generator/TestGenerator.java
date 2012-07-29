@@ -18,10 +18,7 @@ public class TestGenerator {
 
 	@Test
 	public void generate() throws SQLException {
-		String tableNames[] = { "CrashLog", "Item", "ItemStatistics",
-				"Message", "MessageComments", "MyItem", "Notice",
-				"NotifyMessage", "PlaneExpectRoute", "PlaneInformation",
-				"PointLog", "PointStatistics", "PostBox", "User" };
+		String tableNames[] = { "CrashLog" };
 		for(String tableName : tableNames){
 			String teamplatePath = "template/";
 			String generatePath = "test/";

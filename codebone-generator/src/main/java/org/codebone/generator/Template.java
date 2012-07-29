@@ -16,5 +16,6 @@ public class Template {
 	public static String COLUMN_NAME = "<COLUMN_NAME>";
 	public static String COLUMN_NAME_CAMELCASE = "<COLUMN_NAME_CAMELCASE>";
 	public static String COLUMN_TYPE = "<COLUMN_TYPE>";
+	public static String COLUMN_DEFAULT_VALUE = "<COLUMN_DEFAULT_VALUE>";
 	public static String COLUMN_DESCRIPTION = "<COLUMN_DESCRIPTION>";
 }
