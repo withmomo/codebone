@@ -26,7 +26,10 @@ public class TestGenerator {
 			String uri = tableName.toLowerCase();
 			String siteTitle = tableName;
 			loadData(tableName);
-
+			
+			setDefaultDescriptionColumnsData();
+			setSearchableColumnsData();
+			
 			Generator generator = new Generator();
 			generator.setSiteTitle(siteTitle);
 			generator.setDatabaseType(DatabaseType.MYSQL);
@@ -37,6 +40,19 @@ public class TestGenerator {
 			generator.setPackageName(packageName);
 			generator.setUri(uri);
 			generator.generate();
+		}
+	}
+	
+	public void setDefaultDescriptionColumnsData() {
+		for( Column column : columns ) {
+			if( column.getDescription() == null || "".equals(column.getDescription()) || "null".equals(column.getDescription()) )
+				column.setDescription(column.getName());
+		}
+	}
+	
+	public void setSearchableColumnsData() {
+		for( Column column : columns ) {
+			column.setSearchable(true);
 		}
 	}
 

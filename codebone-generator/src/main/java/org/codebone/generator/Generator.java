@@ -82,6 +82,63 @@ public class Generator {
 		if( source == null || tableName == null || packageName == null || uri == null | columns == null )
 			return null;
 		
+		String generatedSource = buildColumnLoop(source);
+		generatedSource = buildSearch(generatedSource);
+		
+		String camelTableName = transformCamelcase(tableName);
+		generatedSource = replaceReservedKeyword(generatedSource, Template.SITE_TITLE, siteTitle);
+		generatedSource = replaceReservedKeyword(generatedSource, Template.PACKAGE, packageName);
+		generatedSource = replaceReservedKeyword(generatedSource, Template.MAPPING_URI, uri);
+		generatedSource = replaceReservedKeyword(generatedSource, Template.TABLE_NAME, tableName);
+		generatedSource = replaceReservedKeyword(generatedSource, Template.TABLE_NAME_CAMELCASE, camelTableName);
+		generatedSource = replaceReservedKeyword(generatedSource, Template.TABLE_NAME_UPPERCASE, tableName.toUpperCase());
+		return generatedSource;
+	}
+
+	private String buildSearch(String source) {
+		// searchable
+		boolean isGenerateSearchColumns = false;
+		for( Column column : columns ) {
+			if( column.isSearchable() )
+				isGenerateSearchColumns = true;
+		}
+		Pattern pattern = Pattern.compile(Template.SEARCH, Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(source);
+		StringBuilder builder = new StringBuilder(source);
+		int modifiedPoint = 0;
+		while(matcher.find()) {
+			String columnLoopSouce = matcher.group();
+			String generatedSource = "";
+			if( isGenerateSearchColumns ) {
+				columnLoopSouce = columnLoopSouce.substring(8, columnLoopSouce.length()-9);
+				generatedSource = buildSearchableColumnLoop(columnLoopSouce);
+			}
+			int start = matcher.start() + modifiedPoint;
+			int end = matcher.end() + modifiedPoint;
+			builder.replace(start, end, generatedSource);
+			modifiedPoint = generatedSource.length() - matcher.group().length();
+		}
+		return builder.toString();
+	}
+
+	private String buildSearchableColumnLoop(String source) {
+		Pattern pattern = Pattern.compile(Template.COLUMN_LOOP_SEARCH_REGEX, Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(source);
+		StringBuilder builder = new StringBuilder(source);
+		int modifiedPoint = 0;
+		while(matcher.find()) {
+			String columnLoopSouce = matcher.group();
+			columnLoopSouce = columnLoopSouce.substring(20, columnLoopSouce.length()-21);
+			String generatedSource = generateColumLoopSource(columnLoopSouce,true);
+			int start = matcher.start() + modifiedPoint;
+			int end = matcher.end() + modifiedPoint;
+			builder.replace(start, end, generatedSource);
+			modifiedPoint = generatedSource.length() - matcher.group().length();
+		}
+		return builder.toString();
+	}
+	
+	private String buildColumnLoop(String source) {
 		// loop
 		Pattern pattern = Pattern.compile(Template.COLUMN_LOOP_REGEX, Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
 		Matcher matcher = pattern.matcher(source);
@@ -96,36 +153,43 @@ public class Generator {
 			builder.replace(start, end, generatedSource);
 			modifiedPoint = generatedSource.length() - matcher.group().length();
 		}
-		
-		String camelTableName = transformCamelcase(tableName);
-		String generatedSource = builder.toString();
-		generatedSource = replaceReservedKeyword(generatedSource, Template.SITE_TITLE, siteTitle);
-		generatedSource = replaceReservedKeyword(generatedSource, Template.PACKAGE, packageName);
-		generatedSource = replaceReservedKeyword(generatedSource, Template.MAPPING_URI, uri);
-		generatedSource = replaceReservedKeyword(generatedSource, Template.TABLE_NAME, tableName);
-		generatedSource = replaceReservedKeyword(generatedSource, Template.TABLE_NAME_CAMELCASE, camelTableName);
-		generatedSource = replaceReservedKeyword(generatedSource, Template.TABLE_NAME_UPPERCASE, tableName.toUpperCase());
-		return generatedSource;
+		return builder.toString();
 	}
 
 	private String generateColumLoopSource(String columnLoopSouce) {
 		StringBuilder builder = new StringBuilder();
 		for(Column column : columns) {
-			String generatedColumnSource = replaceReservedKeyword(columnLoopSouce, Template.COLUMN_TYPE, Column.transformJavaType(column.getTypeName(),databaseType));
-			generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_NAME, column.getName());
-			String camelcase = transformCamelcase(column.getName());
-			generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_NAME_CAMELCASE, camelcase);
-			generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_DESCRIPTION, column.getDescription());
-			generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_DEFAULT_VALUE, column.getDefaultValue());
-			
-			if( column.isPrimaryKey() )
-				generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_ID, Template.COLUMN_ID_GENERATE);
-			else
-				generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_ID, "");
-			
+			String generatedColumnSource = generateColumSource(columnLoopSouce, column);
 			builder.append(generatedColumnSource);
 		}
 		return builder.toString();
+	}
+	
+	private String generateColumLoopSource(String columnLoopSouce, boolean isSearchableMode) {
+		StringBuilder builder = new StringBuilder();
+		for(Column column : columns) {
+			if(isSearchableMode && column.isSearchable()) {
+				String generatedColumnSource = generateColumSource(columnLoopSouce, column);
+				builder.append(generatedColumnSource);
+			}
+		}
+		return builder.toString();
+	}
+	
+	private String generateColumSource(String columnLoopSouce, Column column) {
+		String generatedColumnSource = replaceReservedKeyword(columnLoopSouce, Template.COLUMN_TYPE, Column.transformJavaType(column.getTypeName(),databaseType));
+		generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_NAME, column.getName());
+		String camelcase = transformCamelcase(column.getName());
+		generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_NAME_CAMELCASE, camelcase);
+		generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_DESCRIPTION, column.getDescription());
+		generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_DEFAULT_VALUE, column.getDefaultValue());
+		
+		if( column.isPrimaryKey() )
+			generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_ID, Template.COLUMN_ID_GENERATE);
+		else
+			generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_ID, "");
+		
+		return generatedColumnSource;
 	}
 	
 	private String transformCamelcase(String source) {

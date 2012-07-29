@@ -20,24 +20,22 @@
 <title><SITE_TITLE></title>
 </head>
 <body>
-
+	
+	<SEARCH>
 	<form class="well form-search"
 		action="<%=request.getContextPath()%>/app/<MAPPING_URI>/search" method="post">
 		<div class="controls" style="text-align: right">
 			<select name="property">
-				<option>idx</option>
-				<option>id</option>
-				<option>email</option>
-				<option>name</option>
-				<option>phoneNumber</option>
-				<option>organizationIdx</option>
-				<option>level</option>
-				<option>createdDate</option>
+				<COLUMN_LOOP_SEARCH>
+				<option value="<COLUMN_NAME>"><COLUMN_DESCRIPTION></option>
+				</COLUMN_LOOP_SEARCH>
 			</select>
 			<input type="text" class="input-xlarge search-query" name="keyword">
 			<button type="submit" class="btn">Search</button>
 		</div>
 	</form>
+	</SEARCH>
+	
 	<table class="table">
 		<thead>
 			<tr>
