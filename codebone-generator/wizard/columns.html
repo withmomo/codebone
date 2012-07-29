@@ -39,7 +39,7 @@
 	}
 
 	function fillDemoData() {
-		var list = [{"description":"","name":"idx","primaryKey":true,"searchable":false,"size":19,"type":-5,"typeName":"BIGINT"},{"description":"","name":"isExternal","primaryKey":false,"searchable":false,"size":1,"type":12,"typeName":"VARCHAR"},{"description":"","name":"isSeparate","primaryKey":false,"searchable":false,"size":1,"type":12,"typeName":"VARCHAR"},{"description":"","name":"managerIdx","primaryKey":false,"searchable":false,"size":19,"type":-5,"typeName":"BIGINT"},{"description":"","name":"name","primaryKey":false,"searchable":false,"size":255,"type":12,"typeName":"VARCHAR"},{"description":"","name":"priOrder","primaryKey":false,"searchable":false,"size":10,"type":4,"typeName":"INT"},{"description":"","name":"subOrder","primaryKey":false,"searchable":false,"size":10,"type":4,"typeName":"INT"},{"description":"","name":"url","primaryKey":false,"searchable":false,"size":255,"type":12,"typeName":"VARCHAR"}];
+		var list = [{"description":"","name":"idx","primaryKey":true,"searchable":true,"size":19,"type":-5,"typeName":"BIGINT"},{"description":"","name":"isExternal","primaryKey":false,"searchable":true,"size":1,"type":12,"typeName":"VARCHAR"},{"description":"","name":"isSeparate","primaryKey":false,"searchable":true,"size":1,"type":12,"typeName":"VARCHAR"},{"description":"","name":"managerIdx","primaryKey":false,"searchable":true,"size":19,"type":-5,"typeName":"BIGINT"},{"description":"","name":"name","primaryKey":false,"searchable":true,"size":255,"type":12,"typeName":"VARCHAR"},{"description":"","name":"priOrder","primaryKey":false,"searchable":true,"size":10,"type":4,"typeName":"INT"},{"description":"","name":"subOrder","primaryKey":false,"searchable":true,"size":10,"type":4,"typeName":"INT"},{"description":"","name":"url","primaryKey":false,"searchable":true,"size":255,"type":12,"typeName":"VARCHAR"}];
 		displayList(list);
 	}
 
@@ -90,6 +90,7 @@
 	  <li><a>2. Choose database table</a></li>
 	  <li class="active"><a>3. Fill columns</a></li>
 	  <li><a>4. Fill setting</a></li>
+	  <li><a>5. Generate</a></li>
 	</ul>
 
 	<h2>Columns</h2>

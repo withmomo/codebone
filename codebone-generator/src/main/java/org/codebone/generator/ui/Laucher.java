@@ -101,7 +101,9 @@ public class Laucher {
 		} else if( url.toLowerCase().endsWith("columns.html") ) {
 			columns = loadColumns(tableName);
 			JSONArray jsonObject = JSONArray.fromObject(columns);
-			String script = "var list = " + jsonObject.toString() + ";";
+			String script = jsonObject.toString();
+			script = script.replaceAll("\\\\\"", "");
+			script = "var list = " + script + ";";
 			browserBridge.callScript("data",script);
 			//System.out.println(jsonObject.toString());
 		} else if( url.toLowerCase().endsWith("path.html") ) {
@@ -156,7 +158,8 @@ public class Laucher {
 			generator.setUri(uri);
 			generator.setSiteTitle(siteTitle);
 			generator.generate();
-			//browser.setUrl(directory+"columns.html");
+			
+			browser.setUrl(directory+"done.html");
 			System.out.println(map);
 		}
 	}
