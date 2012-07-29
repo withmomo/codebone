@@ -29,17 +29,23 @@
 
 	<script type="text/javascript">
 	function sendData() {
+		var form2 = document.formdata;
+		var file = $('#generateFile').val();
+		form2.generatePath.value = file;
+		file = $('#templateFile').val();
+		form2.templatePath.value = file;
+		
 		var form = $("#formdata");
-		var n = $("input:radio::checked").length;
-		if( n == 0 )
+		if( !form.valid() )
 			return;
-
+		
 		var data = JSON.stringify(form.serializeArray());
+
 		sendDataToNativeApplication(data);
 	}
 
 	function fillDemoData() {
-		var list = ["AuthoritiesModel","GroupModel","ManagerModel","MenuModel","application_","crashlog_","message_","user_"];
+		var list = [{"generatePath":"generatePath","title":"title","templateFile":"templateFile","package":"package","uri":"uri","generateFile":"generateFile","templatePath":"generatePath"}];
 		displayList(list);
 	}
 
@@ -57,24 +63,14 @@
 	function displayList(list) {
 		var i = 1;
 		jQuery.each(list, function() {
-			var data1 = '<label class="checkbox"><input type="radio" name="name" value="'+this+'" class="unique">&nbsp;' + this + '</label>';
-			var data2 = this;
-			addRow('table', i, data1, data2);
+			var column = this.name;
+			column += this.primaryKey ? '&nbsp;<img src="img/icon_PK.png"/>' : '';
+			var checked = this.searchable ? ' checked' : '';
+			var searchable = '<label class="checkbox"><input type="checkbox" name="searchable" class="unique"'+checked+'>&nbsp;Searchable</label>';
+			var description = '<input type="text" name="'+this.name+'_description" class="required" value="'+this.description+'">';
+			addRow('table', i, column, description, this.typeName + '('+this.size+')', searchable );
 			i++;
 		});
-	}
-
-	function addRow(id){
-	    var args = this.addRow.arguments;
-		var tbody = document.getElementById(id).getElementsByTagName("tbody")[0];
-		var row = document.createElement("tr");
-		for(var i=1; i< args.length ; i++) {
-			var cell = document.createElement("td");
-			cell.appendChild(document.createTextNode(''));
-			cell.innerHTML = args[i];
-			row.appendChild(cell);
-		}
-		tbody.appendChild(row);
 	}
 	</script>
 </head>
@@ -84,32 +80,23 @@
 	
 	<ul class="nav nav-tabs">
 	  <li><a>1. Fill database configuration</a></li>
-	  <li class="active"><a>2. Choose database table</a></li>
+	  <li><a>2. Choose database table</a></li>
 	  <li><a>3. Fill columns</a></li>
 	  <li><a>4. Fill setting</a></li>
-	  <li><a>5. Generate</a></li>
+	  <li class="active"><a>5. Generate</a></li>
 	</ul>
 
-	<h2>Tables</h2>
-	
+	<h2>Setting</h2>
+
 	<hr>
 
-	<form name="formdata" id="formdata" onsubmit="return false;" method="post">
-	<table id="table" class="table table-striped table-bordered table-condensed">
-	<thead>
-	<tr>
-		<th>&nbsp;</th>
-		<th>Name</th>
-		<th>Description</th>
-	</tr>
-	</thead>
-	<tbody>
-	</tbody>
-	</table>
-
-	<button class="btn" type="submit" onclick="fillDemoData()">Demo</button>
-	<button class="btn btn-primary" type="submit" onclick="sendData()">Next</button>
-
+	<form name="formdata" id="formdata" onsubmit="return false;" method="post" class="form-horizontal">
+	
+	<fieldset>
+		<div class="control-group">
+			Gennerate files.
+		</div>
+	</fieldset>
 	</form>
 
 	<hr>
