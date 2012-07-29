@@ -32,6 +32,9 @@ public class TableHelper {
 				String typeName = datas.getString("TYPE_NAME");
 				int size = datas.getInt("COLUMN_SIZE");
 				String description = datas.getString("REMARKS");
+				if(description.equals("")){
+					description = name;
+				}
 				boolean isPrimaryKey = false;
 				if( primaryKeyColumnName != null ) {
 					isPrimaryKey = primaryKeyColumnName.equals(name) ? true : false;
