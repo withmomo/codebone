@@ -52,7 +52,7 @@
 			%>
 			<tr>
 				<COLUMN_LOOP>
-					<td><%=model.get<COLUMN_NAME_CAMELCASE>().toString()%></td>
+					<td><%=model.get<COLUMN_NAME_CAMELCASE>()%></td>
 				</COLUMN_LOOP>
 				
 				<td>
