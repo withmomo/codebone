@@ -36,7 +36,7 @@ public class Column {
 			transformedType = "Long";
 		} else if ("smallint".equals(type)) {
 			transformedType = "Integer";
-		} else if ("varchar".equals(type) || "datetime".equals(type) || "smalldatetime".equals(type)) {
+		} else if ("varchar".equals(type) || "datetime".equals(type) || "smalldatetime".equals(type) || "text".equals(type)) {
 			transformedType = "String";
 		} else if ("bit".equals(type)) {
 			transformedType = "Byte";
