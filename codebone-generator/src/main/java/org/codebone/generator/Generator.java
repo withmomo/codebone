@@ -111,9 +111,13 @@ public class Generator {
 	private String generateColumLoopSource(String columnLoopSouce) {
 		StringBuilder builder = new StringBuilder();
 		for(Column column : columns) {
+			
 			String generatedColumnSource = replaceReservedKeyword(columnLoopSouce, Template.COLUMN_TYPE, Column.transformJavaType(column.getTypeName(),databaseType));
 			generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_NAME, column.getName());
 			String camelcase = transformCamelcase(column.getName());
+			if(column.getDescription().equals("")){
+				column.setDescription(camelcase);
+			}
 			generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_NAME_CAMELCASE, camelcase);
 			generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_DESCRIPTION, column.getDescription());
 			
