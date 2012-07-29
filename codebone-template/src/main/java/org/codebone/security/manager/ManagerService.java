@@ -36,8 +36,10 @@ public class ManagerService extends AbstractService<Manager>{
 	
 	public BaseModel update (Manager model){
 		logger.info("update model " + model);
-		String encodedPassword = passwordEncoder.encodePassword(model.getPassword(), null);
-		model.setPassword(encodedPassword);
+		if(!(model.getPassword().equals(""))){
+			String encodedPassword = passwordEncoder.encodePassword(model.getPassword(), null);
+			model.setPassword(encodedPassword);
+		}
 		Manager returnModel = (Manager) getDao().update(model);
 		return new SuccessModel(returnModel);
 	}
