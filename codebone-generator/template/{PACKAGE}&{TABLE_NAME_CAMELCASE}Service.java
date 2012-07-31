@@ -1,4 +1,4 @@
-package <PACKAGE>;
+package {PACKAGE};
 
 import java.util.List;
 
@@ -14,10 +14,10 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class <TABLE_NAME_CAMELCASE>Service extends AbstractService<<TABLE_NAME_CAMELCASE>>{
+public class {TABLE_NAME_CAMELCASE}Service extends AbstractService<{TABLE_NAME_CAMELCASE}>{
 	
 	@Autowired
-	private <TABLE_NAME_CAMELCASE>Dao dao;
+	private {TABLE_NAME_CAMELCASE}Dao dao;
 	
 	public AbstractDao getDao() {
 		return dao;

@@ -1,4 +1,4 @@
-package <PACKAGE>;
+package {PACKAGE};
 
 import java.util.Date;
 
@@ -13,19 +13,19 @@ import org.codebone.framework.generic.AbstractModel;
 
 @Entity
 @Table
-public class <TABLE_NAME_CAMELCASE> extends AbstractModel{
-	<COLUMN_LOOP>
-	<COLUMN_HIBERNATE_ID_ANNOATION>@Column
-	private <COLUMN_TYPE> <COLUMN_NAME> = <COLUMN_DEFAULT_VALUE>;
-	</COLUMN_LOOP>
+public class {TABLE_NAME_CAMELCASE} extends AbstractModel{
+	{COLUMN_LOOP}
+	{COLUMN_HIBERNATE_ID_ANNOATION}@Column
+	private {COLUMN_TYPE} {COLUMN_NAME} = {COLUMN_DEFAULT_VALUE};
+	{/COLUMN_LOOP}
 	
-	<COLUMN_LOOP>
-	public <COLUMN_TYPE> get<COLUMN_NAME_CAMELCASE>(){
-		return <COLUMN_NAME>;
+	{COLUMN_LOOP}
+	public {COLUMN_TYPE} get{COLUMN_NAME_CAMELCASE}(){
+		return {COLUMN_NAME};
 	}
 
-	public void set<COLUMN_NAME_CAMELCASE>(<COLUMN_TYPE> <COLUMN_NAME>){
-		this.<COLUMN_NAME> = <COLUMN_NAME>;
+	public void set{COLUMN_NAME_CAMELCASE}({COLUMN_TYPE} {COLUMN_NAME}){
+		this.{COLUMN_NAME} = {COLUMN_NAME};
 	}
-	</COLUMN_LOOP>
+	{/COLUMN_LOOP}
 }
