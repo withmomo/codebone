@@ -15,6 +15,7 @@ import org.codebone.security.menu.Menu;
 import org.codebone.security.menu.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,98 +31,25 @@ public abstract class AbstractController<M extends AbstractModel> {
 
 	@Autowired
 	protected MenuService menuService;
-	
+
 	protected abstract String getContextName();
-	
-	protected abstract AbstractService getService();
 
 	public ModelAndView getCommonModelAndView(String target,
-			Map<String, Object> map) {
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
+			Map<String, Object> map, HttpSession session) {
+		SecurityContext value = (SecurityContext) session
+				.getAttribute("SPRING_SECURITY_CONTEXT");
+		Authentication authentication = value.getAuthentication();
 		Manager currentLoginManager = (Manager) managerService.read(
-				auth.getName()).getData();
-		List<Menu> list = (List<Menu>) menuService.listAll()
-				.getData();
-		System.out.println(list);
+				authentication.getName()).getData();
+		List<Menu> menuList = null;
+		if (session.getAttribute("menuList") == null) {
+			menuList = (List<Menu>) menuService.listAll().getData();
+			session.setAttribute("menuList", menuList);
+		} else {
+			menuList = (List<Menu>) session.getAttribute("menuList");
+		}
 		map.put("loginManager", currentLoginManager);
-		map.put("menu", list);
+		map.put("menu", menuList);
 		return new ModelAndView(target, map);
-	}
-
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(HttpServletRequest req, HttpServletResponse res,
-			HttpSession session, Integer page) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		if (page == null) {
-			page = 1;
-		}
-		map.put("data", getService().list(page));
-		map.put("page", page);
-
-		return getCommonModelAndView(getContextName()+"/list", map);
-	}
-
-	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	public ModelAndView search(HttpServletRequest req, HttpServletResponse res,
-			HttpSession session, Integer page) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		String property = req.getParameter("property");
-		String keyword = req.getParameter("keyword");
-		if (page == null) {
-			page = 0;
-		}
-		map.put("data", getService().search(property, keyword, page));
-		map.put("page", page);
-		return getCommonModelAndView(getContextName()+"/list", map);
-	}
-
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(HttpServletRequest req, HttpServletResponse res,
-			HttpSession session) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("isCreate", "Y");
-		return getCommonModelAndView(getContextName()+"/update", map);
-	}
-
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public ModelAndView create_POST(HttpServletRequest req,
-			HttpServletResponse res, HttpSession session,
-			@ModelAttribute M model) throws ParseException {
-		getService().create(model);
-		/**
-		 * Create Complete
-		 */
-		return list(req, res, session, 0);
-	}
-
-	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public ModelAndView update(HttpServletRequest req, HttpServletResponse res,
-			HttpSession session, String idx) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("data", getService().read(idx));
-		map.put("id", idx);
-		map.put("isCreate", "N");
-		return getCommonModelAndView(getContextName()+"/update", map);
-	}
-
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public ModelAndView update_POST(HttpServletRequest req,
-			HttpServletResponse res, HttpSession session,
-			@ModelAttribute M managerModel) throws ParseException {
-		getService().update(managerModel);
-		/**
-		 * Update Complete
-		 */
-		return list(req, res, session, 0);
-	}
-
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView delete(HttpServletRequest req, HttpServletResponse res,
-			HttpSession session, String idx) {
-		M model = (M) getService().read(idx).getData();
-		getService().delete(model);
-
-		return list(req, res, session, 0);
 	}
 }

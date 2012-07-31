@@ -26,30 +26,13 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("/manager")
-public class ManagerController{
+public class ManagerController extends AbstractController{
 
 	@Autowired
 	private ManagerService service;
-
-	@Autowired
-	protected MenuService menuService;
 	
-	private String getContextName(){
+	protected String getContextName(){
 		return "manager";
-	}
-	
-	public ModelAndView getCommonModelAndView(String target,
-			Map<String, Object> map) {
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
-		Manager currentLoginManager = (Manager) service.read(
-				auth.getName()).getData();
-		List<Menu> list = (List<Menu>) menuService.listAll()
-				.getData();
-		System.out.println(list);
-		map.put("loginManager", currentLoginManager);
-		map.put("menu", list);
-		return new ModelAndView(target, map);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -63,7 +46,7 @@ public class ManagerController{
 		map.put("data", service.list(page));
 		map.put("page", page);
 
-		return getCommonModelAndView(getContextName()+"/list", map);
+		return getCommonModelAndView(getContextName()+"/list", map, session);
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
@@ -78,7 +61,7 @@ public class ManagerController{
 		}
 		map.put("data", service.search(property, keyword, page));
 		map.put("page", page);
-		return getCommonModelAndView(getContextName()+"/list", map);
+		return getCommonModelAndView(getContextName()+"/list", map, session);
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -87,7 +70,7 @@ public class ManagerController{
 			HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("isCreate", "Y");
-		return getCommonModelAndView(getContextName()+"/write", map);
+		return getCommonModelAndView(getContextName()+"/write", map, session);
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -110,7 +93,7 @@ public class ManagerController{
 		map.put("data", service.read(idx));
 		map.put("id", idx);
 		map.put("isCreate", "N");
-		return getCommonModelAndView(getContextName()+"/write", map);
+		return getCommonModelAndView(getContextName()+"/write", map, session);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)

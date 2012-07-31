@@ -30,15 +30,12 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 @RequestMapping("/menu")
 @PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_MENU_ADMIN')")
-public class MenuController {
+public class MenuController extends AbstractController {
 
 	@Autowired
 	private MenuService service;
 
-	@Autowired
-	protected ManagerService managerService;
-
-	private String getContextName() {
+	protected String getContextName() {
 		return "menu";
 	}
 
@@ -53,7 +50,7 @@ public class MenuController {
 			isUp = false;
 		}
 		service.changeOrder(priOrder, subOrder, isUp);
-		return new RedirectView("list");
+		return new RedirectView("");
 	}
 
 	@RequestMapping(value = "/changeLevel", method = RequestMethod.GET)
@@ -61,21 +58,7 @@ public class MenuController {
 	public View chageLevel(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer priOrder, Integer subOrder, Long idx) {
 		service.changeLevel(priOrder, subOrder, idx);
-		return new RedirectView("list");
-	}
-
-	public ModelAndView getCommonModelAndView(String target,
-			Map<String, Object> map) {
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
-		Manager currentLoginManager = (Manager) managerService.read(
-				auth.getName()).getData();
-		List<Menu> list = (List<Menu>) service.listAll()
-				.getData();
-		System.out.println(list);
-		map.put("loginManager", currentLoginManager);
-		map.put("menu", list);
-		return new ModelAndView(target, map);
+		return new RedirectView("");
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -89,7 +72,7 @@ public class MenuController {
 		map.put("data", service.list(page));
 		map.put("page", page);
 
-		return getCommonModelAndView(getContextName() + "/list", map);
+		return getCommonModelAndView(getContextName() + "/list", map, session);
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
@@ -104,7 +87,7 @@ public class MenuController {
 		}
 		map.put("data",service.search(property, keyword, page));
 		map.put("page", page);
-		return getCommonModelAndView(getContextName() + "/list", map);
+		return getCommonModelAndView(getContextName() + "/list", map, session);
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -113,7 +96,7 @@ public class MenuController {
 			HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("isCreate", "Y");
-		return getCommonModelAndView(getContextName() + "/write", map);
+		return getCommonModelAndView(getContextName() + "/write", map, session);
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -136,7 +119,7 @@ public class MenuController {
 		map.put("data", service.read(idx));
 		map.put("id", idx);
 		map.put("isCreate", "N");
-		return getCommonModelAndView(getContextName() + "/write", map);
+		return getCommonModelAndView(getContextName() + "/write", map, session);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)

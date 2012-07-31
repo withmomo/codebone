@@ -29,16 +29,10 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("/organization")
-public class OrganizationController {
+public class OrganizationController extends AbstractController{
 
 	@Autowired
 	private OrganizationService service;
-	
-	@Autowired
-	protected ManagerService managerService;
-
-	@Autowired
-	protected MenuService menuService;
 	
 	public AbstractService getService() {
 		return service;
@@ -46,20 +40,6 @@ public class OrganizationController {
 	
 	protected String getContextName() {
 		return "organization";
-	}
-	
-	public ModelAndView getCommonModelAndView(String target,
-			Map<String, Object> map) {
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
-		Manager currentLoginManager = (Manager) managerService.read(
-				auth.getName()).getData();
-		List<Menu> list = (List<Menu>) menuService.listAll()
-				.getData();
-		System.out.println(list);
-		map.put("loginManager", currentLoginManager);
-		map.put("menu", list);
-		return new ModelAndView(target, map);
 	}
 	
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse res,
@@ -85,7 +65,7 @@ public class OrganizationController {
 		map.put("page", page);
 		map.put("organizationIdx", organizationIdx);
 
-		return getCommonModelAndView(getContextName()+"/list", map);
+		return getCommonModelAndView(getContextName()+"/list", map, session);
 	}
 	
 	
@@ -102,7 +82,7 @@ public class OrganizationController {
 		}
 		map.put("data", getService().search(property, keyword, page));
 		map.put("page", page);
-		return getCommonModelAndView(getContextName()+"/list", map);
+		return getCommonModelAndView(getContextName()+"/list", map, session);
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -111,7 +91,7 @@ public class OrganizationController {
 			HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("isCreate", "Y");
-		return getCommonModelAndView(getContextName()+"/write", map);
+		return getCommonModelAndView(getContextName()+"/write", map, session);
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -134,7 +114,7 @@ public class OrganizationController {
 		map.put("data", getService().read(idx));
 		map.put("id", idx);
 		map.put("isCreate", "N");
-		return getCommonModelAndView(getContextName()+"/write", map);
+		return getCommonModelAndView(getContextName()+"/write", map, session);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
