@@ -56,8 +56,9 @@ public class Generator {
 		}
 		createDirectory(rootDirectoryPath);
 		
-		fileName = fileName.replaceAll("\\{TABLE_NAME\\}",tableName);
-		fileName = fileName.replaceAll("\\{TABLE_NAME_CAMELCASE\\}",transformCamelcase(tableName));
+		fileName = replaceReservedKeyword(fileName, Template.TABLE_NAME, tableName);
+		fileName = replaceReservedKeyword(fileName, Template.TABLE_NAME_CAMELCASE, transformCamelcase(tableName));
+		
 		String absolutePath = rootDirectoryPath + "/" + fileName;
 		FileUtils.write(absolutePath, generatedSource);
 	}
