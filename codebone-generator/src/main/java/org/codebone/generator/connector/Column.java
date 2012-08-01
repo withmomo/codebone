@@ -33,7 +33,7 @@ public class Column {
 		} else if ("double".equals(type)) {
 			defaultValue = "0.0";
 		} else if ("bigint".equals(type)) {
-			defaultValue = "0";
+			defaultValue = "new Long(0)";
 		} else if ("smallint".equals(type)) {
 			defaultValue = "0";
 		} else if ("varchar".equals(type) || "datetime".equals(type) || "smalldatetime".equals(type) || "text".equals(type)) {
