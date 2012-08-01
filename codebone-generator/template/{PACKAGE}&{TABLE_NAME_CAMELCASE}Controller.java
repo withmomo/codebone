@@ -9,10 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.codebone.security.manager.Manager;
-import org.codebone.security.manager.ManagerService;
-import org.codebone.security.menu.Menu;
-import org.codebone.security.menu.MenuService;
+import org.codebone.framework.generic.AbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
