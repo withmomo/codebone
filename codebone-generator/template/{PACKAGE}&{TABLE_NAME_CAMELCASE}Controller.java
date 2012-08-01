@@ -26,38 +26,13 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("/{MAPPING_URI}")
-public class {TABLE_NAME_CAMELCASE}Controller{
+public class {TABLE_NAME_CAMELCASE}Controller extends AbstractController{
 
 	@Autowired
 	private {TABLE_NAME_CAMELCASE}Service service;
-
-	@Autowired
-	private ManagerService managerService;
-
-	@Autowired
-	protected MenuService menuService;
 	
-	private String getContextName(){
+	protected String getContextName(){
 		return "{MAPPING_URI}";
-	}
-	
-	public ModelAndView getCommonModelAndView(String target,
-			Map<String, Object> map, HttpSession session) {
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
-		Manager currentLoginManager = (Manager) managerService.read(
-				auth.getName()).getData();
-		List<Menu> menuList = null;
-		if(session.getAttribute("menuList")==null){
-			menuList = (List<Menu>) menuService.listAll()
-					.getData();
-			session.setAttribute("menuList", menuList);
-		}else{
-			menuList = (List<Menu>) session.getAttribute("menuList");
-		}
-		map.put("loginManager", currentLoginManager);
-		map.put("menu", menuList);
-		return new ModelAndView(target, map);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
