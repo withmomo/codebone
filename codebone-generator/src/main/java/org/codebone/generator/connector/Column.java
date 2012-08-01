@@ -59,7 +59,7 @@ public class Column {
 		} else if ("float".equals(type)) {
 			transformedType = "Float";
 		} else if ("double".equals(type)) {
-			transformedType = "Float";
+			transformedType = "Double";
 		} else if ("bigint".equals(type)) {
 			transformedType = "Long";
 		} else if ("smallint".equals(type)) {
