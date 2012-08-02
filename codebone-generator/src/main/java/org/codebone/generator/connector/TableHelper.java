@@ -32,7 +32,7 @@ public class TableHelper {
 				String typeName = datas.getString("TYPE_NAME");
 				int size = datas.getInt("COLUMN_SIZE");
 				String defaultValue = datas.getString("COLUMN_DEF");
-				if( defaultValue == null || "CURRENT_TIMESTAMP".equals(defaultValue.toUpperCase()) ) {
+				if( defaultValue == null || "timestamp".equals(typeName.toLowerCase()) ) {
 					defaultValue = Column.defaultValue(typeName);
 				}
 				
