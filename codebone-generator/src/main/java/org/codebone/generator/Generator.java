@@ -178,7 +178,7 @@ public class Generator {
 	}
 	
 	private String generateColumSource(String columnLoopSouce, Column column) {
-		String generatedColumnSource = replaceReservedKeyword(columnLoopSouce, Template.COLUMN_TYPE, Column.transformJavaType(column.getTypeName(),databaseType));
+		String generatedColumnSource = replaceReservedKeyword(columnLoopSouce, Template.COLUMN_TYPE, Column.transformJavaType(column.getTypeName()));
 		generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_NAME, column.getName());
 		String camelcase = transformCamelcase(column.getName());
 		generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_NAME_CAMELCASE, camelcase);

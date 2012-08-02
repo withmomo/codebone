@@ -47,12 +47,10 @@ public class Column {
 		return defaultValue;
 	}
 
-	public static String transformJavaType(String type, DatabaseType databaseType) {
+	public static String transformJavaType(String type) {
 		type = type.toLowerCase();
 		String transformedType = null;
-		if ("int".equals(type) && DatabaseType.MSSQL == databaseType) {
-			transformedType = "Integer";
-		} else if ("int".equals(type) && DatabaseType.MYSQL == databaseType) {
+		if ("int".equals(type)) {
 			transformedType = "Integer";
 		} else if ("tinyint".equals(type)) {
 			transformedType = "Integer";
