@@ -24,21 +24,21 @@ public class Column {
 	public static String defaultValue(String type) {
 		type = type.toLowerCase();
 		String defaultValue = null;
-		if ("int".equals(type)) {
+		if (type.startsWith("int")) {
 			defaultValue = "0";
-		} else if ("tinyint".equals(type)) {
+		} else if (type.startsWith("tinyint")) {
 			defaultValue = "0";
-		} else if ("float".equals(type)) {
+		} else if (type.startsWith("float")) {
 			defaultValue = "0f";
-		} else if ("double".equals(type)) {
+		} else if (type.startsWith("double")) {
 			defaultValue = "0.0";
-		} else if ("bigint".equals(type)) {
+		} else if (type.startsWith("bigint")) {
 			defaultValue = "new Long(0)";
-		} else if ("smallint".equals(type)) {
+		} else if (type.startsWith("smallint")) {
 			defaultValue = "0";
-		} else if ("varchar".equals(type) || "datetime".equals(type) || "smalldatetime".equals(type) || "text".equals(type)) {
+		} else if (type.startsWith("varchar") || type.startsWith("datetime") || type.startsWith("smalldatetime") || type.startsWith("text")) {
 			defaultValue = "\"\"";
-		} else if ("timestamp".equals(type)) {
+		} else if (type.startsWith("timestamp")) {
 			defaultValue = "new Date()";
 		} else {
 			defaultValue = "\"\"";
@@ -50,23 +50,23 @@ public class Column {
 	public static String transformJavaType(String type) {
 		type = type.toLowerCase();
 		String transformedType = null;
-		if ("int".equals(type)) {
+		if (type.startsWith("int")) {
 			transformedType = "Integer";
-		} else if ("tinyint".equals(type)) {
+		} else if (type.startsWith("tinyint")) {
 			transformedType = "Integer";
-		} else if ("float".equals(type)) {
+		} else if (type.startsWith("float")) {
 			transformedType = "Float";
-		} else if ("double".equals(type)) {
+		} else if (type.startsWith("double")) {
 			transformedType = "Double";
-		} else if ("bigint".equals(type)) {
+		} else if (type.startsWith("bigint")) {
 			transformedType = "Long";
-		} else if ("smallint".equals(type)) {
+		} else if (type.startsWith("smallint")) {
 			transformedType = "Integer";
-		} else if ("varchar".equals(type) || "datetime".equals(type) || "smalldatetime".equals(type) || "text".equals(type)) {
+		} else if (type.startsWith("varchar") || type.startsWith("datetime") || type.startsWith("smalldatetime") || type.startsWith("text")) {
 			transformedType = "String";
-		} else if ("bit".equals(type)) {
+		} else if (type.startsWith("bit")) {
 			transformedType = "Byte";
-		} else if ("timestamp".equals(type)) {
+		} else if (type.startsWith("timestamp")) {
 			transformedType = "Date";
 		} else {
 			transformedType = "String";
