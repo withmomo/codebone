@@ -8,12 +8,10 @@ import org.codebone.framework.SuccessModel;
 import org.codebone.framework.generic.AbstractDao;
 import org.codebone.framework.generic.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 
-@Component
+@Service
 public class {TABLE_NAME_CAMELCASE}Service extends AbstractService<{TABLE_NAME_CAMELCASE}>{
 	
 	@Autowired
