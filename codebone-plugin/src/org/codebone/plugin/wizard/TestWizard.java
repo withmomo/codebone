@@ -1,12 +1,16 @@
 package org.codebone.plugin.wizard;
 
+import java.util.ArrayList;
+
+import org.codebone.generator.connector.Column;
 import org.eclipse.jface.wizard.Wizard;
 
 public class TestWizard extends Wizard {
 
-	protected TestPageOne one;
+	protected TestPageTwo one;
 	protected TestPageTwo two;
-	protected PageFour four;
+	protected PageThree   three;
+	protected PageFour    four;
 
 	public TestWizard() {
 	    super();
@@ -15,12 +19,19 @@ public class TestWizard extends Wizard {
 	
 	@Override
 	  public void addPages() {
-	    one = new TestPageOne();
-	    two = new TestPageTwo();
-	    four = new PageFour();
-	    
+	    one   = new TestPageTwo();
+	    two   = new TestPageTwo();
+	    three = new PageThree();
+	    four  = new PageFour();
+	    /*
+	    Column column = new Column("name", 1, "String", 16, "", "", true, true);
+	    ArrayList<Column> list = new ArrayList<Column>();
+	    list.add(column);
+	    three.setColumnList(list);
+	    */
 	    addPage(one);
 	    addPage(two);
+	    addPage(three);
 	    addPage(four);
 	  }
 
@@ -32,4 +43,23 @@ public class TestWizard extends Wizard {
 		return false;
 	}
 
+	public boolean perfomeStepOne() {
+		
+		return true;
+	}
+	
+	public boolean perfomeStepTwo() {
+		
+		return true;
+	}
+
+	public boolean perfomeStepThree() {
+	
+		return true;
+	}
+
+	public boolean perfomeStepFour() {
+		
+		return true;
+	}
 }

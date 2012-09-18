@@ -2,8 +2,6 @@ package org.codebone.plugin.wizard;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -22,8 +20,6 @@ public class PageFour extends WizardPage {
 	private Text templateText;
 	private Text generateText;
 	
-	KeyListener keyListner = null;
-	
 	  private Composite container;
 
 	  public PageFour() {
@@ -37,20 +33,6 @@ public class PageFour extends WizardPage {
 
 	  @Override
 	  public void createControl(final Composite parent) {
-		  keyListner = new KeyListener() {
-				
-				@Override
-				public void keyReleased(KeyEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void keyPressed(KeyEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-			};
 			
 	    container = new Composite(parent, SWT.NULL);
 	    GridLayout layout = new GridLayout();
@@ -63,10 +45,9 @@ public class PageFour extends WizardPage {
 	    
 	    titleText = new Text(container, SWT.BORDER | SWT.SINGLE);
 	    titleText.setText("");
-	    titleText.addKeyListener(keyListner);
-	    
 	    GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 	    titleText.setLayoutData(gd);
+	    
 	    Label titleDescription = new Label(container, SWT.NONE);
 	    titleDescription.setText("This is Title");
 	    
@@ -76,7 +57,6 @@ public class PageFour extends WizardPage {
 	    
 	    uriText = new Text(container, SWT.BORDER | SWT.SINGLE);
 	    uriText.setText("");
-	    uriText.addKeyListener(keyListner);
 	    uriText.setLayoutData(gd);
 	    
 	    Label uriDescription = new Label(container, SWT.NONE);
@@ -88,7 +68,6 @@ public class PageFour extends WizardPage {
 	    
 	    packageText = new Text(container, SWT.BORDER | SWT.SINGLE);
 	    packageText.setText("");
-	    packageText.addKeyListener(keyListner);
 	    packageText.setLayoutData(gd);
 	    
 	    Label packageDescription = new Label(container, SWT.NONE);
@@ -100,7 +79,6 @@ public class PageFour extends WizardPage {
 	    
 	    templateText = new Text(container, SWT.BORDER | SWT.SINGLE);
 	    templateText.setText("");
-	    templateText.addKeyListener(keyListner);
 	    templateText.setLayoutData(gd);
 	    
 	    Button templateButton = new Button(container, SWT.PUSH);
@@ -111,6 +89,13 @@ public class PageFour extends WizardPage {
 	    String path = dialog.open();
 	    if (path != null) {
 	    	templateText.setText(path);
+	    	
+	    	if(isCompleteInputData()){
+				setPageComplete(true);
+			}
+			else {
+				setPageComplete(false);
+			}
 	    }
 	    }
 	    });  
@@ -121,7 +106,6 @@ public class PageFour extends WizardPage {
 	    
 	    generateText = new Text(container, SWT.BORDER | SWT.SINGLE);
 	    generateText.setText("");
-	    generateText.addKeyListener(keyListner);
 	    generateText.setLayoutData(gd);
 	    
 	    Button generateButton = new Button(container, SWT.PUSH);
@@ -134,7 +118,24 @@ public class PageFour extends WizardPage {
 	    	generateText.setText(path);
 	    }
 	    }
-	    });  
+	    });
+	    
+	    Button completeThisPageButton = new Button(container, SWT.PUSH);
+	    completeThisPageButton.setText("Generate");
+	    completeThisPageButton.addSelectionListener(new SelectionAdapter() {
+	    public void widgetSelected(SelectionEvent e) {
+
+	    	if(isCompleteInputData()){
+				TestWizard wizard = (TestWizard)getWizard();
+				if(wizard.perfomeStepFour()) {
+					setPageComplete(true);
+				}
+			}
+			else {
+				setPageComplete(false);
+			}
+	    }
+	    });
 	    
 	    
 	    // Required to avoid an error in the system
@@ -142,7 +143,37 @@ public class PageFour extends WizardPage {
 	    setPageComplete(false);
 	  }
 
-	  public String getText1() {
+	  public boolean isCompleteInputData() {
+		  if (titleText.getText().isEmpty()||
+				  uriText.getText().isEmpty()||
+				  packageText.getText().isEmpty()||
+				  templateText.getText().isEmpty()||
+				  generateText.getText().isEmpty() ) {
+			  return false;
+		  }
+		  else {
+			  return true;
+		  }
+	  }
+	  
+	  //Getter
+	  public String getTitle() {
 	    return titleText.getText();
+	  }
+	  
+	  public String getUri() {
+		  return uriText.getText();
+	  }
+	  
+	  public String getPackage() {
+		  return packageText.getText();
+	  }
+	  
+	  public String getTemplatePath() {
+		  return templateText.getText();
+	  }
+	  
+	  public String getGeneratePath() {
+		  return generateText.getText();
 	  }
 }
