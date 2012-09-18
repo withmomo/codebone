@@ -4,10 +4,13 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
@@ -16,6 +19,8 @@ public class PageFour extends WizardPage {
 	private Text titleText;
 	private Text uriText;
 	private Text packageText;
+	private Text templateText;
+	private Text generateText;
 	
 	KeyListener keyListner = null;
 	
@@ -31,7 +36,7 @@ public class PageFour extends WizardPage {
 	  }
 
 	  @Override
-	  public void createControl(Composite parent) {
+	  public void createControl(final Composite parent) {
 		  keyListner = new KeyListener() {
 				
 				@Override
@@ -88,6 +93,48 @@ public class PageFour extends WizardPage {
 	    
 	    Label packageDescription = new Label(container, SWT.NONE);
 	    packageDescription.setText("This is Package");
+	    
+	 // Template Folder 설정
+	    Label templateLabel = new Label(container, SWT.NULL);
+	    templateLabel.setText("Template Folder");
+	    
+	    templateText = new Text(container, SWT.BORDER | SWT.SINGLE);
+	    templateText.setText("");
+	    templateText.addKeyListener(keyListner);
+	    templateText.setLayoutData(gd);
+	    
+	    Button templateButton = new Button(container, SWT.PUSH);
+	    templateButton.setText("Browse");
+	    templateButton.addSelectionListener(new SelectionAdapter() {
+	    public void widgetSelected(SelectionEvent e) {
+	    DirectoryDialog dialog = new DirectoryDialog(parent.getShell(), SWT.NULL);
+	    String path = dialog.open();
+	    if (path != null) {
+	    	templateText.setText(path);
+	    }
+	    }
+	    });  
+	    
+	 // Generate Folder 설정
+	    Label generateLabel = new Label(container, SWT.NULL);
+	    generateLabel.setText("Generate Folder");
+	    
+	    generateText = new Text(container, SWT.BORDER | SWT.SINGLE);
+	    generateText.setText("");
+	    generateText.addKeyListener(keyListner);
+	    generateText.setLayoutData(gd);
+	    
+	    Button generateButton = new Button(container, SWT.PUSH);
+	    generateButton.setText("Browse");
+	    generateButton.addSelectionListener(new SelectionAdapter() {
+	    public void widgetSelected(SelectionEvent e) {
+	    DirectoryDialog dialog = new DirectoryDialog(parent.getShell(), SWT.NULL);
+	    String path = dialog.open();
+	    if (path != null) {
+	    	generateText.setText(path);
+	    }
+	    }
+	    });  
 	    
 	    
 	    // Required to avoid an error in the system
