@@ -6,14 +6,11 @@
 
 	import="java.util.*,{PACKAGE}.*,org.codebone.framework.BaseModel,java.util.Date,org.codebone.framework.util.PagingNavigation"
 
-%><%
-
-	BaseModel baseModel = (BaseModel) request.getAttribute("data");
+%><%BaseModel baseModel = (BaseModel) request.getAttribute("data");
 	List<{TABLE_NAME_CAMELCASE}> list = (List<{TABLE_NAME_CAMELCASE}>) baseModel.getData();
 	boolean hasNext = baseModel.isHasNext();
-	int allCount = baseModel.getAllCount();
-	int currentPage = (Integer) request.getAttribute("page");
-%>
+	int allCount = baseModel.getCount();
+	int currentPage = (Integer) request.getAttribute("page");%>
 <!DOCTYPE HTML>
 <html>
 <head>
