@@ -1,4 +1,4 @@
-package {PACKAGE};
+package {PACKAGE};{
 
 import java.util.Date;
 
@@ -9,11 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.codebone.framework.generic.AbstractModel;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 @Entity
 @Table
-public class {TABLE_NAME_CAMELCASE} extends AbstractModel{
+public class {TABLE_NAME_CAMELCASE}{
 	{COLUMN_LOOP}
 	{COLUMN_HIBERNATE_ID_ANNOATION}@Column
 	private {COLUMN_TYPE} {COLUMN_NAME} = {COLUMN_DEFAULT_VALUE};
@@ -28,4 +28,14 @@ public class {TABLE_NAME_CAMELCASE} extends AbstractModel{
 		this.{COLUMN_NAME} = {COLUMN_NAME};
 	}
 	{/COLUMN_LOOP}
+	
+	public String toString(){
+		return ToStringBuilder.reflectionToString(this);
+	}
+	
+	public {TABLE_NAME_CAMELCASE}() {
+		super();
+	}
+	
+	
 }
