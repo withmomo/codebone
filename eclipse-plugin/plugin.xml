@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFolder"
+            id="org.codebone.plugin.contribution1"
+			targetID="org.eclipse.jdt.ui.PackageExplorer">
+         <menu
+               label="New Submenu"
+               path="additions"
+               id="org.codebone.plugin.menu1">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               label="New Action"
+               class="org.codebone.plugin.actions.NewAction"
+               menubarPath="org.codebone.plugin.menu1/group1"
+               enablesFor="1"
+               id="org.codebone.plugin.newAction">
+         </action>
+      </objectContribution>
+   </extension>
+
+</plugin>
