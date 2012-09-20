@@ -4,14 +4,16 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.codebone.generator.Define;
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 // TODO require Database mockup.
+@Ignore
 public class TestDatabaseConnector {
 	
-	private DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration(DatabaseType.MYSQL, Define.host, Define.port, Define.database, Define.id, Define.password);
+	//private DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration(DatabaseType.MYSQL, Define.host, Define.port, Define.database, Define.id, Define.password);
+	private DatabaseConfiguration databaseConfiguration;
 	
 	@Test
 	public void connect() {

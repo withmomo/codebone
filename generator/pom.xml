@@ -120,6 +120,16 @@
 		<artifactId>jul-to-slf4j</artifactId>
 		<scope>test</scope>
 	</dependency>
+	<dependency>
+		<groupId>com.google.code.gson</groupId>
+		<artifactId>gson</artifactId>
+		<version>2.2.2</version>
+	</dependency>
+	<dependency>
+		<groupId>commons-lang</groupId>
+		<artifactId>commons-lang</artifactId>
+		<version>2.3</version>
+	</dependency>
   </dependencies>
   
   <build>

@@ -1,5 +1,8 @@
 package org.codebone.generator.connector;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 public class Column {
 	private String name;
 	private int type;
@@ -136,5 +139,10 @@ public class Column {
 
 	public void setDefaultValue(String defaultValue) {
 		this.defaultValue = defaultValue;
+	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 }
