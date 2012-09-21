@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public abstract class AbstractService<M extends AbstractModel> {
+public abstract class AbstractService<M> {
 	
 	protected static final Logger logger = Logger.getLogger("service");
 	

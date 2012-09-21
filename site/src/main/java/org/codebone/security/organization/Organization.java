@@ -17,7 +17,7 @@ import org.codebone.security.manager.Manager;
 
 
 @Entity
-public class Organization extends AbstractModel{
+public class Organization{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,12 +38,8 @@ public class Organization extends AbstractModel{
 	@JoinColumn(name="organizationIdx")
 	private List<Manager> managerList;
 
-	@Override
-	public String toString() {
-		return "OrganizationModel [idx=" + idx + ", name=" + name + ", description="
-				+ description + ", authoritiesList=" + authoritiesList
-				+ ", managerList=" + managerList + "]";
-	}
+	@Column
+	private Date createDate = new Date();
 
 	public Long getIdx() {
 		return idx;
@@ -85,16 +81,24 @@ public class Organization extends AbstractModel{
 		this.managerList = managerList;
 	}
 
-	public Organization(Date createdDate, Date updatedDate, Long idx,
-			String name, String description,
-			List<Authorities> authoritiesList,
-			List<Manager> managerList) {
-		super(createdDate, updatedDate);
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Organization(Long idx, String name, String description,
+			List<Authorities> authoritiesList, List<Manager> managerList,
+			Date createDate) {
+		super();
 		this.idx = idx;
 		this.name = name;
 		this.description = description;
 		this.authoritiesList = authoritiesList;
 		this.managerList = managerList;
+		this.createDate = createDate;
 	}
 
 	public Organization() {
@@ -102,9 +106,12 @@ public class Organization extends AbstractModel{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Organization(Date createdDate, Date updatedDate) {
-		super(createdDate, updatedDate);
-		// TODO Auto-generated constructor stub
+	@Override
+	public String toString() {
+		return "Organization [idx=" + idx + ", name=" + name + ", description="
+				+ description + ", authoritiesList=" + authoritiesList
+				+ ", managerList=" + managerList + ", createDate=" + createDate
+				+ "]";
 	}
 	
 	

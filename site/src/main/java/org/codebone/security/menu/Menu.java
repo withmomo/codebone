@@ -12,7 +12,7 @@ import org.codebone.framework.generic.AbstractModel;
 
 
 @Entity
-public class Menu extends AbstractModel{
+public class Menu{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +43,9 @@ public class Menu extends AbstractModel{
 	
 	@Column
 	private Long managerIdx = new Long(0);
+
+	@Column
+	private Date createDate = new Date();
 
 	public Long getIdx() {
 		return idx;
@@ -108,10 +111,27 @@ public class Menu extends AbstractModel{
 		this.managerIdx = managerIdx;
 	}
 
-	public Menu(Date createdDate, Date updatedDate, Long idx, String name,
-			String url, Integer priOrder, Integer subOrder,
-			String isSeparate, String isExternal, Long managerIdx) {
-		super(createdDate, updatedDate);
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	@Override
+	public String toString() {
+		return "Menu [idx=" + idx + ", name=" + name + ", url=" + url
+				+ ", priOrder=" + priOrder + ", subOrder=" + subOrder
+				+ ", isSeparate=" + isSeparate + ", isExternal=" + isExternal
+				+ ", managerIdx=" + managerIdx + ", createDate=" + createDate
+				+ "]";
+	}
+
+	public Menu(Long idx, String name, String url, Integer priOrder,
+			Integer subOrder, String isSeparate, String isExternal,
+			Long managerIdx, Date createDate) {
+		super();
 		this.idx = idx;
 		this.name = name;
 		this.url = url;
@@ -120,25 +140,13 @@ public class Menu extends AbstractModel{
 		this.isSeparate = isSeparate;
 		this.isExternal = isExternal;
 		this.managerIdx = managerIdx;
+		this.createDate = createDate;
 	}
 
 	public Menu() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	public Menu(Date createdDate, Date updatedDate) {
-		super(createdDate, updatedDate);
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public String toString() {
-		return "MenuModel [idx=" + idx + ", name=" + name + ", url=" + url
-				+ ", priOrder=" + priOrder + ", subOrder=" + subOrder
-				+ ", isSeparate=" + isSeparate + ", isExternal=" + isExternal
-				+ ", managerIdx=" + managerIdx + ", createdDate=" + createdDate
-				+ ", updatedDate=" + updatedDate + "]";
-	}
+	
 	
 }

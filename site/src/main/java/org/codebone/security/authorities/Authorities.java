@@ -15,7 +15,7 @@ import org.codebone.framework.generic.AbstractModel;
 
 @Entity
 @Table
-public class Authorities extends AbstractModel{
+public class Authorities{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +27,16 @@ public class Authorities extends AbstractModel{
 	
 	@Column
 	private String authority;
+	
+	@Column
+	private Date createDate = new Date();
+
+	@Override
+	public String toString() {
+		return "Authorities [idx=" + idx + ", organizationIdx="
+				+ organizationIdx + ", authority=" + authority
+				+ ", createDate=" + createDate + "]";
+	}
 
 	public Long getIdx() {
 		return idx;
@@ -52,27 +62,26 @@ public class Authorities extends AbstractModel{
 		this.authority = authority;
 	}
 
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
 	public Authorities() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Authorities(Date createdDate, Date updatedDate) {
-		super(createdDate, updatedDate);
-		// TODO Auto-generated constructor stub
-	}
-
-	public Authorities(Date createdDate, Date updatedDate, Long idx,
-			Long organizationIdx, String authority) {
-		super(createdDate, updatedDate);
+	public Authorities(Long idx, Long organizationIdx, String authority,
+			Date createDate) {
+		super();
 		this.idx = idx;
 		this.organizationIdx = organizationIdx;
 		this.authority = authority;
+		this.createDate = createDate;
 	}
-
-	@Override
-	public String toString() {
-		return "AuthoritiesModel [idx=" + idx + ", organizationIdx=" + organizationIdx
-				+ ", authority=" + authority + "]";
-	}
+	
 }

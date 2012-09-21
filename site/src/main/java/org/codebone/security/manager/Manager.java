@@ -12,7 +12,7 @@ import org.codebone.framework.generic.AbstractModel;
 
 
 @Entity
-public class Manager extends AbstractModel{
+public class Manager{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,20 +39,9 @@ public class Manager extends AbstractModel{
 	
 	@Column
 	private String name = "";
-
-	public Manager(Date createdDate, Date updatedDate, Long idx,
-			String id, String password, String email, String phoneNumber,
-			Boolean enabled, Long organizationIdx, String name) {
-		super(createdDate, updatedDate);
-		this.idx = idx;
-		this.id = id;
-		this.password = password;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-		this.enabled = enabled;
-		this.organizationIdx = organizationIdx;
-		this.name = name;
-	}
+	
+	@Column
+	private Date createDate = new Date();
 
 	public Long getIdx() {
 		return idx;
@@ -118,6 +107,29 @@ public class Manager extends AbstractModel{
 		this.name = name;
 	}
 
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Manager(Long idx, String id, String password, String email,
+			String phoneNumber, Boolean enabled, Long organizationIdx,
+			String name, Date createDate) {
+		super();
+		this.idx = idx;
+		this.id = id;
+		this.password = password;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.enabled = enabled;
+		this.organizationIdx = organizationIdx;
+		this.name = name;
+		this.createDate = createDate;
+	}
+
 	public Manager() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -125,11 +137,11 @@ public class Manager extends AbstractModel{
 
 	@Override
 	public String toString() {
-		return "ManagerModel [idx=" + idx + ", id=" + id + ", password="
-				+ password + ", email=" + email + ", phoneNumber="
-				+ phoneNumber + ", enabled=" + enabled + ", organizationIdx=" + organizationIdx
-				+ ", name=" + name + ", createdDate=" + createdDate
-				+ ", updatedDate=" + updatedDate + "]";
+		return "Manager [idx=" + idx + ", id=" + id + ", password=" + password
+				+ ", email=" + email + ", phoneNumber=" + phoneNumber
+				+ ", enabled=" + enabled + ", organizationIdx="
+				+ organizationIdx + ", name=" + name + ", createDate="
+				+ createDate + "]";
 	}
 	
 	

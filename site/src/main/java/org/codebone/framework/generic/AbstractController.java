@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public abstract class AbstractController<M extends AbstractModel> {
+public abstract class AbstractController<M> {
 
 	@Autowired
 	protected ManagerService managerService;

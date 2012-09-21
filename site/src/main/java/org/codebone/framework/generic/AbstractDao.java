@@ -12,7 +12,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-public abstract class AbstractDao<M extends AbstractModel> {
+public abstract class AbstractDao<M> {
 	
 	protected static final Logger logger = Logger.getLogger("dao");
 	
