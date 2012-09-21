@@ -15,8 +15,8 @@
                   <h2>Codebone - Install</h2>
                   <form action="<%=request.getContextPath()%>/app/manager" method="get">
                       <fieldset>
-                      Already installed system. Please login.
-                          <button class="btn btn-primary" type="submit">Next</button>
+                      Already installed system. Please login.<br />
+                      <br /><button class="btn btn-primary" style="float:right;" type="submit">Next</button>
                       </fieldset>
                   </form>
               </div>

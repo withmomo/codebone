@@ -2,7 +2,9 @@
 <decorators defaultdir="/decorators">
 	<decorator name="login" page="login_base.jsp">
 		<pattern>/app/auth/login</pattern>
-		<pattern>/app/boostrap/*</pattern>
+	</decorator>
+	<decorator name="install" page="login_base.jsp">
+		<pattern>/app/bootstrap/*</pattern>
 	</decorator>
 	<decorator name="default" page="base.jsp">
 		<pattern>/app/*</pattern>

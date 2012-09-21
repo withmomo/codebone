@@ -25,7 +25,7 @@ Manager completedManager = (Manager) request.getAttribute("manager");
                       Password : --Secret--<br />
                       Name : <%=completedManager.getName() %><br />
                       Email : <%=completedManager.getEmail() %><br />
-                          <button class="btn btn-primary" type="submit">Complete</button>
+                      <br /><button class="btn btn-primary" style="float:right;" type="submit">Complete</button>
                       </fieldset>
                   </form>
               </div>

@@ -37,7 +37,7 @@ public class BootstrapController extends AbstractController{
 	private OrganizationService organizationService;
 	
 	protected String getContextName(){
-		return "boostrap";
+		return "bootstrap";
 	}
 	
 	@RequestMapping(value = "/install", method = RequestMethod.GET)
