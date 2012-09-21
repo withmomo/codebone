@@ -26,4 +26,12 @@ public class AuthoritiesService extends AbstractService<Authorities> {
 		List authoritiesList = dao.getAuthorities(organizationIdx);
 		return new SuccessModel(authoritiesList);
 	}
+	public boolean isNew(){
+		int count = dao.count();
+		if(count==0){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

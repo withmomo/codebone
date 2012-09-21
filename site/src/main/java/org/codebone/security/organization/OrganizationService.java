@@ -26,4 +26,12 @@ public class OrganizationService extends AbstractService<Organization> {
 	public BaseModel getAuthorities(Long organizationIdx){
 		return authoritiesService.getAuthorities(organizationIdx);
 	}
+	public boolean isNew(){
+		int count = dao.count();
+		if(count==0){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

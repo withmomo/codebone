@@ -43,4 +43,12 @@ public class ManagerService extends AbstractService<Manager>{
 		Manager returnModel = (Manager) getDao().update(model);
 		return new SuccessModel(returnModel);
 	}
+	public boolean isNew(){
+		int count = dao.count();
+		if(count==0){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

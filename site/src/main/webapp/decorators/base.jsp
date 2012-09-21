@@ -22,7 +22,7 @@
 	});
 </script>
 <decorator:head />
-<title><decorator:title default="Codebone 4 PaperPlanes" /></title>
+<title><decorator:title default="Codebone" /></title>
 </head>
 
 
