@@ -165,3 +165,7 @@ pip-log.txt
 #Codebone
 Define.java
 TestGenerator.java
+
+codebone-generator/target/
+
+codebone-template/target/
