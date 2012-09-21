@@ -6,7 +6,7 @@
 	<decorator name="install" page="login_base.jsp">
 		<pattern>/app/bootstrap/*</pattern>
 	</decorator>
-	<!-- <decorator name="default" page="base.jsp">
+	<decorator name="default" page="base.jsp">
 		<pattern>/app/*</pattern>
-	</decorator> -->
+	</decorator>
 </decorators>

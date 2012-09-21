@@ -5,12 +5,23 @@
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
 	prefix="decorator"%>
 <%@ page
-	import="org.codebone.framework.BaseModel,java.util.List,org.codebone.security.manager.Manager,org.codebone.security.menu.Menu"%>
+	import="org.codebone.framework.BaseModel,java.util.List,java.util.ArrayList,org.codebone.security.manager.Manager,org.codebone.security.menu.Menu"%>
 <%
-	Manager currentLoginManager = (Manager) request
-	.getAttribute("loginManager");
-	List<Menu> list = (List<Menu>) request
-	.getAttribute("menu");
+Object obj1 = request.getAttribute("loginManager");
+Manager currentLoginManager = null;
+if(obj1 != null){
+	currentLoginManager = (Manager) obj1;
+}else{
+	currentLoginManager = new Manager();
+	currentLoginManager.setName("Error!");
+}
+Object obj2 = request.getAttribute("menu");
+List<Menu> list = null;
+if(obj2 != null){
+	list = (List<Menu>) obj2;
+}else{
+	list = new ArrayList<Menu>();
+}
 %>
 <!DOCTYPE HTML>
 <html>

@@ -84,7 +84,7 @@
 				<td><%=menuModel.getIsExternal()%></td>
 				<td><%=menuModel.getUrl()%></td>
 				<td><%=menuModel.getManagerIdx()%></td>
-				<td><%=menuModel.getCreatedDate()%></td>
+				<td><%=menuModel.getCreateDate()%></td>
 				<td>
 					<div class="btn-group">
 						<button class="btn btn-primary dropdown-toggle"

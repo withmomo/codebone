@@ -63,7 +63,7 @@
 				<td><%=managerModel.getName()%></td>
 				<td><%=managerModel.getPhoneNumber()%></td>
 				<td><%=managerModel.getOrganizationIdx()%></td>
-				<td><%=managerModel.getCreatedDate()%></td>
+				<td><%=managerModel.getCreateDate()%></td>
 				<td>
 					<div class="btn-group">
 						<button class="btn btn-primary dropdown-toggle"
