@@ -19,7 +19,7 @@ body {
 }
 
 .container {
-	width: 350px;
+	width: 400px;
 }
 
 /* The white background content wrapper */

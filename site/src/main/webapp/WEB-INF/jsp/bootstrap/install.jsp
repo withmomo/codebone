@@ -33,7 +33,7 @@ if(errorMessage!=null){
                               비밀번호 : <input type="password" placeholder="비밀번호가 다릅니다." name="password">
                           </div>
                           <div class="clearfix">
-                              비밀번호 확인 : <input type="text" placeholder="비밀번호가 다릅니다." name="passwordCheck">
+                              비밀번호 확인 : <input type="password" placeholder="비밀번호가 다릅니다." name="passwordCheck">
                           </div>
                           <%
                           	}else{
@@ -42,7 +42,7 @@ if(errorMessage!=null){
                               비밀번호 : <input type="password" name="password">
                           </div>
                           <div class="clearfix">
-                              비밀번호 확인 : <input type="text" name="passwordCheck">
+                              비밀번호 확인 : <input type="password" name="passwordCheck">
                           </div>
                           <%
                           	}
@@ -53,7 +53,7 @@ if(errorMessage!=null){
                           <div class="clearfix">
                               이메일 : <input type="text" name="email">
                           </div>
-                          <button class="btn btn-primary" type="submit">생성</button>
+                          <button class="btn btn-primary" style="float:right;" type="submit">생성</button>
                       </fieldset>
                   </form>
               </div>
