@@ -20,7 +20,7 @@ public class Generator {
 	private String uri;
 	private List<Column> columns;
 	
-	public void generate() {
+	public boolean generate() {
 		replaceAbsolutePath();
 		try {
 			new FileScanner(teamplatePath, new FileScanner.FileListner() {
@@ -32,7 +32,10 @@ public class Generator {
 			});
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			return false;
 		}
+		
+		return true;
 	}
 	
 	private void generateTemplateFile(File file, String generatedSource) {
