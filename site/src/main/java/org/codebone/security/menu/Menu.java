@@ -42,7 +42,7 @@ public class Menu{
 	private String isExternal = "N";
 	
 	@Column
-	private Long managerIdx = new Long(0);
+	private Long managerIdx = new Long(1);
 
 	@Column
 	private Date createDate = new Date();

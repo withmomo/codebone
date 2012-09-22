@@ -14,10 +14,11 @@ import org.codebone.security.authorities.Authorities;
 import org.codebone.security.authorities.AuthoritiesService;
 import org.codebone.security.manager.Manager;
 import org.codebone.security.manager.ManagerService;
+import org.codebone.security.menu.Menu;
+import org.codebone.security.menu.MenuService;
 import org.codebone.security.organization.Organization;
 import org.codebone.security.organization.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,6 +36,9 @@ public class BootstrapController extends AbstractController{
 	
 	@Autowired
 	private OrganizationService organizationService;
+	
+	@Autowired
+	private MenuService menuService;
 	
 	protected String getContextName(){
 		return "bootstrap";
@@ -85,6 +89,53 @@ public class BootstrapController extends AbstractController{
 			organization.setManagerList(managerList);
 			organization.setAuthoritiesList(authList);
 			organizationService.create(organization);
+			
+			Menu m = new Menu();
+			m.setName("관리자 메뉴");
+			m.setPriOrder(0);
+			m.setSubOrder(0);
+			menuService.create(m);
+			
+			m = new Menu();
+			m.setName("관리자");
+			m.setUrl("/app/manager");
+			m.setPriOrder(0);
+			m.setSubOrder(1);
+			menuService.create(m);
+			
+			m = new Menu();
+			m.setName("메뉴");
+			m.setUrl("/app/menu");
+			m.setPriOrder(0);
+			m.setSubOrder(2);
+			menuService.create(m);
+			
+			m = new Menu();
+			m.setName("권한");
+			m.setUrl("/app/organization");
+			m.setPriOrder(0);
+			m.setSubOrder(3);
+			menuService.create(m);
+			
+			m = new Menu();
+			m.setIsSeparate("Y");
+			m.setPriOrder(1);
+			m.setSubOrder(0);
+			menuService.create(m);
+			
+			m = new Menu();
+			m.setName("사용자 메뉴");
+			m.setPriOrder(2);
+			m.setSubOrder(0);
+			menuService.create(m);
+			
+			m = new Menu();
+			m.setName("네이버");
+			m.setUrl("http://www.naver.com");
+			m.setPriOrder(2);
+			m.setSubOrder(1);
+			m.setIsExternal("Y");
+			menuService.create(m);
 			
 			return new ModelAndView(getContextName()+"/complete", map);
 		}else{
