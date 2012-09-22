@@ -31,7 +31,7 @@ public class {TABLE_NAME_CAMELCASE}Service{
 	
 	public BaseModel read (String key){
 		logger.info("read model by" + key);
-		{TABLE_NAME_CAMELCASE} {TABLE_NAME} =  getDao().read(key);
+		{TABLE_NAME_CAMELCASE} {TABLE_NAME} = ({TABLE_NAME_CAMELCASE}) getDao().read(key);
 		return new SuccessModel({TABLE_NAME});
 	}
 	
@@ -65,7 +65,7 @@ public class {TABLE_NAME_CAMELCASE}Service{
 	
 	public BaseModel update ({TABLE_NAME_CAMELCASE} {TABLE_NAME}){
 		logger.info("update model " + {TABLE_NAME});
-		{TABLE_NAME_CAMELCASE} returnModel =  getDao().update({TABLE_NAME});
+		{TABLE_NAME_CAMELCASE} returnModel = ({TABLE_NAME_CAMELCASE})  getDao().update({TABLE_NAME});
 		return new SuccessModel(returnModel);
 	}
 	

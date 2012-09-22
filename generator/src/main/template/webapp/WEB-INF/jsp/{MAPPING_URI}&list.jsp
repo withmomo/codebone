@@ -9,7 +9,7 @@
 %><%BaseModel baseModel = (BaseModel) request.getAttribute("data");
 	List<{TABLE_NAME_CAMELCASE}> list = (List<{TABLE_NAME_CAMELCASE}>) baseModel.getData();
 	boolean hasNext = baseModel.isHasNext();
-	int allCount = baseModel.getCount();
+	int allCount = baseModel.getAllCount();
 	int currentPage = (Integer) request.getAttribute("page");%>
 <!DOCTYPE HTML>
 <html>
