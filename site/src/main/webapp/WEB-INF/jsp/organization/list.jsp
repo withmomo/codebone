@@ -9,16 +9,24 @@
 <%
 	BaseModel model = (BaseModel) request.getAttribute("data");
 	List<Organization> list = (List<Organization>) model.getData();
-	BaseModel authModel = (BaseModel) request.getAttribute("authorities");
-	List<Authorities> authList = (List<Authorities>) authModel.getData();
+	BaseModel authModel = (BaseModel) request
+			.getAttribute("authorities");
+	List<Authorities> authList = (List<Authorities>) authModel
+			.getData();
 	boolean hasNext = model.isHasNext();
 	int allCount = model.getAllCount();
 	int currentPage = (Integer) request.getAttribute("page");
-	Long organizationIdx = (Long) request.getAttribute("organizationIdx");
+	Long organizationIdx = (Long) request
+			.getAttribute("organizationIdx");
 %>
 <!DOCTYPE HTML>
 <html>
 <head>
+<script>
+	$(document).ready(function() {
+		$('.dropdown-toggle').dropdown()
+	});
+</script>
 <title><%=Organization.class.getSimpleName()%> List</title>
 </head>
 <body>
@@ -35,7 +43,7 @@
 				<button type="submit" class="btn">Search</button>
 			</div>
 		</form>
-		<div class="span6">
+		<div class="span7">
 			<table class="table">
 				<thead>
 					<tr>
@@ -43,7 +51,8 @@
 						<th>name</th>
 						<th>description</th>
 						<th>Action</th>
-						<th>View Authorities</th>
+						<th>Authorities</th>
+						<th>Add User</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -72,16 +81,38 @@
 							</div>
 						</td>
 						<td>
-						<%
-							String buttonToggle = "btn btn-primary";
-										if(organizationIdx==Long.parseLong(idx)){
-											buttonToggle = "btn btn-primary disabled";
-										}
-						%>
-						<a class="<%=buttonToggle%>" data-toggle="button" href="<%=request.getContextPath()%>/app/organization/list?organizationIdx=<%=idx%>">
-							<i class="icon-chevron-right icon-white"></i>
-							</a>
+							<%
+								String buttonToggle = "btn btn-primary";
+									if (organizationIdx == Long.parseLong(idx)) {
+										buttonToggle = "btn btn-primary disabled";
+									}
+							%> <a class="<%=buttonToggle%>" data-toggle="button"
+							href="<%=request.getContextPath()%>/app/organization?organizationIdx=<%=idx%>">
+								<i class="icon-chevron-right icon-white"></i>
+						</a>
 						</td>
+						<td><a class="btn" data-toggle="modal"
+							href="#myModal<%=idx%>"><i class="icon-pencil"></i></a>
+							<div class="modal hide" id="myModal<%=idx%>">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">×</button>
+									<h3>Add User</h3>
+								</div>
+								<form class="well form-search"
+									action="<%=request.getContextPath()%>/app/organization/addUser"
+									method="post">
+									<div class="modal-body">
+										User ID : <input type="text" name="id" class="form-vertical">
+										<input type="hidden" class="form-vertical" name="organizationIdx"
+											value="<%=idx%>">
+									</div>
+									<div class="modal-footer">
+										<button class="btn btn-primary btn-large" type="submit">
+											<i class="icon-pencil icon-white"></i>Add User
+										</button>
+									</div>
+								</form>
+							</div></td>
 					</tr>
 					<%
 						}
@@ -89,7 +120,7 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="span5">
+		<div class="span4">
 			<table class="table">
 				<thead>
 					<tr>
@@ -104,14 +135,22 @@
 						for (Authorities authoritiesModel : authList) {
 					%>
 					<tr>
-						<td><%=authoritiesModel.getIdx() %></td>
-						<td><%=authoritiesModel.getAuthority() %></td>
+						<td><%=authoritiesModel.getIdx()%></td>
+						<td><%=authoritiesModel.getAuthority()%></td>
 						<td>test</td>
 						<td>1</td>
 					</tr>
-					<%} %>
+					<%
+						}
+					%>
 				</tbody>
 			</table>
+			<div style="text-align: right">
+				<a class="btn btn-primary"
+					href="<%=request.getContextPath()%>/app/organization/authCreate">
+					<i class="icon-file icon-white"></i> Auth Create
+				</a>
+			</div>
 		</div>
 	</div>
 	<%

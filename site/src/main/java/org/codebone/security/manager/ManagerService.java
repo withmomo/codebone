@@ -7,6 +7,7 @@ import org.codebone.framework.BaseModel;
 import org.codebone.framework.SuccessModel;
 import org.codebone.framework.generic.AbstractDao;
 import org.codebone.framework.generic.AbstractService;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
@@ -50,5 +51,11 @@ public class ManagerService extends AbstractService<Manager>{
 		}else{
 			return false;
 		}
+	}
+
+	public BaseModel readById(String id) {
+		logger.info("read model by " + id);
+		Manager m = dao.readById(id);
+		return new SuccessModel(m);
 	}
 }

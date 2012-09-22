@@ -1,5 +1,6 @@
 package org.codebone.security.organization;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-import org.codebone.framework.generic.AbstractModel;
 import org.codebone.security.authorities.Authorities;
 import org.codebone.security.manager.Manager;
 
@@ -87,6 +87,24 @@ public class Organization{
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+	
+	public void addUser(Manager m){
+		if(this.managerList!=null){
+			this.managerList.add(m);
+		}else{
+			this.managerList = new ArrayList();
+			this.managerList.add(m);
+		}
+	}
+	
+	public void addAuthorities(Authorities a){
+		if(this.authoritiesList!=null){
+			this.authoritiesList.add(a);
+		}else{
+			this.authoritiesList = new ArrayList();
+			this.authoritiesList.add(a);
+		}
 	}
 
 	public Organization(Long idx, String name, String description,

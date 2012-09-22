@@ -138,4 +138,22 @@ public class OrganizationController extends AbstractController{
 
 		return new RedirectView("");
 	}
+	
+	@RequestMapping(value = "/authCreate",method = RequestMethod.GET)
+	//@PreAuthorize("hasRole('ROLE_AUTHORITIES_READ')")
+	public ModelAndView authCreate(HttpServletRequest req, HttpServletResponse res,
+			HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("isCreate", "Y");
+		return getCommonModelAndView(getContextName()+"/authWrite", map, session);
+	}
+	
+	@RequestMapping(value = "/addUser",method = RequestMethod.POST)
+	//@PreAuthorize("hasRole('ROLE_AUTHORITIES_READ')")
+	public RedirectView addUser(HttpServletRequest req, HttpServletResponse res,
+			HttpSession session, String organizationIdx, String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		service.addUser(organizationIdx, id);
+		return new RedirectView("");
+	}
 }
