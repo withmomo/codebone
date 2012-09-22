@@ -39,6 +39,12 @@ public class Column {
 			defaultValue = "new Long(0)";
 		} else if (type.startsWith("smallint")) {
 			defaultValue = "0";
+		} else if (type.startsWith("bit")){
+			if(type.equals("bit(1)")){
+				defaultValue = "false";
+			}else{
+				defaultValue = "0";
+			}
 		} else if (type.startsWith("varchar") || type.startsWith("datetime") || type.startsWith("smalldatetime") || type.startsWith("text")) {
 			defaultValue = "\"\"";
 		} else if (type.startsWith("timestamp")) {
@@ -68,7 +74,11 @@ public class Column {
 		} else if (type.startsWith("varchar") || type.startsWith("datetime") || type.startsWith("smalldatetime") || type.startsWith("text")) {
 			transformedType = "String";
 		} else if (type.startsWith("bit")) {
-			transformedType = "Byte";
+			if(type.equals("bit(1)")){
+				transformedType = "boolean";
+			}else{
+				transformedType = "Byte";
+			}
 		} else if (type.startsWith("timestamp")) {
 			transformedType = "Date";
 		} else {
