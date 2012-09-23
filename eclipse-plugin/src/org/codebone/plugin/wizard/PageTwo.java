@@ -21,6 +21,8 @@ public class PageTwo extends WizardPage {
 	  
 	  private List<String> tables = null;
 	  private List<Button> checkButtons = null;
+	  
+	  private ScrolledComposite sc;
 
 	public PageTwo() {
 	    super("Tables");
@@ -68,7 +70,7 @@ public class PageTwo extends WizardPage {
 			}
 		};
 		  
-		ScrolledComposite sc = new ScrolledComposite(parent, SWT.BORDER | SWT.V_SCROLL);
+		sc = new ScrolledComposite(parent, SWT.BORDER | SWT.V_SCROLL);
 		sc.setExpandHorizontal(true);
 		sc.setExpandVertical(true);
 		container = new Composite(sc, SWT.NULL);
@@ -112,6 +114,7 @@ public class PageTwo extends WizardPage {
 		    }
 		    
 		    container.layout();
+		    sc.setMinSize(container.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	  }
 	  
 	  /**
