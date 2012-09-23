@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.jdt.core.IJavaProject"
+            id="codebone-Plug-In.contribution1">
+         <menu
+               label="Codebone"
+               path="additions"
+               id="codebone-Plug-In.menu1">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               label="Codebone Generate"
+               class="org.codebone.plugin.popup.actions.CodeboneAction"
+               menubarPath="codebone-Plug-In.menu1/group1"
+               enablesFor="1"
+               id="codebone-Plug-In.newAction">
+         </action>
+      </objectContribution>
+   </extension>
+
+</plugin>
