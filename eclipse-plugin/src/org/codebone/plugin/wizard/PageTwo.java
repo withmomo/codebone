@@ -69,20 +69,15 @@ public class PageTwo extends WizardPage {
 		};
 		  
 		ScrolledComposite sc = new ScrolledComposite(parent, SWT.BORDER | SWT.V_SCROLL);
-	    sc.setExpandHorizontal(true);
-	        sc.setExpandVertical(true);
-	        container = new Composite(sc, SWT.NULL);
-	        sc.setContent(container);
-	        GridLayout layout = new GridLayout();
-	        layout.numColumns = 2;
-	        container.setLayout(layout);
-	        sc.setMinSize(container.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		sc.setExpandHorizontal(true);
+		sc.setExpandVertical(true);
+		container = new Composite(sc, SWT.NULL);
+		sc.setContent(container);
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 2;
+		container.setLayout(layout);
+		sc.setMinSize(container.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	        
-//		  container = new Composite(parent, SWT.NULL | SWT.V_SCROLL);
-//		    GridLayout layout = new GridLayout();
-//		    container.setLayout(layout);
-//		    layout.numColumns = 2;
-		    
 		    Label label0 = new Label(container, SWT.NULL);
 		    label0.setText("Select");
 		    

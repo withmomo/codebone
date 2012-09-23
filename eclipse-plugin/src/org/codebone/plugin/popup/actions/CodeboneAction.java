@@ -46,7 +46,8 @@ public class CodeboneAction implements IObjectActionDelegate {
 		wizard.setProjectPath(projectPath);
 		
 		WizardDialog wizardDialog = new WizardDialog(shell, wizard);
-		
+		wizardDialog.setPageSize(200, 300);
+
 	    if (wizardDialog.open() == Window.OK) {
 	      System.out.println("Ok pressed");
 	    } else {
