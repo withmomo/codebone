@@ -65,6 +65,8 @@
 		class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
 		<beans:property name="hierarchy">
 			<beans:value>
+			    ROLE_ADMIN > ROLE_USER
+			    
 				ROLE_ADMIN > ROLE_MANAGER_ADMIN
 				ROLE_MANAGER_ADMIN > ROLE_MANAGER_CREATE
 				ROLE_MANAGER_ADMIN > ROLE_MANAGER_READ
