@@ -8,11 +8,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.codebone.framework.generic.AbstractModel;
-
 
 @Entity
 public class Menu{
+	
+	public Menu() {
+		super();
+	}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -142,11 +144,4 @@ public class Menu{
 		this.managerIdx = managerIdx;
 		this.createDate = createDate;
 	}
-
-	public Menu() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	
-	
 }

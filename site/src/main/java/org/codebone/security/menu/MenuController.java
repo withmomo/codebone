@@ -2,7 +2,6 @@ package org.codebone.security.menu;
 
 import java.text.ParseException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,15 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.codebone.framework.generic.AbstractController;
-import org.codebone.framework.generic.AbstractService;
-import org.codebone.security.manager.Manager;
-import org.codebone.security.manager.ManagerService;
-import org.codebone.security.menu.Menu;
-import org.codebone.security.menu.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +22,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 @RequestMapping("/menu")
 @PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_MENU_ADMIN')")
-public class MenuController extends AbstractController {
+public class MenuController extends AbstractController<Object> {
 
 	@Autowired
 	private MenuService service;
@@ -43,7 +35,7 @@ public class MenuController extends AbstractController {
 	@PreAuthorize("hasRole('ROLE_MENU_UPDATE')")
 	public View changeOrder(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer priOrder, Integer subOrder, String up) {
-		boolean isUp, isFirst;
+		boolean isUp;
 		if (up.equals("Y")) {
 			isUp = true;
 		} else {

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.codebone.framework.generic.AbstractDao;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +16,7 @@ public class MenuDao extends AbstractDao<Menu>{
 		return Menu.class;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Menu> listAll(){
 		logger.info("read model list");
 		Session session = sessionFactory.getCurrentSession();
@@ -28,6 +28,7 @@ public class MenuDao extends AbstractDao<Menu>{
 		return list;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Menu> list(){
 		logger.info("read model list");
 		Session session = sessionFactory.getCurrentSession();
@@ -40,6 +41,7 @@ public class MenuDao extends AbstractDao<Menu>{
 		return list;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Menu> list(int page, int row){
 		logger.info("read model list - page : "+page+", row : "+row);
 		Session session = sessionFactory.getCurrentSession();
@@ -55,12 +57,11 @@ public class MenuDao extends AbstractDao<Menu>{
 	public int deleteFamily(Integer priOrder, Integer subOrder) {
 		Session session = sessionFactory.getCurrentSession();
 		StringBuilder query = new StringBuilder();
-		query.append("delete from MenuModel where priOrder = "+priOrder);
+		query.append("delete from Menu where priOrder = "+priOrder);
 		if(subOrder!=0){
 			query.append(" and subOrder = "+subOrder);
 		}
-		int result = session.createQuery(query.toString()).executeUpdate();
-		return 0;
+		return session.createQuery(query.toString()).executeUpdate();
 	}
 	
 	public void changeOrder(Integer priOrder, Integer subOrder, boolean isUp){
@@ -85,7 +86,7 @@ public class MenuDao extends AbstractDao<Menu>{
 		
 		Session session = sessionFactory.getCurrentSession();
 		StringBuilder query = new StringBuilder();
-		query.append("update MenuModel");
+		query.append("update Menu");
 		query.append(" set " + orderName + " = -1");
 		query.append(" where " + orderName+ " = " + order + op + "1");
 		if(subOrder!=0){
@@ -96,7 +97,7 @@ public class MenuDao extends AbstractDao<Menu>{
 		session.createQuery(query.toString()).executeUpdate();
 		
 		query = new StringBuilder();
-		query.append("update MenuModel");
+		query.append("update Menu");
 		query.append(" set " + orderName + " = " +orderName +op + "1");
 		query.append(" where " + orderName+ " = "+ order);
 		if(subOrder!=0){
@@ -112,7 +113,7 @@ public class MenuDao extends AbstractDao<Menu>{
 			op = "-";
 		}
 		query = new StringBuilder();
-		query.append("update MenuModel");
+		query.append("update Menu");
 		query.append(" set " + orderName + " = " +order);
 		query.append(" where " + orderName+ " = -1");
 		if(subOrder!=0){
@@ -133,7 +134,7 @@ public class MenuDao extends AbstractDao<Menu>{
 		}
 		Session session = sessionFactory.getCurrentSession();
 		StringBuilder query = new StringBuilder();
-		query.append("update MenuModel");
+		query.append("update Menu");
 		query.append(" set priOrder = priOrder + 1");
 		query.append(" where priOrder > "+priOrder);
 		logger.info(query.toString());
@@ -142,7 +143,7 @@ public class MenuDao extends AbstractDao<Menu>{
 		session.createQuery(query.toString()).executeUpdate();
 		
 		query = new StringBuilder();
-		query.append("update MenuModel");
+		query.append("update Menu");
 		query.append(" set subOrder = 0,");
 		query.append(" priOrder = priOrder + 1");
 		query.append(" where idx = " + idx);
@@ -159,7 +160,7 @@ public class MenuDao extends AbstractDao<Menu>{
 	public void LevelDown(Integer priOrder, Long idx){
 		Session session = sessionFactory.getCurrentSession();
 		StringBuilder query = new StringBuilder();
-		query.append("update MenuModel");
+		query.append("update Menu");
 		query.append(" set subOrder = subOrder + 1");
 		query.append(" where priOrder = "+(priOrder-1));
 		query.append(" and subOrder != 0");
@@ -168,7 +169,7 @@ public class MenuDao extends AbstractDao<Menu>{
 		session.createQuery(query.toString()).executeUpdate();
 		
 		query = new StringBuilder();
-		query.append("update MenuModel");
+		query.append("update Menu");
 		query.append(" set subOrder = 1,");
 		query.append(" priOrder = priOrder - 1");
 		query.append(" where idx = " + idx);
