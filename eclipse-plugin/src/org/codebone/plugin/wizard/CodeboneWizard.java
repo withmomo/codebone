@@ -134,6 +134,7 @@ public class CodeboneWizard extends Wizard {
 			Column column = columns.get(i);
 			column.setDescription(three.getDescription(i));
 			column.setSearchable(three.getSearchable(i));
+			column.setPredefined(!three.getWriteables(i));
 		}
 	}
 	

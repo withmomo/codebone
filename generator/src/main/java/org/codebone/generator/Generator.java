@@ -87,7 +87,7 @@ public class Generator {
 			return null;
 		
 		String generatedSource = buildColumnLoop(source);
-		generatedSource = buildPredefinedColumnLoop(source);
+		generatedSource = buildPredefinedColumnLoop(generatedSource);
 		generatedSource = buildSearch(generatedSource);
 		
 		String camelTableName = transformCamelcase(tableName);
