@@ -12,14 +12,10 @@ import javax.servlet.http.HttpSession;
 import org.codebone.framework.BaseModel;
 import org.codebone.framework.generic.AbstractController;
 import org.codebone.framework.generic.AbstractService;
-import org.codebone.security.manager.Manager;
-import org.codebone.security.manager.ManagerService;
-import org.codebone.security.menu.Menu;
-import org.codebone.security.menu.MenuService;
+import org.codebone.security.authorities.Authorities;
+import org.codebone.security.authorities.AuthoritiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +29,9 @@ public class OrganizationController extends AbstractController{
 
 	@Autowired
 	private OrganizationService service;
+	
+	@Autowired
+	private AuthoritiesService authService;
 	
 	public AbstractService getService() {
 		return service;
@@ -140,16 +139,33 @@ public class OrganizationController extends AbstractController{
 	}
 	
 	@RequestMapping(value = "/authCreate",method = RequestMethod.GET)
-	//@PreAuthorize("hasRole('ROLE_AUTHORITIES_READ')")
+	@PreAuthorize("hasRole('ROLE_AUTHORITIES_CREATE')")
 	public ModelAndView authCreate(HttpServletRequest req, HttpServletResponse res,
-			HttpSession session) {
+			HttpSession session, Long idx) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("isCreate", "Y");
+		map.put("organizationIdx", idx);
 		return getCommonModelAndView(getContextName()+"/authWrite", map, session);
 	}
 	
+	@RequestMapping(value = "/authCreate",method = RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_AUTHORITIES_CREATE')")
+	public RedirectView authCreate_POST(HttpServletRequest req, HttpServletResponse res,
+			HttpSession session, @ModelAttribute Authorities authorities) {
+		service.authCreate(authorities);
+		return new RedirectView("");
+	}
+	
+	@RequestMapping(value = "/authDelete", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_AUTHORITIES_DELETE')")
+	public RedirectView authDelete(HttpServletRequest req, HttpServletResponse res,
+			HttpSession session, String idx) {
+		authService.delete(idx);
+		return new RedirectView("");
+	}
+	
 	@RequestMapping(value = "/addUser",method = RequestMethod.POST)
-	//@PreAuthorize("hasRole('ROLE_AUTHORITIES_READ')")
+	@PreAuthorize("hasRole('ROLE_MANAGER_UPDATE')")
 	public RedirectView addUser(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String organizationIdx, String id) {
 		Map<String, Object> map = new HashMap<String, Object>();

@@ -34,4 +34,9 @@ public class AuthoritiesService extends AbstractService<Authorities> {
 			return false;
 		}
 	}
+
+	public void delete(String idx) {
+		Authorities auth = (Authorities) read(idx).getData();
+		delete(auth);
+	}
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.codebone.framework.generic.AbstractDao;
 import org.hibernate.Session;
-import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 

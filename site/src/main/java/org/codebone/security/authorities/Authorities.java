@@ -8,9 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
-import org.codebone.framework.generic.AbstractModel;
 
 
 @Entity
@@ -23,10 +20,10 @@ public class Authorities{
 	private Long idx;
 	
 	@Column
-	private Long organizationIdx;
+	private Long organizationIdx = 0l;
 	
 	@Column
-	private String authority;
+	private String authority = "";
 	
 	@Column
 	private Date createDate = new Date();

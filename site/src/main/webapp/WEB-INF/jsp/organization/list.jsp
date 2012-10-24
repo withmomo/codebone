@@ -126,8 +126,7 @@
 					<tr>
 						<th>idx</th>
 						<th>authority</th>
-						<th>url?</th>
-						<th>Checked</th>
+						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -137,8 +136,12 @@
 					<tr>
 						<td><%=authoritiesModel.getIdx()%></td>
 						<td><%=authoritiesModel.getAuthority()%></td>
-						<td>test</td>
-						<td>1</td>
+						<td>
+							<a class="btn btn-primary"
+							href="<%=request.getContextPath()%>/app/organization/authDelete?idx=<%=authoritiesModel.getIdx()%>">
+							<i class="icon-trash icon-white"></i>
+							</a>
+						</td>
 					</tr>
 					<%
 						}
@@ -147,7 +150,7 @@
 			</table>
 			<div style="text-align: right">
 				<a class="btn btn-primary"
-					href="<%=request.getContextPath()%>/app/organization/authCreate">
+					href="<%=request.getContextPath()%>/app/organization/authCreate?idx=<%=organizationIdx%>">
 					<i class="icon-file icon-white"></i> Auth Create
 				</a>
 			</div>

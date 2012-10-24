@@ -2,8 +2,6 @@ package org.codebone.framework;
 
 import java.util.Date;
 
-import org.codebone.framework.generic.AbstractModel;
-
 
 public class BaseModel{
 	

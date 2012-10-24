@@ -1,6 +1,5 @@
 package org.codebone.framework.generic;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -25,6 +24,12 @@ public abstract class AbstractService<M> {
 	public BaseModel read (String key){
 		logger.info("read model by" + key);
 		M m = (M) getDao().read(key);
+		return new SuccessModel(m);
+	}
+	
+	public BaseModel read (Long key){
+		logger.info("read model by" + key);
+		M m = (M) getDao().read(Long.toString(key));
 		return new SuccessModel(m);
 	}
 	

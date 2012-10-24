@@ -3,6 +3,7 @@ package org.codebone.security.organization;
 import org.codebone.framework.BaseModel;
 import org.codebone.framework.generic.AbstractDao;
 import org.codebone.framework.generic.AbstractService;
+import org.codebone.security.authorities.Authorities;
 import org.codebone.security.authorities.AuthoritiesService;
 import org.codebone.security.manager.Manager;
 import org.codebone.security.manager.ManagerService;
@@ -44,6 +45,14 @@ public class OrganizationService extends AbstractService<Organization> {
 		Manager manager = (Manager) managerService.readById(id).getData();
 		Organization org = (Organization) read(organizationIdx).getData();
 		org.addUser(manager);
+		dao.update(org);
+	}
+	
+
+	public void authCreate(Authorities authorities) {
+		authoritiesService.create(authorities);
+		Organization org = (Organization) read(authorities.getOrganizationIdx()).getData();
+		org.addAuthorities(authorities);
 		dao.update(org);
 	}
 }
