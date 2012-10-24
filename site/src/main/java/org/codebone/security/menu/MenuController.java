@@ -2,6 +2,7 @@ package org.codebone.security.menu;
 
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +43,8 @@ public class MenuController extends AbstractController<Object> {
 			isUp = false;
 		}
 		service.changeOrder(priOrder, subOrder, isUp);
+		List<Menu> menuList = (List<Menu>) menuService.listAll().getData();
+		session.setAttribute("menuList", menuList);
 		return new RedirectView("");
 	}
 
@@ -50,6 +53,8 @@ public class MenuController extends AbstractController<Object> {
 	public View chageLevel(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer priOrder, Integer subOrder, Long idx) {
 		service.changeLevel(priOrder, subOrder, idx);
+		List<Menu> menuList = (List<Menu>) menuService.listAll().getData();
+		session.setAttribute("menuList", menuList);
 		return new RedirectView("");
 	}
 
@@ -100,6 +105,8 @@ public class MenuController extends AbstractController<Object> {
 		/**
 		 * Create Complete
 		 */
+		List<Menu> menuList = (List<Menu>) menuService.listAll().getData();
+		session.setAttribute("menuList", menuList);
 		return new RedirectView("");
 	}
 
@@ -123,6 +130,8 @@ public class MenuController extends AbstractController<Object> {
 		/**
 		 * Update Complete
 		 */
+		List<Menu> menuList = (List<Menu>) menuService.listAll().getData();
+		session.setAttribute("menuList", menuList);
 		return new RedirectView("");
 	}
 	
@@ -131,6 +140,8 @@ public class MenuController extends AbstractController<Object> {
 	public RedirectView delete(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String idx) {
 		service.deleteFamily(idx);
+		List<Menu> menuList = (List<Menu>) menuService.listAll().getData();
+		session.setAttribute("menuList", menuList);
 		return new RedirectView("");
 	}
 }
