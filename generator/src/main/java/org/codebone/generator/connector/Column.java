@@ -12,7 +12,8 @@ public class Column {
 	private String description;
 	private boolean isPrimaryKey;
 	private boolean isSearchable;
-
+	private boolean isPredefined = false;
+	
 	public Column(String name, int type, String typeName, int size, String defaultValue, String description, boolean isPrimaryKey, boolean isSearchable) {
 		this.name = name;
 		this.type = type;
@@ -154,5 +155,13 @@ public class Column {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+	}
+
+	public boolean isPredefined() {
+		return isPredefined;
+	}
+
+	public void setPredefined(boolean isPredefined) {
+		this.isPredefined = isPredefined;
 	}
 }

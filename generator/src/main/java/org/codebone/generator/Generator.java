@@ -87,6 +87,7 @@ public class Generator {
 			return null;
 		
 		String generatedSource = buildColumnLoop(source);
+		generatedSource = buildPredefinedColumnLoop(source);
 		generatedSource = buildSearch(generatedSource);
 		
 		String camelTableName = transformCamelcase(tableName);
@@ -138,6 +139,35 @@ public class Generator {
 			int end = matcher.end() + modifiedPoint;
 			builder.replace(start, end, generatedSource);
 			modifiedPoint = generatedSource.length() - matcher.group().length();
+		}
+		return builder.toString();
+	}
+	
+	private String buildPredefinedColumnLoop(String source) {
+		// loop
+		Pattern pattern = Pattern.compile(Template.COLUMN_LOOP_EXCLUDE_PREDEFINED_REGEX, Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(source);
+		StringBuilder builder = new StringBuilder(source);
+		int modifiedPoint = 0;
+		while(matcher.find()) {
+			String columnLoopSouce = matcher.group();
+			columnLoopSouce = columnLoopSouce.substring(32, columnLoopSouce.length()-33);
+			String generatedSource = generatePredefinedColumLoopSource(columnLoopSouce);
+			int start = matcher.start() + modifiedPoint;
+			int end = matcher.end() + modifiedPoint;
+			builder.replace(start, end, generatedSource);
+			modifiedPoint = generatedSource.length() - matcher.group().length();
+		}
+		return builder.toString();
+	}
+	
+	private String generatePredefinedColumLoopSource(String columnLoopSouce) {
+		StringBuilder builder = new StringBuilder();
+		for(Column column : columns) {
+			if(!column.isPredefined()) {
+				String generatedColumnSource = generateColumSource(columnLoopSouce, column);
+				builder.append(generatedColumnSource);
+			}
 		}
 		return builder.toString();
 	}

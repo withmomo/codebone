@@ -3,6 +3,7 @@ package org.codebone.generator;
 public class Template {
 	
 	public static String COLUMN_LOOP_REGEX = "\\{COLUMN_LOOP\\}.*?\\{/COLUMN_LOOP\\}";
+	public static String COLUMN_LOOP_EXCLUDE_PREDEFINED_REGEX = "\\{COLUMN_LOOP_EXCLUDE_PREDEFINED\\}.*?\\{/COLUMN_LOOP_EXCLUDE_PREDEFINED\\}";
 	
 	public static String SEARCH = "\\{SEARCH\\}.*?\\{/SEARCH\\}";
 	public static String COLUMN_LOOP_SEARCH_REGEX = "\\{COLUMN_LOOP_SEARCH\\}.*?\\{/COLUMN_LOOP_SEARCH\\}";
