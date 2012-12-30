@@ -54,7 +54,7 @@ if(obj2 != null){
 					<ul class="dropdown-menu">
 						<li><a href="#">Profile</a></li>
 						<li class="divider"></li>
-						<li><a href="<%=request.getContextPath()%>/admin/auth/logout">Sign
+						<li><a href="<%=request.getContextPath()%>/app/auth/logout">Sign
 								Out</a></li>
 					</ul>
 				</div>
