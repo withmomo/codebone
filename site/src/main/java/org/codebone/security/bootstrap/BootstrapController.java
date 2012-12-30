@@ -62,6 +62,14 @@ public class BootstrapController extends AbstractController{
 	public ModelAndView installPost(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String id, String password, String passwordCheck, String name, String email) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		boolean managerIsNew = managerService.isNew();
+		boolean authoritiesIsNew = authoritiesService.isNew();
+		boolean organizationIsNew = organizationService.isNew();
+		if(!(managerIsNew && authoritiesIsNew && organizationIsNew)){
+			return new ModelAndView(getContextName()+"/error", null);
+		}
+		
 		if(password.equals(passwordCheck)){
 			Manager manager = new Manager();
 			manager.setEmail(email);
