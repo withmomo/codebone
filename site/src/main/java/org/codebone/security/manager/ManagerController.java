@@ -2,6 +2,7 @@ package org.codebone.security.manager;
 
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.codebone.framework.generic.AbstractController;
+import org.codebone.security.organization.Organization;
+import org.codebone.security.organization.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -24,6 +27,9 @@ public class ManagerController extends AbstractController{
 
 	@Autowired
 	private ManagerService service;
+	
+	@Autowired
+	private OrganizationService organizationService;
 	
 	protected String getContextName(){
 		return "manager";
@@ -63,7 +69,9 @@ public class ManagerController extends AbstractController{
 	public ModelAndView create(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		List<Organization> organizationList = (List<Organization>) organizationService.listAll().getData();
 		map.put("isCreate", "Y");
+		map.put("organizationList", organizationList);
 		return getCommonModelAndView(getContextName()+"/write", map, session);
 	}
 
@@ -87,6 +95,8 @@ public class ManagerController extends AbstractController{
 		map.put("data", service.read(idx));
 		map.put("id", idx);
 		map.put("isCreate", "N");
+		List<Organization> organizationList = (List<Organization>) organizationService.listAll().getData();
+		map.put("organizationList", organizationList);
 		return getCommonModelAndView(getContextName()+"/write", map, session);
 	}
 

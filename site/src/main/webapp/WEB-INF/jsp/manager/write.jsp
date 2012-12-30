@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page
-	import="org.codebone.framework.BaseModel,java.util.List,org.codebone.security.manager.Manager"%>
+	import="org.codebone.framework.BaseModel,java.util.List,org.codebone.security.manager.Manager,org.codebone.security.organization.Organization"%>
 <%@ page
 	import="java.lang.reflect.Field,java.lang.reflect.Method,javax.persistence.Id,java.util.Date"%>
 <%
@@ -20,6 +20,7 @@
 		managerModel = (Manager) model.getData();
 		isCreate = "Update";
 	}
+	List<Organization> organizationList = (List) request.getAttribute("organizationList");
 %>
 <!DOCTYPE HTML>
 <html>
@@ -66,9 +67,22 @@
 					value="<%=managerModel.getPhoneNumber()%>"></td>
 			</tr>
 			<tr>
-				<th>organizationIdx</th>
-				<td><input type="text" class="form-vertical" name="organizationIdx"
-					value="<%=managerModel.getOrganizationIdx()%>"></td>
+				<th>Organization</th>
+				<td>
+					<select name="organizationIdx">
+					<%
+						for(Organization org : organizationList){
+							String selected = "";
+							if (isCreate.equals("Update") && org.getIdx().equals(managerModel.getOrganizationIdx())) {
+								selected = "selected=\"selected\"";
+							}
+					%> 
+					<option value="<%=org.getIdx()%>" <%=selected%>><%=org.getName()%></option>
+					<%
+						}
+					%>
+					</select>
+				</td>
 			</tr>
 			</tbody>
 		</table>
