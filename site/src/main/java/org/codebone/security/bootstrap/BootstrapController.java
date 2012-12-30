@@ -66,92 +66,97 @@ public class BootstrapController extends AbstractController{
 		boolean managerIsNew = managerService.isNew();
 		boolean authoritiesIsNew = authoritiesService.isNew();
 		boolean organizationIsNew = organizationService.isNew();
+		
 		if(!(managerIsNew && authoritiesIsNew && organizationIsNew)){
 			return new ModelAndView(getContextName()+"/error", null);
 		}
 		
-		if(password.equals(passwordCheck)){
-			Manager manager = new Manager();
-			manager.setEmail(email);
-			manager.setId(id);
-			manager.setPassword(password);
-			manager.setName(name);
-			managerService.create(manager);
-			map.put("manager", manager);
-			
-			Authorities auth1 = new Authorities();
-			auth1.setAuthority("ROLE_ADMIN");
-			authoritiesService.create(auth1);
-			
-			Authorities auth2 = new Authorities();
-			auth2.setAuthority("ROLE_USER");
-			authoritiesService.create(auth2);
-			
-			Organization organization = new Organization();
-			organization.setName("Administrator Group");
-			List managerList = new ArrayList();
-			List authList = new ArrayList();
-			managerList.add(manager);
-			authList.add(auth1);
-			authList.add(auth2);
-			organization.setManagerList(managerList);
-			organization.setAuthoritiesList(authList);
-			organizationService.create(organization);
-			
-			Menu m = new Menu();
-			m.setName("관리자 메뉴");
-			m.setPriOrder(0);
-			m.setSubOrder(0);
-			menuService.create(m);
-			
-			m = new Menu();
-			m.setName("관리자");
-			m.setUrl("/app/manager");
-			m.setPriOrder(0);
-			m.setSubOrder(1);
-			menuService.create(m);
-			
-			m = new Menu();
-			m.setName("메뉴");
-			m.setUrl("/app/menu");
-			m.setPriOrder(0);
-			m.setSubOrder(2);
-			menuService.create(m);
-			
-			m = new Menu();
-			m.setName("권한");
-			m.setUrl("/app/organization");
-			m.setPriOrder(0);
-			m.setSubOrder(3);
-			menuService.create(m);
-			
-			m = new Menu();
-			m.setIsSeparate("Y");
-			m.setPriOrder(1);
-			m.setSubOrder(0);
-			menuService.create(m);
-			
-			m = new Menu();
-			m.setName("사용자 메뉴");
-			m.setPriOrder(2);
-			m.setSubOrder(0);
-			menuService.create(m);
-			
-			m = new Menu();
-			m.setName("네이버");
-			m.setUrl("http://www.naver.com");
-			m.setPriOrder(2);
-			m.setSubOrder(1);
-			m.setIsExternal("Y");
-			menuService.create(m);
-			
-			return new ModelAndView(getContextName()+"/complete", map);
-		}else{
+		if(!password.equals(passwordCheck)){
 			map.put("error", "incorrect password");
 			return new ModelAndView(getContextName()+"/install", map);
 		}
 		
+		Manager manager = new Manager();
+		manager.setEmail(email);
+		manager.setId(id);
+		manager.setPassword(password);
+		manager.setName(name);
+		managerService.create(manager);
+		map.put("manager", manager);
+		makeBaseAuthorities(manager);
+		makeBaseMenu();
 		
+		return new ModelAndView(getContextName()+"/complete", map);
+	}
+	
+	private void makeBaseAuthorities(Manager manager){
+		Authorities auth1 = new Authorities();
+		auth1.setAuthority("ROLE_ADMIN");
+		authoritiesService.create(auth1);
+		
+		Authorities auth2 = new Authorities();
+		auth2.setAuthority("ROLE_USER");
+		authoritiesService.create(auth2);
+		
+		Organization organization = new Organization();
+		organization.setName("Administrator Group");
+		List managerList = new ArrayList();
+		List authList = new ArrayList();
+		managerList.add(manager);
+		authList.add(auth1);
+		authList.add(auth2);
+		organization.setManagerList(managerList);
+		organization.setAuthoritiesList(authList);
+		organizationService.create(organization);
+	}
+	
+	private void makeBaseMenu(){
+		Menu m = new Menu();
+		m.setName("관리자 메뉴");
+		m.setPriOrder(0);
+		m.setSubOrder(0);
+		menuService.create(m);
+		
+		m = new Menu();
+		m.setName("관리자");
+		m.setUrl("/app/manager");
+		m.setPriOrder(0);
+		m.setSubOrder(1);
+		menuService.create(m);
+		
+		m = new Menu();
+		m.setName("메뉴");
+		m.setUrl("/app/menu");
+		m.setPriOrder(0);
+		m.setSubOrder(2);
+		menuService.create(m);
+		
+		m = new Menu();
+		m.setName("권한");
+		m.setUrl("/app/organization");
+		m.setPriOrder(0);
+		m.setSubOrder(3);
+		menuService.create(m);
+		
+		m = new Menu();
+		m.setIsSeparate("Y");
+		m.setPriOrder(1);
+		m.setSubOrder(0);
+		menuService.create(m);
+		
+		m = new Menu();
+		m.setName("사용자 메뉴");
+		m.setPriOrder(2);
+		m.setSubOrder(0);
+		menuService.create(m);
+		
+		m = new Menu();
+		m.setName("Codebone WebSite");
+		m.setUrl("https://github.com/withmomo/codebone");
+		m.setPriOrder(2);
+		m.setSubOrder(1);
+		m.setIsExternal("Y");
+		menuService.create(m);
 	}
 
 }
