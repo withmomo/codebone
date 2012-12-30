@@ -20,7 +20,7 @@ public class Authorities{
 	private Long idx;
 	
 	@Column
-	private Long organizationIdx = 0l;
+	private Long organizationIdx;
 	
 	@Column
 	private String authority = "";
