@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.codebone.framework.generic.AbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +30,7 @@ public class ManagerController extends AbstractController{
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_MANAGER_READ')")
+	@Secured("ROLE_MANAGER_READ")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer page) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -44,7 +44,7 @@ public class ManagerController extends AbstractController{
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_MANAGER_READ')")
+	@Secured("ROLE_MANAGER_READ")
 	public ModelAndView search(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer page) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -59,7 +59,7 @@ public class ManagerController extends AbstractController{
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_MANAGER_CREATE')")
+	@Secured("ROLE_MANAGER_CREATE")
 	public ModelAndView create(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -68,7 +68,7 @@ public class ManagerController extends AbstractController{
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_MANAGER_CREATE')")
+	@Secured("ROLE_MANAGER_CREATE")
 	public RedirectView create_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
 			@ModelAttribute Manager model) throws ParseException {
@@ -80,7 +80,7 @@ public class ManagerController extends AbstractController{
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_MANAGER_UPDATE')")
+	@Secured("ROLE_MANAGER_UPDATE")
 	public ModelAndView update(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String idx) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -91,7 +91,7 @@ public class ManagerController extends AbstractController{
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_MANAGER_UPDATE')")
+	@Secured("ROLE_MANAGER_UPDATE")
 	public RedirectView update_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
 			@ModelAttribute Manager managerModel) throws ParseException {
@@ -103,7 +103,7 @@ public class ManagerController extends AbstractController{
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_MANAGER_DELETE')")
+	@Secured("ROLE_MANAGER_DELETE")
 	public RedirectView delete(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String idx) {
 		Manager model = (Manager) service.read(idx).getData();

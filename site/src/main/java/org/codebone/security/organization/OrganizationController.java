@@ -15,7 +15,7 @@ import org.codebone.framework.generic.AbstractService;
 import org.codebone.security.authorities.Authorities;
 import org.codebone.security.authorities.AuthoritiesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +47,7 @@ public class OrganizationController extends AbstractController{
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_ORGANIZATION_READ')")
+	@Secured("ROLE_ORGANIZATION_READ")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer page, Long organizationIdx) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -70,7 +70,7 @@ public class OrganizationController extends AbstractController{
 	
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_ORGANIZATION_READ')")
+	@Secured("ROLE_ORGANIZATION_READ")
 	public ModelAndView search(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer page) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -85,7 +85,7 @@ public class OrganizationController extends AbstractController{
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_ORGANIZATION_CREATE')")
+	@Secured("ROLE_ORGANIZATION_CREATE")
 	public ModelAndView create(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -94,7 +94,7 @@ public class OrganizationController extends AbstractController{
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_ORGANIZATION_CREATE')")
+	@Secured("ROLE_ORGANIZATION_CREATE")
 	public RedirectView create_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
 			@ModelAttribute Organization model) throws ParseException {
@@ -106,7 +106,7 @@ public class OrganizationController extends AbstractController{
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_ORGANIZATION_UPDATE')")
+	@Secured("ROLE_ORGANIZATION_UPDATE")
 	public ModelAndView update(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String idx) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -117,7 +117,7 @@ public class OrganizationController extends AbstractController{
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_ORGANIZATION_UPDATE')")
+	@Secured("ROLE_ORGANIZATION_UPDATE")
 	public RedirectView update_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
 			@ModelAttribute Organization managerModel) throws ParseException {
@@ -129,7 +129,7 @@ public class OrganizationController extends AbstractController{
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_ORGANIZATION_DELETE')")
+	@Secured("ROLE_ORGANIZATION_DELETE")
 	public RedirectView delete(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String idx) {
 		Organization model = (Organization) getService().read(idx).getData();
@@ -139,7 +139,7 @@ public class OrganizationController extends AbstractController{
 	}
 	
 	@RequestMapping(value = "/authCreate",method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_AUTHORITIES_CREATE')")
+	@Secured("ROLE_AUTHORITIES_CREATE")
 	public ModelAndView authCreate(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Long idx) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -149,7 +149,7 @@ public class OrganizationController extends AbstractController{
 	}
 	
 	@RequestMapping(value = "/authCreate",method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_AUTHORITIES_CREATE')")
+	@Secured("ROLE_AUTHORITIES_CREATE")
 	public RedirectView authCreate_POST(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, @ModelAttribute Authorities authorities) {
 		service.authCreate(authorities);
@@ -157,7 +157,7 @@ public class OrganizationController extends AbstractController{
 	}
 	
 	@RequestMapping(value = "/authDelete", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_AUTHORITIES_DELETE')")
+	@Secured("ROLE_AUTHORITIES_DELETE")
 	public RedirectView authDelete(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String idx) {
 		authService.delete(idx);
@@ -165,7 +165,7 @@ public class OrganizationController extends AbstractController{
 	}
 	
 	@RequestMapping(value = "/addUser",method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_MANAGER_UPDATE')")
+	@Secured("ROLE_MANAGER_UPDATE")
 	public RedirectView addUser(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String organizationIdx, String id) {
 		Map<String, Object> map = new HashMap<String, Object>();

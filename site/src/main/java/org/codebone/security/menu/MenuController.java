@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.codebone.framework.generic.AbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +22,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("/menu")
-@PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_MENU_ADMIN')")
 public class MenuController extends AbstractController<Object> {
 
 	@Autowired
@@ -33,7 +32,7 @@ public class MenuController extends AbstractController<Object> {
 	}
 
 	@RequestMapping(value = "/changeOrder", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_MENU_UPDATE')")
+	@Secured("ROLE_MENU_UPDATE")
 	public View changeOrder(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer priOrder, Integer subOrder, String up) {
 		boolean isUp;
@@ -49,7 +48,7 @@ public class MenuController extends AbstractController<Object> {
 	}
 
 	@RequestMapping(value = "/changeLevel", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_MENU_UPDATE')")
+	@Secured("ROLE_MENU_UPDATE")
 	public View chageLevel(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer priOrder, Integer subOrder, Long idx) {
 		service.changeLevel(priOrder, subOrder, idx);
@@ -59,7 +58,7 @@ public class MenuController extends AbstractController<Object> {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_MENU_READ')")
+	@Secured("ROLE_MENU_READ")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer page) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -73,7 +72,7 @@ public class MenuController extends AbstractController<Object> {
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_MENU_READ')")
+	@Secured("ROLE_MENU_READ")
 	public ModelAndView search(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, Integer page) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -88,7 +87,7 @@ public class MenuController extends AbstractController<Object> {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_MENU_CREATE')")
+	@Secured("ROLE_MENU_CREATE")
 	public ModelAndView create(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -97,7 +96,7 @@ public class MenuController extends AbstractController<Object> {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_MENU_CREATE')")
+	@Secured("ROLE_MENU_CREATE")
 	public RedirectView create_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
 			@ModelAttribute Menu model) throws ParseException {
@@ -111,7 +110,7 @@ public class MenuController extends AbstractController<Object> {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_MENU_UPDATE')")
+	@Secured("ROLE_MENU_UPDATE")
 	public ModelAndView update(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String idx) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -122,7 +121,7 @@ public class MenuController extends AbstractController<Object> {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_MENU_UPDATE')")
+	@Secured("ROLE_MENU_UPDATE")
 	public RedirectView update_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session,
 			@ModelAttribute Menu managerModel) throws ParseException {
@@ -136,7 +135,7 @@ public class MenuController extends AbstractController<Object> {
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_MENU_DELETE')")
+	@Secured("ROLE_MENU_DELETE")
 	public RedirectView delete(HttpServletRequest req, HttpServletResponse res,
 			HttpSession session, String idx) {
 		service.deleteFamily(idx);

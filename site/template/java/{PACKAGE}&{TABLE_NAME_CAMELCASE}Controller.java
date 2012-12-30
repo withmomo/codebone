@@ -33,7 +33,7 @@ public class {TABLE_NAME_CAMELCASE}Controller extends AbstractController{
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_{TABLE_NAME_UPPERCASE}_READ')")
+	@Secured("ROLE_{TABLE_NAME_UPPERCASE}_READ")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse res, HttpSession session, Integer page) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (page == null) {
@@ -46,7 +46,7 @@ public class {TABLE_NAME_CAMELCASE}Controller extends AbstractController{
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_{TABLE_NAME_UPPERCASE}_READ')")
+	@Secured("ROLE_{TABLE_NAME_UPPERCASE}_READ")
 	public ModelAndView search(HttpServletRequest req, HttpServletResponse res, HttpSession session, Integer page) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String property = req.getParameter("property");
@@ -60,7 +60,7 @@ public class {TABLE_NAME_CAMELCASE}Controller extends AbstractController{
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_{TABLE_NAME_UPPERCASE}_CREATE')")
+	@Secured("ROLE_{TABLE_NAME_UPPERCASE}_CREATE")
 	public ModelAndView create(HttpServletRequest req, HttpServletResponse res, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("isCreate", "Y");
@@ -68,7 +68,7 @@ public class {TABLE_NAME_CAMELCASE}Controller extends AbstractController{
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_{TABLE_NAME_UPPERCASE}_CREATE')")
+	@Secured("ROLE_{TABLE_NAME_UPPERCASE}_CREATE")
 	public RedirectView create_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session, @ModelAttribute {TABLE_NAME_CAMELCASE} model) throws ParseException {
 		service.create(model);
@@ -76,7 +76,7 @@ public class {TABLE_NAME_CAMELCASE}Controller extends AbstractController{
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_{TABLE_NAME_UPPERCASE}_UPDATE')")
+	@Secured("ROLE_{TABLE_NAME_UPPERCASE}_UPDATE")
 	public ModelAndView update(HttpServletRequest req, HttpServletResponse res, HttpSession session, String idx) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("data", service.read(idx));
@@ -86,7 +86,7 @@ public class {TABLE_NAME_CAMELCASE}Controller extends AbstractController{
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_{TABLE_NAME_UPPERCASE}_UPDATE')")
+	@Secured("ROLE_{TABLE_NAME_UPPERCASE}_UPDATE")
 	public RedirectView update_POST(HttpServletRequest req,
 			HttpServletResponse res, HttpSession session, @ModelAttribute {TABLE_NAME_CAMELCASE} model) throws ParseException {
 		service.update(model);
@@ -94,7 +94,7 @@ public class {TABLE_NAME_CAMELCASE}Controller extends AbstractController{
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_{TABLE_NAME_UPPERCASE}_DELETE')")
+	@Secured("ROLE_{TABLE_NAME_UPPERCASE}_DELETE")
 	public RedirectView delete(HttpServletRequest req, HttpServletResponse res, HttpSession session, String idx) {
 		{TABLE_NAME_CAMELCASE} model = ({TABLE_NAME_CAMELCASE}) service.read(idx).getData();
 		service.delete(model);
