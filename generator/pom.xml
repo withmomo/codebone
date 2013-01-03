@@ -105,6 +105,16 @@
 		<artifactId>commons-lang</artifactId>
 		<version>2.3</version>
 	</dependency>
+	<dependency>
+	    <groupId>com.github.spullara.mustache.java</groupId>
+	    <artifactId>compiler</artifactId>
+	    <version>0.8.8</version>
+	</dependency>
+	<dependency>
+   		<groupId>cglib</groupId>
+   		<artifactId>cglib</artifactId>
+   		<version>2.2</version>
+	</dependency>
   </dependencies>
   
   <build>

@@ -1,0 +1,5 @@
+ROLE_ADMIN > ROLE_{{tableNameUppercase}}_ADMIN
+ROLE_{{tableNameUppercase}}_ADMIN > ROLE_{{tableNameUppercase}}_CREATE
+ROLE_{{tableNameUppercase}}_ADMIN > ROLE_{{tableNameUppercase}}_READ
+ROLE_{{tableNameUppercase}}_ADMIN > ROLE_{{tableNameUppercase}}_UPDATE
+ROLE_{{tableNameUppercase}}_ADMIN > ROLE_{{tableNameUppercase}}_DELETE

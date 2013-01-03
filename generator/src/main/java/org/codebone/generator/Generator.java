@@ -1,13 +1,27 @@
 package org.codebone.generator;
 
+import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.WordUtils;
 import org.codebone.generator.connector.Column;
 import org.codebone.generator.connector.DatabaseType;
+
+import com.github.mustachejava.DefaultMustacheFactory;
+import com.github.mustachejava.Mustache;
+import com.github.mustachejava.MustacheFactory;
 
 public class Generator {
 	
@@ -26,8 +40,12 @@ public class Generator {
 			new FileScanner(teamplatePath, new FileScanner.FileListner() {
 				public void found(File file) {
 					String source = FileUtils.read(file);
-					String generatedSource = mappingTemplate(source);
-					generateTemplateFile(file, generatedSource);
+					try {
+						String generatedSource = mappingTemplate(source);
+						generateTemplateFile(file, generatedSource);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			});
 		} catch (FileNotFoundException e) {
@@ -82,148 +100,71 @@ public class Generator {
 		}
 	}
 	
-	private String mappingTemplate(String source) {
+	private String mappingTemplate(String source) throws Exception {
 		if( source == null || tableName == null || packageName == null || uri == null | columns == null )
 			return null;
 		
-		String generatedSource = buildColumnLoop(source);
-		generatedSource = buildPredefinedColumnLoop(generatedSource);
-		generatedSource = buildSearch(generatedSource);
+		HashMap<String, Object> datas = getMappingDatas();
 		
-		String camelTableName = transformCamelcase(tableName);
-		generatedSource = replaceReservedKeyword(generatedSource, Template.SITE_TITLE, siteTitle);
-		generatedSource = replaceReservedKeyword(generatedSource, Template.PACKAGE, packageName);
-		generatedSource = replaceReservedKeyword(generatedSource, Template.MAPPING_URI, uri);
-		generatedSource = replaceReservedKeyword(generatedSource, Template.TABLE_NAME, tableName);
-		generatedSource = replaceReservedKeyword(generatedSource, Template.TABLE_NAME_CAMELCASE, camelTableName);
-		generatedSource = replaceReservedKeyword(generatedSource, Template.TABLE_NAME_UPPERCASE, tableName.toUpperCase());
-		return generatedSource;
+		MustacheFactory mf = new DefaultMustacheFactory();
+		StringReader reader = new StringReader(source);
+		StringWriter writer = new StringWriter();
+		Mustache mustache = mf.compile(reader, "define");
+		mustache.execute(writer, datas).flush();
+		return writer.toString();
 	}
 
-	private String buildSearch(String source) {
-		// searchable
-		boolean isGenerateSearchColumns = false;
-		for( Column column : columns ) {
-			if( column.isSearchable() )
-				isGenerateSearchColumns = true;
-		}
-		Pattern pattern = Pattern.compile(Template.SEARCH, Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
-		Matcher matcher = pattern.matcher(source);
-		StringBuilder builder = new StringBuilder(source);
-		int modifiedPoint = 0;
-		while(matcher.find()) {
-			String columnLoopSouce = matcher.group();
-			String generatedSource = "";
-			if( isGenerateSearchColumns ) {
-				columnLoopSouce = columnLoopSouce.substring(8, columnLoopSouce.length()-9);
-				generatedSource = buildSearchableColumnLoop(columnLoopSouce);
-			}
-			int start = matcher.start() + modifiedPoint;
-			int end = matcher.end() + modifiedPoint;
-			builder.replace(start, end, generatedSource);
-			modifiedPoint = generatedSource.length() - matcher.group().length();
-		}
-		return builder.toString();
-	}
+	private HashMap<String, Object> getMappingDatas() throws IllegalAccessException, InvocationTargetException {
+		HashMap<String, Object> datas = new HashMap<String, Object>();
+	    datas.put("siteTitle", siteTitle);
+	    datas.put("package", packageName);
+	    datas.put("mappingUri", uri);
+	    setValue(datas, "tableName", tableName);
+	    
+	    List<HashMap> objectColumns = new ArrayList<HashMap>();
+	    for(Column column : columns ) {
+	    	HashMap<String, Object> objectColumn = new HashMap<String, Object>();
+	    	
+	    	PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(column.getClass());
+	        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
 
-	private String buildSearchableColumnLoop(String source) {
-		Pattern pattern = Pattern.compile(Template.COLUMN_LOOP_SEARCH_REGEX, Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
-		Matcher matcher = pattern.matcher(source);
-		StringBuilder builder = new StringBuilder(source);
-		int modifiedPoint = 0;
-		while(matcher.find()) {
-			String columnLoopSouce = matcher.group();
-			columnLoopSouce = columnLoopSouce.substring(20, columnLoopSouce.length()-21);
-			String generatedSource = generateColumLoopSource(columnLoopSouce,true);
-			int start = matcher.start() + modifiedPoint;
-			int end = matcher.end() + modifiedPoint;
-			builder.replace(start, end, generatedSource);
-			modifiedPoint = generatedSource.length() - matcher.group().length();
-		}
-		return builder.toString();
-	}
-	
-	private String buildPredefinedColumnLoop(String source) {
-		// loop
-		Pattern pattern = Pattern.compile(Template.COLUMN_LOOP_EXCLUDE_PREDEFINED_REGEX, Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
-		Matcher matcher = pattern.matcher(source);
-		StringBuilder builder = new StringBuilder(source);
-		int modifiedPoint = 0;
-		while(matcher.find()) {
-			String columnLoopSouce = matcher.group();
-			columnLoopSouce = columnLoopSouce.substring(32, columnLoopSouce.length()-33);
-			String generatedSource = generatePredefinedColumLoopSource(columnLoopSouce);
-			int start = matcher.start() + modifiedPoint;
-			int end = matcher.end() + modifiedPoint;
-			builder.replace(start, end, generatedSource);
-			modifiedPoint = generatedSource.length() - matcher.group().length();
-		}
-		return builder.toString();
-	}
-	
-	private String generatePredefinedColumLoopSource(String columnLoopSouce) {
-		StringBuilder builder = new StringBuilder();
-		for(Column column : columns) {
-			if(!column.isPredefined()) {
-				String generatedColumnSource = generateColumSource(columnLoopSouce, column);
-				builder.append(generatedColumnSource);
-			}
-		}
-		return builder.toString();
-	}
-	
-	private String buildColumnLoop(String source) {
-		// loop
-		Pattern pattern = Pattern.compile(Template.COLUMN_LOOP_REGEX, Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
-		Matcher matcher = pattern.matcher(source);
-		StringBuilder builder = new StringBuilder(source);
-		int modifiedPoint = 0;
-		while(matcher.find()) {
-			String columnLoopSouce = matcher.group();
-			columnLoopSouce = columnLoopSouce.substring(13, columnLoopSouce.length()-14);
-			String generatedSource = generateColumLoopSource(columnLoopSouce);
-			int start = matcher.start() + modifiedPoint;
-			int end = matcher.end() + modifiedPoint;
-			builder.replace(start, end, generatedSource);
-			modifiedPoint = generatedSource.length() - matcher.group().length();
-		}
-		return builder.toString();
-	}
+	            Method method = propertyDescriptor.getReadMethod();
+	            if (propertyDescriptor.getReadMethod() == null) {
+	                continue;
+	            }
 
-	private String generateColumLoopSource(String columnLoopSouce) {
-		StringBuilder builder = new StringBuilder();
-		for(Column column : columns) {
-			String generatedColumnSource = generateColumSource(columnLoopSouce, column);
-			builder.append(generatedColumnSource);
-		}
-		return builder.toString();
+	            if (method.getGenericParameterTypes().length > 0) {
+	                continue;
+	            }
+
+	            String name = propertyDescriptor.getName();
+	            Object value = method.invoke(column);
+
+	            if (value == null) {
+	                continue;
+	            }
+	            
+	            setValue(objectColumn, name, value);
+	            
+	        }
+	    	objectColumns.add(objectColumn);
+	    }
+	    datas.put("columns", objectColumns);
+	    return datas;
 	}
 	
-	private String generateColumLoopSource(String columnLoopSouce, boolean isSearchableMode) {
-		StringBuilder builder = new StringBuilder();
-		for(Column column : columns) {
-			if(isSearchableMode && column.isSearchable()) {
-				String generatedColumnSource = generateColumSource(columnLoopSouce, column);
-				builder.append(generatedColumnSource);
-			}
-		}
-		return builder.toString();
-	}
-	
-	private String generateColumSource(String columnLoopSouce, Column column) {
-		String generatedColumnSource = replaceReservedKeyword(columnLoopSouce, Template.COLUMN_TYPE, Column.transformJavaType(column.getTypeName()));
-		generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_NAME, column.getName());
-		String camelcase = transformCamelcase(column.getName());
-		generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_NAME_CAMELCASE, camelcase);
-		generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_DESCRIPTION, column.getDescription());
-		generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_DEFAULT_VALUE, column.getDefaultValue());
+	private void setValue(HashMap<String, Object> obj, String name, Object value) {
+		obj.put(name, value);
 		
-		if( column.isPrimaryKey() )
-			generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_ID, Template.COLUMN_ID_GENERATE);
-		else
-			generatedColumnSource = replaceReservedKeyword(generatedColumnSource, Template.COLUMN_ID, "");
-		
-		return generatedColumnSource;
+		String uppercase = name + "Uppercase";
+		obj.put(uppercase, value.toString().toUpperCase());
+	    
+	    String lowercase = name + "Lowercase";
+	    obj.put(lowercase, value.toString().toLowerCase());
+	    
+	    String camelcase = name + "Camelcase";
+	    String camelcaseValue = WordUtils.capitalizeFully(value.toString(), new char[]{'_'}).replaceAll("_", "");
+	    obj.put(camelcase, camelcaseValue);
 	}
 	
 	private String transformCamelcase(String source) {
