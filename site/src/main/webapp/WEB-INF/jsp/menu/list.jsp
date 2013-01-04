@@ -12,6 +12,7 @@
 	boolean hasNext = model.isHasNext();
 	int allCount = model.getAllCount();
 	int currentPage = (Integer) request.getAttribute("page");
+	Long menuIdx = (Long) request.getAttribute("menuIdx");
 %>
 <!DOCTYPE HTML>
 <html>
@@ -49,7 +50,7 @@ function toggle(idx, size) {
 			<button type="submit" class="btn">Search</button>
 		</div>
 	</form>
-	<div class="span7">
+	<div class="span6">
 	<table class="table">
 		<thead>
 			<tr>
@@ -66,7 +67,7 @@ function toggle(idx, size) {
 			<% 
 			String classDef = null;
 			if(!menuModel.getSubOrder().equals(0)){
-				classDef = "padding-left:15px";
+				classDef = "padding-left:20px";
 			}
 			%>
 				<td style="<%=classDef %>"><%=menuModel.getName()%></td>
@@ -100,7 +101,10 @@ function toggle(idx, size) {
 	<%
 		for (Menu menuModel : list) {
 	%>
-	<div class="span4" style="display:none" id="data<%=menuModel.getIdx()%>">
+	<div class="span5" style="display:none" id="data<%=menuModel.getIdx()%>">
+	<form class="well form-search"
+		action="<%=request.getContextPath()%>/app/menu/update"
+		method="post">
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -110,41 +114,41 @@ function toggle(idx, size) {
 			</thead>
 			<tr>
 				<th>name</th>
-				<td><input type="text" class="form-vertical" name="name"
+				<td><input type="text" class="input-medium" name="name"
 					value="<%=menuModel.getName()%>"></td>
 			</tr>
 			<tr>
 				<th>url</th>
-				<td><input type="text" class="form-vertical" name="url"
+				<td><input type="text" class="input-medium" name="url"
 					value="<%=menuModel.getUrl()%>"></td>
 			</tr>
 			<tr>
 				<th>priOrder</th>
-				<td><input type="text" class="form-vertical" name="priOrder"
+				<td><input type="text" class="input-medium" name="priOrder"
 					value="<%=menuModel.getPriOrder()%>"></td>
 			</tr>
 			<tr>
 				<th>subOrder</th>
-				<td><input type="text" class="form-vertical" name="subOrder"
+				<td><input type="text" class="input-medium" name="subOrder"
 					value="<%=menuModel.getSubOrder()%>"></td>
 			</tr>
 			<tr>
 				<th>isSeparate</th>
-				<td><input type="text" class="form-vertical" name="isSeparate"
+				<td><input type="text" class="input-medium" name="isSeparate"
 					value="<%=menuModel.getIsSeparate()%>"></td>
 			</tr>
 			<tr>
 				<th>isExternal</th>
-				<td><input type="text" class="form-vertical" name="isExternal"
+				<td><input type="text" class="input-medium" name="isExternal"
 					value="<%=menuModel.getIsExternal()%>"></td>
 			</tr>
 			<tr>
 				<th>managerIdx</th>
-				<td><input type="text" class="form-vertical" name="managerIdx"
+				<td><input type="text" class="input-medium" name="managerIdx"
 				value="<%=menuModel.getManagerIdx()%>">
 				</td>
 			</tr>
-			<tr>
+			<%-- <tr>
 				<td>
 					<div class="btn-group">
 						<button class="btn btn-primary dropdown-toggle"
@@ -159,9 +163,22 @@ function toggle(idx, size) {
 						</ul>
 					</div>
 				</td>
-			</tr>
+			</tr> --%>
 			</tbody>
 		</table>
+		<div style="text-align: right">
+			<button class="btn btn-primary btn-large" type="submit">
+				<i class="icon-pencil icon-white"></i>Update
+			</button>
+			<a class="btn btn-danger btn-large"
+			href="<%=request.getContextPath()%>/app/menu/delete?idx=<%=menuModel.getIdx()%>">
+				<i class="icon-remove-circle icon-white"></i>Delete
+			</a>
+		</div>
+		<input type="hidden" class="form-vertical" name="idx"
+			value="<%=menuModel.getIdx()%>">
+		</td>
+		</form>
 	</div>
 	<%
 		}
