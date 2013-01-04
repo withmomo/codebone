@@ -1,4 +1,4 @@
-package org.codebone.generator.connector;
+package org.codebone.connector;
 
 
 public class MySQLDatabaseConnector extends AbstractDatabaseConnector {

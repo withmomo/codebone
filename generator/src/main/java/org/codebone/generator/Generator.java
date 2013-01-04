@@ -3,7 +3,6 @@ package org.codebone.generator;
 import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -11,13 +10,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.WordUtils;
-import org.codebone.generator.connector.Column;
-import org.codebone.generator.connector.DatabaseType;
+import org.codebone.connector.Column;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
@@ -26,7 +22,6 @@ import com.github.mustachejava.MustacheFactory;
 public class Generator {
 	
 	private String siteTitle;
-	private DatabaseType databaseType;
 	private String teamplatePath;
 	private String generatePath;
 	private String tableName;
@@ -121,7 +116,8 @@ public class Generator {
 	    datas.put("mappingUri", uri);
 	    setValue(datas, "tableName", tableName);
 	    
-	    List<HashMap> objectColumns = new ArrayList<HashMap>();
+	    @SuppressWarnings("rawtypes")
+		List<HashMap> objectColumns = new ArrayList<HashMap>();
 	    for(Column column : columns ) {
 	    	HashMap<String, Object> objectColumn = new HashMap<String, Object>();
 	    	
@@ -163,14 +159,14 @@ public class Generator {
 	    obj.put(lowercase, value.toString().toLowerCase());
 	    
 	    String camelcase = name + "Camelcase";
-	    String camelcaseValue = WordUtils.capitalizeFully(value.toString(), new char[]{'_'}).replaceAll("_", "");
+	    String camelcaseValue = transformCamelcase(value.toString());
 	    obj.put(camelcase, camelcaseValue);
 	}
 	
 	private String transformCamelcase(String source) {
 		if( source == null )
 			return null;
-		return source.substring(0,1).toUpperCase() + source.substring(1);
+		return WordUtils.capitalizeFully(source, new char[]{'_'}).replaceAll("_", "");
 	}
 	
 	private String replaceReservedKeyword(String source, String keyword, String data) {
@@ -227,15 +223,7 @@ public class Generator {
 		
 		this.generatePath = generatePath;
 	}
-
-	public DatabaseType getDatabaseType() {
-		return databaseType;
-	}
-
-	public void setDatabaseType(DatabaseType databaseType) {
-		this.databaseType = databaseType;
-	}
-
+	
 	public String getSiteTitle() {
 		return siteTitle;
 	}

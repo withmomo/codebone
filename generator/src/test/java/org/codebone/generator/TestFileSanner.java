@@ -11,7 +11,7 @@ public class TestFileSanner {
 	@Test
 	public void scan() throws FileNotFoundException {
 		String path = "src/main/template";
-		FileScanner fileScanner = new FileScanner(path, new FileListner() {
+		new FileScanner(path, new FileListner() {
 			public void found(File file) {
 				System.out.println(file.getPath());
 			}
