@@ -25,15 +25,15 @@ public class {{tableNameCamelcase}}{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	{{/primaryKey}}
 	@Column
-	private {{typeName}} {{name}} = {{{defaultValue}}};
+	private {{javaTypeName}} {{name}} = {{{defaultValue}}};
 	{{/columns}}
 	
 	{{#columns}}
-	public {{typeName}} get{{nameCamelcase}}(){
+	public {{javaTypeName}} get{{nameCamelcase}}(){
 		return {{name}};
 	}
 
-	public void set{{nameCamelcase}}({{typeName}} {{name}}){
+	public void set{{nameCamelcase}}({{javaType}} {{name}}){
 		this.{{name}} = {{name}};
 	}
 	{{/columns}}
