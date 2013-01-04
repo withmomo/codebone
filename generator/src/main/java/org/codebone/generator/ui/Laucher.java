@@ -9,14 +9,14 @@ import java.util.List;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.codebone.connector.Column;
+import org.codebone.connector.DatabaseConfiguration;
+import org.codebone.connector.DatabaseConnector;
+import org.codebone.connector.DatabaseHelper;
+import org.codebone.connector.DatabaseType;
+import org.codebone.connector.MySQLDatabaseConnector;
+import org.codebone.connector.TableHelper;
 import org.codebone.generator.Generator;
-import org.codebone.generator.connector.Column;
-import org.codebone.generator.connector.DatabaseConfiguration;
-import org.codebone.generator.connector.DatabaseConnector;
-import org.codebone.generator.connector.DatabaseHelper;
-import org.codebone.generator.connector.DatabaseType;
-import org.codebone.generator.connector.MySQLDatabaseConnector;
-import org.codebone.generator.connector.TableHelper;
 import org.codebone.generator.ui.BrowserBridge.ScriptCallListner;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
@@ -149,7 +149,6 @@ public class Laucher {
 			siteTitle = map.get("title");
 			
 			Generator generator = new Generator();
-			generator.setDatabaseType(DatabaseType.MYSQL);
 			generator.setTeamplatePath(templatePath);
 			generator.setGeneratePath(generatePath);
 			generator.setColumns(columns);

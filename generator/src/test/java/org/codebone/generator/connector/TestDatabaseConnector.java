@@ -4,6 +4,12 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.codebone.connector.Column;
+import org.codebone.connector.DatabaseConfiguration;
+import org.codebone.connector.DatabaseConnector;
+import org.codebone.connector.DatabaseHelper;
+import org.codebone.connector.MySQLDatabaseConnector;
+import org.codebone.connector.TableHelper;
 import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;

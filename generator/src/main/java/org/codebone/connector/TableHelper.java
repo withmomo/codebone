@@ -1,4 +1,4 @@
-package org.codebone.generator.connector;
+package org.codebone.connector;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;

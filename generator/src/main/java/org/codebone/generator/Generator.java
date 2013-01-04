@@ -3,7 +3,7 @@ package org.codebone.generator;
 import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -11,13 +11,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.WordUtils;
-import org.codebone.generator.connector.Column;
-import org.codebone.generator.connector.DatabaseType;
+import org.codebone.connector.Column;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
@@ -25,8 +22,9 @@ import com.github.mustachejava.MustacheFactory;
 
 public class Generator {
 	
+	private MustacheFactory mustacheFactory = new DefaultMustacheFactory();
+	
 	private String siteTitle;
-	private DatabaseType databaseType;
 	private String teamplatePath;
 	private String generatePath;
 	private String tableName;
@@ -56,7 +54,7 @@ public class Generator {
 		return true;
 	}
 	
-	private void generateTemplateFile(File file, String generatedSource) {
+	private void generateTemplateFile(File file, String generatedSource) throws IOException {
 		String rootDirectoryPath = replaceFolderSperator(file.getAbsolutePath());
 		rootDirectoryPath = rootDirectoryPath.replaceAll(teamplatePath,generatePath);
 		rootDirectoryPath = rootDirectoryPath.substring(0,rootDirectoryPath.lastIndexOf("/"));
@@ -64,26 +62,28 @@ public class Generator {
 			rootDirectoryPath = rootDirectoryPath + "/";
 		
 		String fileName = file.getName();
-		int directorySeperatorIndex = fileName.indexOf("&");
-		if( directorySeperatorIndex > -1 ) {
-			String directoryPath = fileName.substring(0,directorySeperatorIndex);
-			if("{PACKAGE}".equals(directoryPath))
-				directoryPath = packageName.replaceAll("\\.","/");
-			else if("{MAPPING_URI}".equals(directoryPath)) 
-				directoryPath = uri;
+		HashMap<String, Object> datas = new HashMap<String, Object>();
+	    datas.put("siteTitle", siteTitle);
+	    datas.put("package", packageName);
+	    datas.put("mappingUri", uri);
+	    setValue(datas, "tableName", tableName);
+	    
+	    String[] names = fileName.split("\\.");
+		boolean isCreateDirectory = names.length == 3;
+		if( isCreateDirectory ) {
+			datas.put("package", packageName.replaceAll("\\.","/"));
+			String directoryPath = replace(names[0], datas);
+			rootDirectoryPath += directoryPath;
 			
-			rootDirectoryPath += directoryPath;;
-			fileName = fileName.substring(directorySeperatorIndex+1);
+			datas.put("package", packageName);
+			fileName = names[1] + "." + names[2];
 		}
+		fileName = replace(fileName, datas);
 		createDirectory(rootDirectoryPath);
-		
-		fileName = replaceReservedKeyword(fileName, Template.TABLE_NAME, tableName);
-		fileName = replaceReservedKeyword(fileName, Template.TABLE_NAME_CAMELCASE, transformCamelcase(tableName));
-		
 		String absolutePath = rootDirectoryPath + "/" + fileName;
 		FileUtils.write(absolutePath, generatedSource);
 	}
-	
+
 	private void replaceAbsolutePath() {
 		teamplatePath = replaceFolderSperator(new File(teamplatePath).getAbsolutePath());
 		generatePath = replaceFolderSperator(new File(generatePath).getAbsolutePath());
@@ -105,11 +105,12 @@ public class Generator {
 			return null;
 		
 		HashMap<String, Object> datas = getMappingDatas();
-		
-		MustacheFactory mf = new DefaultMustacheFactory();
-		StringReader reader = new StringReader(source);
+		return replace(source, datas);
+	}
+	
+	private String replace(String source, HashMap<String, Object> datas) throws IOException {
 		StringWriter writer = new StringWriter();
-		Mustache mustache = mf.compile(reader, "define");
+		Mustache mustache = mustacheFactory.compile(new StringReader(source), "replace");
 		mustache.execute(writer, datas).flush();
 		return writer.toString();
 	}
@@ -121,7 +122,8 @@ public class Generator {
 	    datas.put("mappingUri", uri);
 	    setValue(datas, "tableName", tableName);
 	    
-	    List<HashMap> objectColumns = new ArrayList<HashMap>();
+	    @SuppressWarnings("rawtypes")
+		List<HashMap> objectColumns = new ArrayList<HashMap>();
 	    for(Column column : columns ) {
 	    	HashMap<String, Object> objectColumn = new HashMap<String, Object>();
 	    	
@@ -165,16 +167,6 @@ public class Generator {
 	    String camelcase = name + "Camelcase";
 	    String camelcaseValue = WordUtils.capitalizeFully(value.toString(), new char[]{'_'}).replaceAll("_", "");
 	    obj.put(camelcase, camelcaseValue);
-	}
-	
-	private String transformCamelcase(String source) {
-		if( source == null )
-			return null;
-		return source.substring(0,1).toUpperCase() + source.substring(1);
-	}
-	
-	private String replaceReservedKeyword(String source, String keyword, String data) {
-		return source.replaceAll("(?i)" + keyword, data);
 	}
 
 	public String getTeamplatePath() {
@@ -227,15 +219,7 @@ public class Generator {
 		
 		this.generatePath = generatePath;
 	}
-
-	public DatabaseType getDatabaseType() {
-		return databaseType;
-	}
-
-	public void setDatabaseType(DatabaseType databaseType) {
-		this.databaseType = databaseType;
-	}
-
+	
 	public String getSiteTitle() {
 		return siteTitle;
 	}

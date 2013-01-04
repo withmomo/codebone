@@ -23,7 +23,9 @@
 		<div class="controls" style="text-align: right">
 			<select name="property">
 				{{#columns}}
+				{{#searchable}}
 				<option value="{{name}}">{{description}}</option>
+				{{/searchable}}
 				{{/columns}}
 			</select>
 			<input type="text" class="input-xlarge search-query" name="keyword">

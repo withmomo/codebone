@@ -1,4 +1,4 @@
-package org.codebone.generator.connector;
+package org.codebone.connector;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
