@@ -3,6 +3,7 @@ package org.codebone.generator;
 import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -20,6 +21,8 @@ import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 
 public class Generator {
+	
+	private MustacheFactory mustacheFactory = new DefaultMustacheFactory();
 	
 	private String siteTitle;
 	private String teamplatePath;
@@ -51,7 +54,7 @@ public class Generator {
 		return true;
 	}
 	
-	private void generateTemplateFile(File file, String generatedSource) {
+	private void generateTemplateFile(File file, String generatedSource) throws IOException {
 		String rootDirectoryPath = replaceFolderSperator(file.getAbsolutePath());
 		rootDirectoryPath = rootDirectoryPath.replaceAll(teamplatePath,generatePath);
 		rootDirectoryPath = rootDirectoryPath.substring(0,rootDirectoryPath.lastIndexOf("/"));
@@ -59,26 +62,28 @@ public class Generator {
 			rootDirectoryPath = rootDirectoryPath + "/";
 		
 		String fileName = file.getName();
-		int directorySeperatorIndex = fileName.indexOf("&");
-		if( directorySeperatorIndex > -1 ) {
-			String directoryPath = fileName.substring(0,directorySeperatorIndex);
-			if("{PACKAGE}".equals(directoryPath))
-				directoryPath = packageName.replaceAll("\\.","/");
-			else if("{MAPPING_URI}".equals(directoryPath)) 
-				directoryPath = uri;
+		HashMap<String, Object> datas = new HashMap<String, Object>();
+	    datas.put("siteTitle", siteTitle);
+	    datas.put("package", packageName);
+	    datas.put("mappingUri", uri);
+	    setValue(datas, "tableName", tableName);
+	    
+	    String[] names = fileName.split("\\.");
+		boolean isCreateDirectory = names.length == 3;
+		if( isCreateDirectory ) {
+			datas.put("package", packageName.replaceAll("\\.","/"));
+			String directoryPath = replace(names[0], datas);
+			rootDirectoryPath += directoryPath;
 			
-			rootDirectoryPath += directoryPath;;
-			fileName = fileName.substring(directorySeperatorIndex+1);
+			datas.put("package", packageName);
+			fileName = names[1] + "." + names[2];
 		}
+		fileName = replace(fileName, datas);
 		createDirectory(rootDirectoryPath);
-		
-		fileName = replaceReservedKeyword(fileName, Template.TABLE_NAME, tableName);
-		fileName = replaceReservedKeyword(fileName, Template.TABLE_NAME_CAMELCASE, transformCamelcase(tableName));
-		
 		String absolutePath = rootDirectoryPath + "/" + fileName;
 		FileUtils.write(absolutePath, generatedSource);
 	}
-	
+
 	private void replaceAbsolutePath() {
 		teamplatePath = replaceFolderSperator(new File(teamplatePath).getAbsolutePath());
 		generatePath = replaceFolderSperator(new File(generatePath).getAbsolutePath());
@@ -100,11 +105,12 @@ public class Generator {
 			return null;
 		
 		HashMap<String, Object> datas = getMappingDatas();
-		
-		MustacheFactory mf = new DefaultMustacheFactory();
-		StringReader reader = new StringReader(source);
+		return replace(source, datas);
+	}
+	
+	private String replace(String source, HashMap<String, Object> datas) throws IOException {
 		StringWriter writer = new StringWriter();
-		Mustache mustache = mf.compile(reader, "define");
+		Mustache mustache = mustacheFactory.compile(new StringReader(source), "replace");
 		mustache.execute(writer, datas).flush();
 		return writer.toString();
 	}
@@ -159,18 +165,8 @@ public class Generator {
 	    obj.put(lowercase, value.toString().toLowerCase());
 	    
 	    String camelcase = name + "Camelcase";
-	    String camelcaseValue = transformCamelcase(value.toString());
+	    String camelcaseValue = WordUtils.capitalizeFully(value.toString(), new char[]{'_'}).replaceAll("_", "");
 	    obj.put(camelcase, camelcaseValue);
-	}
-	
-	private String transformCamelcase(String source) {
-		if( source == null )
-			return null;
-		return WordUtils.capitalizeFully(source, new char[]{'_'}).replaceAll("_", "");
-	}
-	
-	private String replaceReservedKeyword(String source, String keyword, String data) {
-		return source.replaceAll("(?i)" + keyword, data);
 	}
 
 	public String getTeamplatePath() {
