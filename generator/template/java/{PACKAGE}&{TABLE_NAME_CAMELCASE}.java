@@ -20,6 +20,10 @@ public class {{tableNameCamelcase}}{
 	}
 	
 	{{#columns}}
+	{{#primaryKey}}
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	{{/primaryKey}}
 	@Column
 	private {{typeName}} {{name}} = {{{defaultValue}}};
 	{{/columns}}
