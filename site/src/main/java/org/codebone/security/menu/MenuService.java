@@ -1,5 +1,8 @@
 package org.codebone.security.menu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.codebone.framework.BaseModel;
 import org.codebone.framework.FailModel;
 import org.codebone.framework.SuccessModel;
@@ -46,5 +49,26 @@ public class MenuService extends AbstractService<Menu>{
 		}else{
 			return new FailModel();
 		}
+	}
+	public BaseModel readMenuHierarchy(){
+		List<Menu> menuList = (List<Menu>) listAll().getData();
+		List<Menu> hierarchyList = new ArrayList<Menu>();
+		List<Menu> subMenuList = new ArrayList<Menu>();
+		Menu tmpStore = menuList.get(0);
+		for(int i=1;i<menuList.size();i++){
+			Menu menu = menuList.get(i);
+			if(menu.getSubOrder().equals(0)){
+				tmpStore.setSubMenus(subMenuList);
+				hierarchyList.add(tmpStore);
+				
+				subMenuList = new ArrayList<Menu>();
+				tmpStore = menu;
+			}else{
+				subMenuList.add(menu);
+			}
+		}
+		tmpStore.setSubMenus(subMenuList);
+		hierarchyList.add(tmpStore);
+		return new SuccessModel(hierarchyList);
 	}
 }

@@ -40,7 +40,7 @@ public abstract class AbstractController<M> {
 				authentication.getName()).getData();
 		List<Menu> menuList = null;
 		if (session.getAttribute("menuList") == null) {
-			menuList = (List<Menu>) menuService.listAll().getData();
+			menuList = (List<Menu>) menuService.readMenuHierarchy().getData();
 			session.setAttribute("menuList", menuList);
 		} else {
 			menuList = (List<Menu>) session.getAttribute("menuList");

@@ -1,12 +1,15 @@
 package org.codebone.security.menu;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -33,10 +36,6 @@ public class Menu{
 	@Column
 	private Integer subOrder = 0;
 	
-	/**
-	 * 일단은 2단메뉴까지만 생각ㅇㅋ
-	 */
-	
 	@Column(length=1)
 	private String isSeparate = "N";
 	
@@ -48,6 +47,9 @@ public class Menu{
 
 	@Column
 	private Date createDate = new Date();
+	
+	@Transient
+	private List<Menu> subMenus = new ArrayList();
 
 	public Long getIdx() {
 		return idx;
@@ -119,6 +121,20 @@ public class Menu{
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+
+	/**
+	 * @return the subMenus
+	 */
+	public List<Menu> getSubMenus() {
+		return subMenus;
+	}
+
+	/**
+	 * @param subMenus the subMenus to set
+	 */
+	public void setSubMenus(List<Menu> subMenus) {
+		this.subMenus = subMenus;
 	}
 
 	@Override
