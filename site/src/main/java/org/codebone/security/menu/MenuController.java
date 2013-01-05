@@ -60,14 +60,14 @@ public class MenuController extends AbstractController<Object> {
 	@RequestMapping(method = RequestMethod.GET)
 	@Secured("ROLE_MENU_READ")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse res,
-			HttpSession session, Integer page) {
+			HttpSession session, Integer page, Long menuIdx) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (page == null) {
 			page = 1;
 		}
 		map.put("data", service.list(page));
 		map.put("page", page);
-
+		map.put("menuIdx", menuIdx);
 		return getCommonModelAndView(getContextName() + "/list", map, session);
 	}
 

@@ -1,4 +1,4 @@
-package org.codebone.generator.connector;
+package org.codebone.connector;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -7,6 +7,7 @@ public class Column {
 	private String name;
 	private int type;
 	private String typeName;
+	private String javaType;
 	private String defaultValue;
 	private int size;
 	private String description;
@@ -163,5 +164,13 @@ public class Column {
 
 	public void setPredefined(boolean isPredefined) {
 		this.isPredefined = isPredefined;
+	}
+
+	public String getJavaType() {
+		return transformJavaType(this.typeName);
+	}
+
+	public void setJavaType(String javaType) {
+		this.javaType = javaType;
 	}
 }

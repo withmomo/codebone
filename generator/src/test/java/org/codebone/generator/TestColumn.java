@@ -2,7 +2,7 @@ package org.codebone.generator;
 
 import junit.framework.Assert;
 
-import org.codebone.generator.connector.Column;
+import org.codebone.connector.Column;
 import org.junit.Test;
 
 public class TestColumn {
