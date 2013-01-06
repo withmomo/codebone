@@ -21,43 +21,44 @@
 		isCreate = "Update";
 	}
 %>
-<!DOCTYPE HTML>
-<html>
-<%@ include file="/WEB-INF/jsp/import/config.jsp"%>
-<title><%=Organization.class.getSimpleName() + " " + isCreate%></title>
-<body>
-	<form class="well form-search"
-		action="<%=request.getContextPath()%>/app/organization/<%=isCreate.toLowerCase() %>"
+<section id="form">
+	<form class="form-horizontal"
+		action="<%=request.getContextPath()%>/app/organization/<%=isCreate.toLowerCase()%>"
 		method="post">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>필드</th>
-					<th>값</th>
-				</tr>
-			</thead>
-			<tr>
-				<th>name</th>
-				<td><input type="text" class="form-vertical" name="name"
-					value="<%=orgModel.getName()%>"></td>
-			</tr>
-			<tr>
-				<th>description</th>
-				<td><input type="text" class="form-vertical" name="description"
-					value="<%=orgModel.getDescription()%>"></td>
-			</tr>
-			</tbody>
-		</table>
-		<div style="text-align: right">
-			<button class="btn btn-primary btn-large" type="submit">
-				<i class="icon-pencil icon-white"></i><%=isCreate %>
-			</button>
+		
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="control-group">
+					<label class="control-label" for="name">name</label>
+					<div class="controls">
+						<input type="text" class="input-large" id="name" name="name"
+							value="<%=orgModel.getName()%>">
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="url">description</label>
+					<div class="controls">
+						<input type="text" class="input-large" id="description" name="description"
+							value="<%=orgModel.getDescription()%>">
+					</div>
+				</div>
+			</div>
 		</div>
-		<%if(isCreate.equals("Update")){ %>
+		
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary"><%=isCreate%></button>
+			<button type="reset" class="btn">Cancel</button>
+		</div>
+
+		<%
+			if (isCreate.equals("Update")) {
+		%>
 		<input type="hidden" class="form-vertical" name="idx"
 			value="<%=orgModel.getIdx()%>">
-		</td>
-		<%} %>
+		<%
+			}
+		%>
+
 	</form>
-</body>
-</html>
+</section>

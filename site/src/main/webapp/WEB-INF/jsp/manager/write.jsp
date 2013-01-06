@@ -20,82 +20,91 @@
 		managerModel = (Manager) model.getData();
 		isCreate = "Update";
 	}
-	List<Organization> organizationList = (List) request.getAttribute("organizationList");
+	List<Organization> organizationList = (List) request
+			.getAttribute("organizationList");
 %>
-<!DOCTYPE HTML>
-<html>
-<%@ include file="/WEB-INF/jsp/import/config.jsp"%>
-<link href="../../../css/datepicker.css" rel="stylesheet">
-<script type="text/javascript" src="../../../js/bootstrap-datepicker.js"></script>
-<title><%=Manager.class.getSimpleName() + " " + isCreate%></title>
-<body>
-	<form class="well form-search"
-		action="<%=request.getContextPath()%>/app/manager/<%=isCreate.toLowerCase() %>"
+<section id="form">
+	<form class="form-horizontal"
+		action="<%=request.getContextPath()%>/app/manager/<%=isCreate.toLowerCase()%>"
 		method="post">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>필드</th>
-					<th>값</th>
-				</tr>
-			</thead>
+		<div class="row-fluid">
+			<div class="span12">
 
+				<div class="control-group">
+					<label class="control-label" for="id">ID</label>
+					<div class="controls">
+						<input type="text" class="input-large" id="id"
+							value="<%=managerModel.getId()%>">
+					</div>
+				</div>
 
-			<tr>
-				<th>id</th>
-				<td><input type="text" class="form-vertical" name="id"
-					value="<%=managerModel.getId()%>"></td>
-			</tr>
-			<tr>
-				<th>password</th>
-				<td><input type="password" class="form-vertical"
-					name="password" value=""></td>
-			</tr>
-			<tr>
-				<th>email</th>
-				<td><input type="text" class="form-vertical" name="email"
-					value="<%=managerModel.getEmail()%>"></td>
-			</tr>
-			<tr>
-				<th>name</th>
-				<td><input type="text" class="form-vertical" name="name"
-					value="<%=managerModel.getName()%>"></td>
-			</tr>
-			<tr>
-				<th>phoneNumber</th>
-				<td><input type="text" class="form-vertical" name="phoneNumber"
-					value="<%=managerModel.getPhoneNumber()%>"></td>
-			</tr>
-			<tr>
-				<th>Organization</th>
-				<td>
-					<select name="organizationIdx">
-					<%
-						for(Organization org : organizationList){
-							String selected = "";
-							if (isCreate.equals("Update") && org.getIdx().equals(managerModel.getOrganizationIdx())) {
-								selected = "selected=\"selected\"";
-							}
-					%> 
-					<option value="<%=org.getIdx()%>" <%=selected%>><%=org.getName()%></option>
-					<%
-						}
-					%>
-					</select>
-				</td>
-			</tr>
-			</tbody>
-		</table>
-		<div style="text-align: right">
-			<button class="btn btn-primary btn-large" type="submit">
-				<i class="icon-pencil icon-white"></i><%=isCreate %>
-			</button>
+				<div class="control-group">
+					<label class="control-label" for="id">password</label>
+					<div class="controls">
+						<input type="text" class="input-large" id="password">
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="id">email</label>
+					<div class="controls">
+						<input type="text" class="input-large" id="email"
+							value="<%=managerModel.getEmail()%>">
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="id">name</label>
+					<div class="controls">
+						<input type="text" class="input-large" id="name"
+							value="<%=managerModel.getName()%>">
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="phonenumber">phonenumber</label>
+					<div class="controls">
+						<input type="text" class="input-large" id="phonenumber"
+							value="<%=managerModel.getPhoneNumber()%>">
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="organization">Organization</label>
+					<div class="controls">
+						<select name="organizationIdx">
+							<%
+								for (Organization org : organizationList) {
+									String selected = "";
+									if (isCreate.equals("Update")
+											&& org.getIdx().equals(
+													managerModel.getOrganizationIdx())) {
+										selected = "selected=\"selected\"";
+									}
+							%>
+							<option value="<%=org.getIdx()%>" <%=selected%>><%=org.getName()%></option>
+							<%
+								}
+							%>
+						</select>
+					</div>
+				</div>
+			</div>
 		</div>
-		<%if(isCreate.equals("Update")){ %>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary"><%=isCreate%></button>
+			<button type="reset" class="btn">Cancel</button>
+		</div>
+
+		<%
+			if (isCreate.equals("Update")) {
+		%>
 		<input type="hidden" class="form-vertical" name="idx"
 			value="<%=managerModel.getIdx()%>">
-		</td>
-		<%} %>
+		<%
+			}
+		%>
+
 	</form>
-</body>
-</html>
+</section>

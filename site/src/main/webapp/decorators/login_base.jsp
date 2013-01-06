@@ -7,7 +7,6 @@
 <head>
 <decorator:head />
 <title><decorator:title default="Codebone" /></title>
-<%@ include file="/WEB-INF/jsp/import/config.jsp"%>
 <style type="text/css">
 /* Override some defaults */
 html,body {

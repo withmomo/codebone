@@ -13,40 +13,18 @@
 	int allCount = model.getAllCount();
 	int currentPage = (Integer) request.getAttribute("page");
 %>
-<!DOCTYPE HTML>
-<html>
-<head>
-<title><%=Manager.class.getSimpleName()%> List</title>
-</head>
-<body>
-
-	<form class="well form-search"
-		action="<%=request.getContextPath()%>/app/manager/search" method="post">
-		<div class="controls" style="text-align: right">
-			<select id="manager_search_select" name="property">
-				<option>idx</option>
-				<option>id</option>
-				<option>email</option>
-				<option>name</option>
-				<option>phoneNumber</option>
-				<option>organizationIdx</option>
-				<option>level</option>
-				<option>createdDate</option>
-			</select> <input type="text" class="input-xlarge search-query" name="keyword">
-			<button type="submit" class="btn">Search</button>
-		</div>
-	</form>
+<section id="contents">
 	<table class="table">
 		<thead>
 			<tr>
-				<th>idx</th>
-				<th>id</th>
-				<th>email</th>
-				<th>name</th>
-				<th>phoneNumber</th>
-				<th>organizationIdx</th>
-				<th>createdDate</th>
-				<th>Action</th>
+				<th></th>
+				<th>ID</th>
+				<th>이메일</th>
+				<th>이름</th>
+				<th>전화번호</th>
+				<th>그룹</th>
+				<th>생성일</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -66,16 +44,13 @@
 				<td><%=managerModel.getCreateDate()%></td>
 				<td>
 					<div class="btn-group">
-						<button class="btn btn-primary dropdown-toggle"
-							data-toggle="dropdown">
-							<i class="icon-pencil icon-white"></i>Action
-						</button>
-						<ul class="dropdown-menu">
-							<li><a
-								href="<%=request.getContextPath()%>/app/manager/update?idx=<%=idx%>">Update</a></li>
-							<li><a
-								href="<%=request.getContextPath()%>/app/manager/delete?idx=<%=idx%>">Delete</a></li>
-						</ul>
+						<a class="btn btn-small"
+							href="<%=request.getContextPath()%>/app/manager/update?idx=<%=idx%>">
+							<i class="icon-edit"></i> Update
+						</a> <a class="btn btn-small"
+							href="<%=request.getContextPath()%>/app/manager/delete?idx=<%=idx%>">
+							<i class="icon-trash"></i> Delete
+						</a>
 					</div>
 				</td>
 			</tr>
@@ -84,23 +59,54 @@
 			%>
 		</tbody>
 	</table>
+</section>
 
-	<%
-		PagingNavigation pagingNavigation = new PagingNavigation();
-		pagingNavigation.setCurrentPage(currentPage+1);
-		pagingNavigation.setPagePerBlock(5L);
-		pagingNavigation.setRecordPerPage(20L);
-		pagingNavigation.setTotalRecord(allCount);
-		pagingNavigation.setHref("list");
-		pagingNavigation.setParamters("");
-		out.println(pagingNavigation.getHtml());
-	%>
 
-	<div style="text-align: right">
-		<a class="btn btn-primary "
-			href="<%=request.getContextPath()%>/app/manager/create"> <i
-			class="icon-file icon-white"></i> Create
-		</a>
+<section id="operation">
+	<div class="row-fluid">
+		<div class="pull-left">
+			<a class="btn"
+				href="<%=request.getContextPath()%>/app/manager/create"> <i
+				class="icon-pencil"></i> Create
+			</a>
+		</div>
+		
+		<div class="pull-right">
+		<form class="form-search"
+			action="<%=request.getContextPath()%>/app/organization/search"
+			method="post">
+			<div class="input-append">
+				<div>
+					<label class="checkbox inline"> <input name="property"
+						type="checkbox" value="id">id
+					</label> <label class="checkbox inline"> <input name="property"
+						type="checkbox" value="email">email
+					</label> <label class="checkbox inline"> <input name="property"
+						type="checkbox" value="organizationIdx">organization
+					</label> <label class="checkbox inline"> <input name="property"
+						type="checkbox" value="name">name
+					</label>
+				</div>
+				<input type="text" class="search-query" name="keyword">
+				<button type="submit" class="btn">Search</button>
+			</div>
+		</form>
+		</div>
+	
 	</div>
-</body>
-</html>
+</section>
+
+<section id="navigation">
+	<div class="row-fluid">
+		<%
+			PagingNavigation pagingNavigation = new PagingNavigation();
+			pagingNavigation.setCurrentPage(currentPage + 1);
+			pagingNavigation.setPagePerBlock(5L);
+			pagingNavigation.setRecordPerPage(20L);
+			pagingNavigation.setTotalRecord(allCount);
+			pagingNavigation.setHref("list");
+			pagingNavigation.setParamters("");
+			out.println(pagingNavigation.getHtml());
+		%>
+	</div>
+</section>

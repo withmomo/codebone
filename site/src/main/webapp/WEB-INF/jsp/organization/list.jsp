@@ -19,31 +19,9 @@
 	Long organizationIdx = (Long) request
 			.getAttribute("organizationIdx");
 %>
-<!DOCTYPE HTML>
-<html>
-<head>
-<script>
-	$(document).ready(function() {
-		$('.dropdown-toggle').dropdown()
-	});
-</script>
-<title><%=Organization.class.getSimpleName()%> List</title>
-</head>
-<body>
-	<div class="row">
-		<form class="well form-search"
-			action="<%=request.getContextPath()%>/app/organization/search"
-			method="post">
-			<div class="controls" style="text-align: right">
-				<select id="organization_search_select" name="property">
-					<option>idx</option>
-					<option>name</option>
-					<option>description</option>
-				</select> <input type="text" class="input-xlarge search-query" name="keyword">
-				<button type="submit" class="btn">Search</button>
-			</div>
-		</form>
-		<div class="span7">
+<section id="contents">
+	<div class="row-fluid">
+		<div class="pull-left">
 			<table class="table">
 				<thead>
 					<tr>
@@ -103,8 +81,8 @@
 									method="post">
 									<div class="modal-body">
 										User ID : <input type="text" name="id" class="form-vertical">
-										<input type="hidden" class="form-vertical" name="organizationIdx"
-											value="<%=idx%>">
+										<input type="hidden" class="form-vertical"
+											name="organizationIdx" value="<%=idx%>">
 									</div>
 									<div class="modal-footer">
 										<button class="btn btn-primary btn-large" type="submit">
@@ -120,7 +98,8 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="span4">
+
+		<div class="pull-right">
 			<table class="table">
 				<thead>
 					<tr>
@@ -136,12 +115,10 @@
 					<tr>
 						<td><%=authoritiesModel.getIdx()%></td>
 						<td><%=authoritiesModel.getAuthority()%></td>
-						<td>
-							<a class="btn btn-primary"
+						<td><a class="btn btn-primary"
 							href="<%=request.getContextPath()%>/app/organization/authDelete?idx=<%=authoritiesModel.getIdx()%>">
-							<i class="icon-trash icon-white"></i>
-							</a>
-						</td>
+								<i class="icon-trash icon-white"></i>
+						</a></td>
 					</tr>
 					<%
 						}
@@ -155,7 +132,40 @@
 				</a>
 			</div>
 		</div>
+
 	</div>
+</section>
+
+<section id="operation">
+	<div class="row-fluid">
+		<div class="pull-left">
+			<a class="btn"
+				href="<%=request.getContextPath()%>/app/organization/create"> <i
+				class="icon-pencil"></i> Create
+			</a>
+		</div>
+
+		<div class="pull-right">
+			<form class="form-search"
+				action="<%=request.getContextPath()%>/app/organization/search"
+				method="post">
+				<div class="input-append">
+					<label class="checkbox inline"> <input name="property"
+						type="checkbox" value="idx">idx
+					</label> <label class="checkbox inline"> <input name="property"
+						type="checkbox" value="name">name
+					</label> <label class="checkbox inline"> <input name="property"
+						type="checkbox" value="description">description
+					</label> <span class=""></span> <input type="text" class="search-query"
+						name="keyword">
+					<button type="submit" class="btn">Search</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</section>
+
+<section id="navigation">
 	<%
 		PagingNavigation pagingNavigation = new PagingNavigation();
 		pagingNavigation.setCurrentPage(currentPage + 1);
@@ -166,13 +176,4 @@
 		pagingNavigation.setParamters("");
 		out.println(pagingNavigation.getHtml());
 	%>
-
-	<div style="text-align: right">
-		<a class="btn btn-primary "
-			href="<%=request.getContextPath()%>/app/organization/create"> <i
-			class="icon-file icon-white"></i> Create
-		</a>
-	</div>
-
-</body>
-</html>
+</section>

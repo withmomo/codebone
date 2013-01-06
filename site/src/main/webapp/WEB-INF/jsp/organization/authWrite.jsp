@@ -24,8 +24,7 @@
 %>
 <!DOCTYPE HTML>
 <html>
-<%@ include file="/WEB-INF/jsp/import/config.jsp"%>
-<title><%=Authorities.class.getSimpleName() + " " + isCreate%></title>
+
 <body>
 	<form class="well form-search"
 		action="<%=request.getContextPath()%>/app/organization/authCreate"
