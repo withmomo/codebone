@@ -120,6 +120,11 @@
 		<artifactId>commons-cli</artifactId>
 		<version>1.2</version>
 	</dependency>
+	<dependency>
+    <groupId>net.sourceforge.schemacrawler</groupId>
+    <artifactId>schemacrawler</artifactId>
+    <version>9.3.2</version>
+  </dependency>
   </dependencies>
   
   <build>
