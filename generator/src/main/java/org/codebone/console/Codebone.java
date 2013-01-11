@@ -3,6 +3,7 @@ package org.codebone.console;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
@@ -64,6 +65,8 @@ public class Codebone extends BaseCommand {
 	    final SchemaCrawlerOptions options = new SchemaCrawlerOptions();
 		options.setSchemaInfoLevel(SchemaInfoLevel.standard());
 
+		
+		Scanner scan = new Scanner(System.in);
 		final Database databaseStruct = SchemaCrawlerUtility.getDatabase(connection, options);
 		Schema schema = databaseStruct.getSchema(database);
 		final Table tableStruct = databaseStruct.getTable(schema, table);
@@ -74,6 +77,15 @@ public class Codebone extends BaseCommand {
 					  if(isUnique(column)){
 						  System.out.println("OneToOne Detected!");
 						  System.out.println(referencedColumn.getParent().getName()+ " 1 -> 1 " + column.getParent().getName());
+						  System.out.println("Codebone will copy this relationship into JPA Model File. copy it? (Y/N)");
+						  String answer = scan.next();
+						  if(answer.toLowerCase().equals("y")){
+							  System.out.println("Pressed Y");
+						  }else if(answer.toLowerCase().equals("n")){
+							  System.out.println("Pressed N");
+						  }else{
+							  System.out.println("Error");
+						  }
 					  }else{
 						  System.out.println("OneToMany Detected!");
 						  System.out.println(referencedColumn.getParent().getName()+ " 1 -> N " + column.getParent().getName());
