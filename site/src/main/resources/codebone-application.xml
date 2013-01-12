@@ -19,7 +19,17 @@
 
 	<!-- Activates various annotations to be detected in bean classes -->
 	<context:annotation-config />
-
+	<context:component-scan base-package="org.codebone" />
+	
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:codebone.properties</value>
+			</list>
+		</property>
+	</bean>
+	
 	<!-- Scans the classpath for annotated components that will be auto-registered 
 		as Spring beans. For example @Controller and @Service. Make sure to set the 
 		correct base-package -->
@@ -31,14 +41,14 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 
 		<property name="url">
-			<value>jdbc:mysql://localhost:3306/codebone?useUnicode=true&amp;characterEncoding=UTF8
+			<value>jdbc:mysql://${codebone.database.host}:${codebone.database.port}/${codebone.database.name}?useUnicode=true&amp;characterEncoding=UTF8
 			</value>
 		</property>
 		<property name="username">
-			<value>root</value>
+			<value>${codebone.database.username}</value>
 		</property>
 		<property name="password">
-			<value>password</value>
+			<value>${codebone.database.password}</value>
 		</property>
 
 	</bean>
@@ -75,7 +85,5 @@
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-
-
 
 </beans> 
