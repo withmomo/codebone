@@ -1,9 +1,12 @@
 package org.codebone.console;
 
 import java.sql.Connection;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
@@ -14,14 +17,13 @@ import org.codebone.connector.DatabaseConnector;
 import org.codebone.connector.DatabaseHelper;
 import org.codebone.connector.DatabaseType;
 import org.codebone.connector.MySQLDatabaseConnector;
+import org.codebone.connector.SchemaCrawlerHelper;
 
 import schemacrawler.schema.Column;
 import schemacrawler.schema.Database;
-import schemacrawler.schema.Index;
-import schemacrawler.schema.IndexColumn;
-import schemacrawler.schema.PrimaryKey;
 import schemacrawler.schema.Schema;
 import schemacrawler.schema.Table;
+import schemacrawler.schema.TableRelationshipType;
 import schemacrawler.schemacrawler.SchemaCrawlerOptions;
 import schemacrawler.schemacrawler.SchemaInfoLevel;
 import schemacrawler.utility.SchemaCrawlerUtility;
@@ -62,67 +64,29 @@ public class Codebone extends BaseCommand {
 	    	System.out.println("Table not found!");
 	    	return;
 	    }
+	    
 	    final SchemaCrawlerOptions options = new SchemaCrawlerOptions();
 		options.setSchemaInfoLevel(SchemaInfoLevel.standard());
-
 		
-		Scanner scan = new Scanner(System.in);
 		final Database databaseStruct = SchemaCrawlerUtility.getDatabase(connection, options);
 		Schema schema = databaseStruct.getSchema(database);
 		final Table tableStruct = databaseStruct.getTable(schema, table);
-			  List<Column> oneToManyColumnList = new ArrayList();
-			  for(Column column : tableStruct.getColumns()){
-				  if(column.isPartOfForeignKey()){
-					  Column referencedColumn = column.getReferencedColumn();
-					  if(isUnique(column)){
-						  System.out.println("OneToOne Detected!");
-						  System.out.println(referencedColumn.getParent().getName()+ " 1 -> 1 " + column.getParent().getName());
-						  System.out.println("Codebone will copy this relationship into JPA Model File. copy it? (Y/N)");
-						  String answer = scan.next();
-						  if(answer.toLowerCase().equals("y")){
-							  System.out.println("Pressed Y");
-						  }else if(answer.toLowerCase().equals("n")){
-							  System.out.println("Pressed N");
-						  }else{
-							  System.out.println("Error");
-						  }
-					  }else{
-						  System.out.println("OneToMany Detected!");
-						  System.out.println(referencedColumn.getParent().getName()+ " 1 -> N " + column.getParent().getName());
-						  oneToManyColumnList.add(column);
-					  }
-				  }
-				  if(oneToManyColumnList.size()==2 && tableStruct.getColumns().size()==2){
-					  System.out.println("ManyToMany Detected!");
-					  System.out.println(oneToManyColumnList.get(0).getReferencedColumn().getParent().getName() + " N <-> N " 
-					  + oneToManyColumnList.get(1).getReferencedColumn().getParent().getName());
-				  }
-			  }
-	    
-	    
-	    
-	    
-	}
-	
-	private static boolean isUnique(Column column){
-		for (Index index : column.getParent().getIndices()) {
-            if (index.isUnique()) {
-                List<IndexColumn> indexColumns = index.getColumns();
-                if (indexColumns.size() == 1 && 
-                		indexColumns.get(0).getFullName().equals(column.getFullName())) {
-                	return true;
-                }
-            }
-        }
-		PrimaryKey pk = column.getParent().getPrimaryKey();
-		if(pk != null){
-			List<IndexColumn> PKList = pk.getColumns();
-			if(PKList.size() == 1 &&
-					PKList.get(0).getFullName().equals(column.getFullName())){
-				return true;
-			}
+		
+		Map<Column, RelationshipType> relationshipMap = new HashMap<Column, RelationshipType>();
+		
+		relationshipMap.putAll(SchemaCrawlerHelper.findRelationship(tableStruct, tableStruct));
+		for(Table table : tableStruct.getRelatedTables(TableRelationshipType.child)){
+			relationshipMap.putAll(SchemaCrawlerHelper.findRelationship(table, tableStruct));
 		}
-		return false;
+		
+		Set<Entry<Column, RelationshipType>> relationshipSet = relationshipMap.entrySet();
+		Iterator<Entry<Column, RelationshipType>> it = relationshipSet.iterator();
+	    while(it.hasNext()){
+	    	Entry<Column, RelationshipType> entry = it.next();
+	    	System.out.println("Column : " + entry.getKey().getName() + ", Type : " + entry.getValue().toString());
+	    }
+	    
+	    
 	}
 
 	private void setValues(CommandLine line) {
