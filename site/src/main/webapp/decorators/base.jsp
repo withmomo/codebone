@@ -1,3 +1,4 @@
+<%@page import="org.apache.commons.lang.StringUtils"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%><%@
 	taglib prefix="form"
@@ -12,14 +13,14 @@
 	Manager currentLoginManager = null;
 	if (obj1 != null) {
 		currentLoginManager = (Manager) obj1;
-	} else {
-		currentLoginManager = new Manager();
-		currentLoginManager.setName("Error!");
 	}
+	
+	boolean visibleSubNavigation = false;
 	Object obj2 = request.getAttribute("menu");
 	List<Menu> list = null;
 	if (obj2 != null) {
 		list = (List<Menu>) obj2;
+		visibleSubNavigation = true;
 	} else {
 		list = new ArrayList<Menu>();
 	}
@@ -28,15 +29,15 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>codebone - rapidly build application</title>
+<title><decorator:title default="codebone - rapidly build application" /></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="rapidly build application">
 <meta name="author" content="">
 
 <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
 <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
 
 <link href="<%=request.getContextPath()%>/css/inspiritas.css"
 	rel="stylesheet">
@@ -57,18 +58,31 @@
 
 				<div class="nav-collapse collapse" id="main-menu">
 					<div class="auth pull-right">
+					
+					<%if (currentLoginManager==null) { %>
+					<form class="form-inline"
+						action="<%=request.getContextPath()%>/app/authentication"
+						method="post">
+						<input type="text" class="input-small" name="username" placeholder="username">
+						<input type="password" class="input-small" name="password" placeholder="password">
+						<button type="submit" class="btn">Sign in</button>
+					</form>
+					<% } else { %>
 						<img class="avatar"
-							src="https://secure.gravatar.com/avatar/b150400a18767d0c9b0c24672bc3204f?s=40">
+							src="<%=currentLoginManager.getPicture()%>?s=40">
 						<span class="name"><%=currentLoginManager.getName()%></span><br />
-						<span class="links"> <a
-							href="<%=request.getContextPath()%>/app/auth/logout">Sign Out</a>
+						<span class="links">
+							<a href="<%=request.getContextPath()%>/app/auth/logout">Sign Out</a>
 						</span>
+					<% } %>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
+	
+	
+	<div class="container-wapper">
 	<div class="container">
 		<div class="row-fluid">
 			<div class="span3">
@@ -76,7 +90,8 @@
 					<nav>
 					
 					<ul class="nav">
-					<% 
+					<%
+					String navigation = "navigation1";
 					for(Menu menu : list){
 						String dropdownDef = "";
 						String tagDef = "";
@@ -133,11 +148,8 @@
 				<div id="content">
 					<section id="stats">
 						<header>
-							<h1>Dashboard</h1>
+							<h1><%=navigation%></h1>
 						</header>
-						<div class="sub-header">
-							<h2>navigation > board</h2>
-						</div>
 					</section>
 
 					<decorator:body />
@@ -146,7 +158,8 @@
 			</div>
 		</div>
 	</div>
-	<!-- /container -->
+	</div>
+	<!--/container -->
 
 	<footer class="footer">
 		<p class="pull-right">

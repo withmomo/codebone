@@ -33,30 +33,30 @@
 				<div class="control-group">
 					<label class="control-label" for="id">ID</label>
 					<div class="controls">
-						<input type="text" class="input-large" id="id"
+						<input type="text" class="input-large" id="id" name="id"
 							value="<%=managerModel.getId()%>">
 					</div>
 				</div>
 
 				<div class="control-group">
-					<label class="control-label" for="id">password</label>
+					<label class="control-label" for="password">password</label>
 					<div class="controls">
-						<input type="text" class="input-large" id="password">
+						<input type="password" class="input-large" id="password" name="password">
 					</div>
 				</div>
 
 				<div class="control-group">
-					<label class="control-label" for="id">email</label>
+					<label class="control-label" for="email">email</label>
 					<div class="controls">
-						<input type="text" class="input-large" id="email"
+						<input type="text" class="input-large" id="email" name="email"
 							value="<%=managerModel.getEmail()%>">
 					</div>
 				</div>
 
 				<div class="control-group">
-					<label class="control-label" for="id">name</label>
+					<label class="control-label" for="name">name</label>
 					<div class="controls">
-						<input type="text" class="input-large" id="name"
+						<input type="text" class="input-large" id="name" name="name"
 							value="<%=managerModel.getName()%>">
 					</div>
 				</div>
@@ -64,7 +64,7 @@
 				<div class="control-group">
 					<label class="control-label" for="phonenumber">phonenumber</label>
 					<div class="controls">
-						<input type="text" class="input-large" id="phonenumber"
+						<input type="text" class="input-large" id="phonenumber" name="phoneNumber"
 							value="<%=managerModel.getPhoneNumber()%>">
 					</div>
 				</div>
