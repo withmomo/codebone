@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <decorators defaultdir="/decorators">
-	<decorator name="login" page="login_base.jsp">
-		<pattern>/app/auth/*</pattern>
-	</decorator>
-	<decorator name="install" page="login_base.jsp">
-		<pattern>/app/bootstrap/*</pattern>
-	</decorator>
 	<decorator name="default" page="base.jsp">
 		<pattern>/app/*</pattern>
 	</decorator>

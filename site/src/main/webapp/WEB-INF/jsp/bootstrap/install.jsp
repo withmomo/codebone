@@ -8,73 +8,83 @@
 		passwordFail = true;
 	}
 %>
-<!DOCTYPE HTML>
-<html>
-<head>
-<meta charset="utf-8">
-<meta name="description" content="">
-<meta name="author" content="">
-</head>
-<body>
-	<div class="container">
-		<div class="content">
-			<div class="row">
-				<div class="login-form">
-					<h2>Codebone - Install</h2>
-					최초 접속시 관리자를 생성하는 페이지 입니다.<br /><br />
-					<form action="<%=request.getContextPath()%>/app/bootstrap/install"
-						method="post">
-						<fieldset>
-							<table class="table">
-								<tbody>
-									<tr>
-										<td>아이디</td>
-										<td><input type="text" name="id"></td>
-									</tr>
-									<%
-										if (passwordFail) {
-									%>
-									<tr>
-										<td>비밀번호</td>
-										<td><input type="password" placeholder="비밀번호가 다릅니다."
-											name="password"></td>
-									</tr>
-									<tr>
-										<td>비밀번호 확인</td>
-										<td><input type="password" placeholder="비밀번호가 다릅니다."
-											name="passwordCheck"></td>
-									</tr>
-									<%
-										} else {
-									%>
-									<tr>
-										<td>비밀번호</td>
-										<td><input type="password" name="password"></td>
-									</tr>
-									<tr>
-										<td>비밀번호 확인</td>
-										<td><input type="password" name="passwordCheck"></td>
-									</tr>
-									<%
-										}
-									%>
-									<tr>
-										<td>이름</td>
-										<td><input type="text" name="name"></td>
-									</tr>
-									<tr>
-										<td>이메일</td>
-										<td><input type="text" name="email"></td>
-									</tr>
-								</tbody>
-							</table>
-							<button class="btn btn-primary" style="float: right;"
-								type="submit">생성</button>
-						</fieldset>
-					</form>
+<section id="form">
+	<form class="form-horizontal"
+		action="<%=request.getContextPath()%>/app/bootstrap/install"
+		method="post">
+		<div class="row-fluid">
+			<div class="span12">
+
+				<div class="control-group">
+					<label class="control-label" for="id">ID</label>
+					<div class="controls">
+						<input type="text" class="input-large" id="id" name="id">
+					</div>
+				</div>
+
+				<%
+					if (passwordFail) {
+				%>
+
+				<div class="control-group">
+					<label class="control-label" for="password">Password</label>
+					<div class="controls">
+						<input type="text" class="input-large" name="password"
+							id="password" placeholder="diffrent password">
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="passwordCheck">Password</label>
+					<div class="controls">
+						<input type="text" class="input-large" name="passwordCheck"
+							id="passwordCheck" placeholder="diffrent password">
+					</div>
+				</div>
+
+				<%
+					} else {
+				%>
+
+				<div class="control-group">
+					<label class="control-label" for="password">Password</label>
+					<div class="controls">
+						<input type="password" class="input-large" name="password"
+							id="password" placeholder="password">
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="passwordCheck">Password</label>
+					<div class="controls">
+						<input type="password" class="input-large" name="passwordCheck"
+							id="passwordCheck" placeholder="check password">
+					</div>
+				</div>
+
+				<%
+					}
+				%>
+
+				<div class="control-group">
+					<label class="control-label" for="name">Name</label>
+					<div class="controls">
+						<input type="text" class="input-large" id="name" name="name">
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="email">E-mail</label>
+					<div class="controls">
+						<input type="text" class="input-large" id="email" name="email">
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</body>
-</html>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">Create</button>
+		</div>
+
+	</form>
+</section>

@@ -39,8 +39,30 @@ public class Manager{
 	private String name = "";
 	
 	@Column
+	private String picture = null;
+	
+	@Column
 	private Date createDate = new Date();
-
+	
+	public Manager() {
+		super();
+	}
+	
+	public Manager(Long idx, String id, String password, String email,
+			String phoneNumber, Boolean enabled, Long organizationIdx,
+			String name, Date createDate) {
+		super();
+		this.idx = idx;
+		this.id = id;
+		this.password = password;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.enabled = enabled;
+		this.organizationIdx = organizationIdx;
+		this.name = name;
+		this.createDate = createDate;
+	}
+	
 	public Long getIdx() {
 		return idx;
 	}
@@ -113,24 +135,12 @@ public class Manager{
 		this.createDate = createDate;
 	}
 
-	public Manager(Long idx, String id, String password, String email,
-			String phoneNumber, Boolean enabled, Long organizationIdx,
-			String name, Date createDate) {
-		super();
-		this.idx = idx;
-		this.id = id;
-		this.password = password;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-		this.enabled = enabled;
-		this.organizationIdx = organizationIdx;
-		this.name = name;
-		this.createDate = createDate;
+	public String getPicture() {
+		return picture;
 	}
 
-	public Manager() {
-		super();
-		// TODO Auto-generated constructor stub
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
 
 	@Override
@@ -141,6 +151,4 @@ public class Manager{
 				+ organizationIdx + ", name=" + name + ", createDate="
 				+ createDate + "]";
 	}
-	
-	
 }

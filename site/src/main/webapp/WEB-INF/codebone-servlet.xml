@@ -18,21 +18,10 @@
             http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd
             http://www.springframework.org/schema/security
           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
-
-	<!-- Configures the annotation-driven Spring MVC Controller programming 
-		model. Note that, with Spring 3.0, this tag works in Servlet MVC only! -->
-	<mvc:annotation-driven />
-
-	<!-- <tx:annotation-driven /> -->
-
-	<!-- Activates various annotations to be detected in bean classes -->
-	<context:annotation-config />
-
-	<!-- Scans the classpath for annotated components that will be auto-registered 
-		as Spring beans. For example @Controller and @Service. Make sure to set the 
-		correct base-package -->
-	<context:component-scan base-package="org.codebone" />
-
+	
+	<import resource="classpath:codebone-application.xml" />
+    <import resource="classpath:codebone-security.xml" />
+	
 	<!-- Declare a view resolver -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
@@ -43,8 +32,4 @@
 		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
 		<property name="defaultLocale" value="" />
 	</bean>
-
-	<sec:global-method-security
-		secured-annotations="enabled" access-decision-manager-ref="accessDecisionManager" />
-
 </beans>

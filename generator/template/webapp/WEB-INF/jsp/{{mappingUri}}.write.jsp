@@ -21,29 +21,36 @@
 		isCreate = "Update";
 	}
 %>
-<!DOCTYPE HTML>
-<html>
-<%@ include file="/WEB-INF/jsp/import/config.jsp"%>
-<title>{{siteTitle}} <%=isCreate%></title>
-<body>
-	<form class="well form-search" action="<%=request.getContextPath()%>/app/{{mappingUri}}/<%=isCreate.toLowerCase()%>" method="post">
-	<%if(isCreate.equals("Update")){ %>
-	<input type="hidden" class="form-vertical" name="idx" value="<%=model.getIdx().toString()%>">
-	<%} %>
+<section id="form">
+	<form class="form-horizontal"
+		action="<%=request.getContextPath()%>/app/{{mappingUri}}/<%=isCreate.toLowerCase()%>"
+		method="post">
+		<div class="row-fluid">
+			<div class="span12">
+				{{#columns}}
+				<div class="control-group">
+					<label class="control-label" for="{{name}}">{{description}}</label>
+					<div class="controls">
+						<input type="text" class="input-large" id="{{name}}"
+							value="<%=model.get{{nameCamelcase}}()%>">
+					</div>
+				</tr>
+				{{/columns}}
+			</div>
+		</div>
 
-	<table class="table table-striped">
-	{{#columns}}	<tr>
-		<th>{{description}}</th>
-		<td><input type="text" class="form-vertical" name="{{name}}" value="<%=model.get{{nameCamelcase}}()%>"></td>
-	</tr>
-	{{/columns}}
-	</table>
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary"><%=isCreate%></button>
+			<button type="reset" class="btn">Cancel</button>
+		</div>
 
-	<div style="text-align: right">
-		<button class="btn btn-primary btn-large" type="submit">
-			<i class="icon-pencil icon-white"></i><%=isCreate %>
-		</button>
-	</div>
+		<%
+			if (isCreate.equals("Update")) {
+		%>
+		<input type="hidden" class="form-vertical" name="idx" value="<%=model.getIdx()%>">
+		<%
+			}
+		%>
+
 	</form>
-</body>
-</html>
+</section>
