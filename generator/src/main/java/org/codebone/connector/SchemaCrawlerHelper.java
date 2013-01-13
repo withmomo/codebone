@@ -60,7 +60,7 @@ public class SchemaCrawlerHelper {
 					&& table.getColumns().size() == 2) {
 				relList.remove(oneToManyRelList.get(0));
 				relList.remove(oneToManyRelList.get(1));
-				rel = new Relationship(oneToManyRelList.get(0).getColumn(), oneToManyRelList.get(1).getColumn(), RelationshipType.ManyToMany );
+				rel = new Relationship(oneToManyRelList.get(0).getColumn().getReferencedColumn(), oneToManyRelList.get(1).getColumn().getReferencedColumn(), RelationshipType.ManyToMany );
 				relList.add(rel);
 			}
 		}

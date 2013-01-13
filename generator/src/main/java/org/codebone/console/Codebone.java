@@ -67,9 +67,20 @@ public class Codebone extends BaseCommand {
 			System.out.println("Table not found!");
 			return;
 		}
-		List<Relationship> applyRelList = FindTableRelationship(connection, table);
+		
+		final SchemaCrawlerOptions options = new SchemaCrawlerOptions();
+		options.setSchemaInfoLevel(SchemaInfoLevel.standard());
+		final Database databaseStruct = SchemaCrawlerUtility.getDatabase(
+				connection, options);
+		Schema schema = databaseStruct.getSchema(database);
+		final Table tableStruct = databaseStruct.getTable(schema, table);
+		
+		
+		List<Relationship> applyRelList = FindTableRelationship(connection, tableStruct);
 		List<Table> targetTableList = new ArrayList<Table>();
+		targetTableList.add(tableStruct);
 		for(Relationship rel : applyRelList){
+			System.out.println(rel);
 			if(!targetTableList.contains(rel.getColumn().getParent())){
 				targetTableList.add(rel.getColumn().getParent());
 			}
@@ -79,7 +90,6 @@ public class Codebone extends BaseCommand {
 		}
 		//Codebone.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 		String pathStr = URLDecoder.decode(ClassLoader.getSystemClassLoader().getResource(".").getPath(), "UTF-8").replaceFirst("/", "");
-		System.out.println("pathStr : " + pathStr);
 		List<Generator> generators = new ArrayList<Generator>();
 		
 		for(Table table : targetTableList){
@@ -103,7 +113,6 @@ public class Codebone extends BaseCommand {
 		columnList = new ArrayList<Column>();
 		for(schemacrawler.schema.Column column : table.getColumns()){
 			String typeName = column.getColumnDataType().getName().toLowerCase();
-			System.out.println("TypeName = " + typeName);
 			Column codeboneColumn = new Column(
 					column.getName(), 
 					column.getColumnDataType().getType(), 
@@ -116,14 +125,7 @@ public class Codebone extends BaseCommand {
 	}
 
 	private List<Relationship> FindTableRelationship(Connection connection,
-			String findingTable) throws SchemaCrawlerException {
-		final SchemaCrawlerOptions options = new SchemaCrawlerOptions();
-		options.setSchemaInfoLevel(SchemaInfoLevel.standard());
-		final Database databaseStruct = SchemaCrawlerUtility.getDatabase(
-				connection, options);
-		Schema schema = databaseStruct.getSchema(database);
-		final Table tableStruct = databaseStruct.getTable(schema, findingTable);
-
+			Table tableStruct){
 		List<Relationship> relList = new ArrayList<Relationship>();
 
 		relList.addAll(SchemaCrawlerHelper.findRelationship(tableStruct,

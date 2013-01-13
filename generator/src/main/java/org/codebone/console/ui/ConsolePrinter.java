@@ -26,10 +26,10 @@ public class ConsolePrinter {
 			return query();
 		} else if (rel.getType().equals(RelationshipType.ManyToMany)) {
 			System.out.println("ManyToMany Detected!");
-			System.out.println(rel.getColumn().getReferencedColumn()
+			System.out.println(rel.getColumn()
 					.getParent().getName()
 					+ " N <-> N "
-					+ referencedColumn.getReferencedColumn().getParent()
+					+ referencedColumn.getParent()
 							.getName());
 			return query();
 		} else {
