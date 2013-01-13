@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.codebone.console.Relationship;
 import org.codebone.console.RelationshipType;
 
 import schemacrawler.schema.Column;
@@ -37,29 +38,32 @@ public class SchemaCrawlerHelper {
 		return false;
 	}
 
-	public static Map<Column, RelationshipType> findRelationship(Table table, Table originTable) {
-		Map<Column, RelationshipType> relationshipMap = new HashMap<Column, RelationshipType>();
-		List<Column> oneToManyColumnList = new ArrayList<Column>();
+	public static List<Relationship> findRelationship(Table table, Table originTable) {
+		List<Relationship> relList = new ArrayList<Relationship>();
+		List<Relationship> oneToManyRelList = new ArrayList<Relationship>();
 		for (Column column : table.getColumns()) {
+			Relationship rel = null;
 			if (column.isPartOfForeignKey()) {
-				if(!(table.equals(originTable) || column.getReferencedColumn().getParent().equals(originTable))){
+				/*if(!(table.equals(originTable) || column.getReferencedColumn().getParent().equals(originTable))){
 					continue;
-				}
+				}*/
 				if (SchemaCrawlerHelper.isUniqueColumn(column)) {
-					relationshipMap.put(column, RelationshipType.OneToOne);
+					rel = new Relationship(column, RelationshipType.OneToOne);
+					relList.add(rel);
 				} else {
-					relationshipMap.put(column, RelationshipType.OneToMany);
-					oneToManyColumnList.add(column);
+					rel = new Relationship(column, RelationshipType.OneToMany);
+					relList.add(rel);
+					oneToManyRelList.add(rel);
 				}
 			}
-			if (oneToManyColumnList.size() == 2
+			if (oneToManyRelList.size() == 2
 					&& table.getColumns().size() == 2) {
-				relationshipMap.remove(oneToManyColumnList.get(0));
-				relationshipMap.remove(oneToManyColumnList.get(1));
-				relationshipMap.put(oneToManyColumnList.get(0), RelationshipType.ManyToMany);
-				relationshipMap.put(oneToManyColumnList.get(1), RelationshipType.ManyToMany);
+				relList.remove(oneToManyRelList.get(0));
+				relList.remove(oneToManyRelList.get(1));
+				rel = new Relationship(oneToManyRelList.get(0).getColumn(), oneToManyRelList.get(1).getColumn(), RelationshipType.ManyToMany );
+				relList.add(rel);
 			}
 		}
-		return relationshipMap;
+		return relList;
 	}
 }

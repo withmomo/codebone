@@ -1,6 +1,7 @@
 package org.codebone.console;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.codebone.connector.DatabaseHelper;
 import org.codebone.connector.DatabaseType;
 import org.codebone.connector.MySQLDatabaseConnector;
 import org.codebone.connector.SchemaCrawlerHelper;
+import org.codebone.console.ui.ConsolePrinter;
 
 import schemacrawler.schema.Column;
 import schemacrawler.schema.Database;
@@ -72,19 +74,16 @@ public class Codebone extends BaseCommand {
 		Schema schema = databaseStruct.getSchema(database);
 		final Table tableStruct = databaseStruct.getTable(schema, table);
 		
-		Map<Column, RelationshipType> relationshipMap = new HashMap<Column, RelationshipType>();
+		List<Relationship> relList = new ArrayList<Relationship>();
 		
-		relationshipMap.putAll(SchemaCrawlerHelper.findRelationship(tableStruct, tableStruct));
+		relList.addAll(SchemaCrawlerHelper.findRelationship(tableStruct, tableStruct));
 		for(Table table : tableStruct.getRelatedTables(TableRelationshipType.child)){
-			relationshipMap.putAll(SchemaCrawlerHelper.findRelationship(table, tableStruct));
+			System.out.println(table.getName());
+			relList.addAll(SchemaCrawlerHelper.findRelationship(table, tableStruct));
 		}
-		
-		Set<Entry<Column, RelationshipType>> relationshipSet = relationshipMap.entrySet();
-		Iterator<Entry<Column, RelationshipType>> it = relationshipSet.iterator();
-	    while(it.hasNext()){
-	    	Entry<Column, RelationshipType> entry = it.next();
-	    	System.out.println("Column : " + entry.getKey().getName() + ", Type : " + entry.getValue().toString());
-	    }
+		for(Relationship rel : relList){
+			ConsolePrinter.queryRelationship(rel);
+		}
 	    
 	    
 	}
