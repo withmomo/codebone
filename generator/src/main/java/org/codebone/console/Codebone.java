@@ -89,11 +89,11 @@ public class Codebone extends BaseCommand {
 	}
 
 	private void setValues(CommandLine line) {
-		host = line.getOptionValue("h");
+		host = line.getOptionValue("host");
 	    database = line.getOptionValue("dbname");
-	    user = line.getOptionValue("u");
-	    password = line.getOptionValue("p");
-	    table = line.getOptionValue("t");
+	    user = line.getOptionValue("user");
+	    password = line.getOptionValue("password");
+	    table = line.getOptionValue("table");
 	    port = line.getOptionValue("port");
 	    databaseType = line.getOptionValue("type");
 	}
@@ -102,20 +102,23 @@ public class Codebone extends BaseCommand {
 	@SuppressWarnings("static-access")
 	public Options options() {
 		Option hostOption = OptionBuilder.withArgName("host").hasArg()
-				.isRequired(true).withDescription("Database host")
-				.create("h");
+				.isRequired(true).withDescription("Datababase host")
+				.create("host");
 
 		Option userOption = OptionBuilder.withArgName("user").hasArg()
 				.isRequired(true).withDescription("Database username")
-				.create("u");
+				.create("user");
 
 		Option passwordOption = OptionBuilder.withArgName("password").hasArg()
 				.isRequired(true).withDescription("Database password")
-				.create("p");
+				.create("password");
 
 		Option databaseOption = OptionBuilder.withArgName("database").hasArg()
 				.isRequired(true).withDescription("Database name")
-				.create("dbname");
+				.create("database");
+
+		Option tableOption = OptionBuilder.withArgName("table").hasArg()
+				.withDescription("Database table").create("table");
 		
 		Option databasePort = OptionBuilder.withArgName("port").hasArg()
 				.isRequired(false).withDescription("Database port")
@@ -124,9 +127,6 @@ public class Codebone extends BaseCommand {
 		Option databaseType = OptionBuilder.withArgName("type").hasArg()
 				.isRequired(true).withDescription("Database type")
 				.create("type");
-
-		Option tableOption = OptionBuilder.withArgName("table").hasArg()
-				.withDescription("Database table").create("t");
 
 		Options options = new Options();
 		options.addOption(hostOption);
