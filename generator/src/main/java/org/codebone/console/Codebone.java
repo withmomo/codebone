@@ -1,18 +1,15 @@
 package org.codebone.console;
 
+import java.net.URLDecoder;
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
+import org.codebone.connector.Column;
 import org.codebone.connector.DatabaseConfiguration;
 import org.codebone.connector.DatabaseConnector;
 import org.codebone.connector.DatabaseHelper;
@@ -20,18 +17,19 @@ import org.codebone.connector.DatabaseType;
 import org.codebone.connector.MySQLDatabaseConnector;
 import org.codebone.connector.SchemaCrawlerHelper;
 import org.codebone.console.ui.ConsolePrinter;
+import org.codebone.generator.Generator;
 
-import schemacrawler.schema.Column;
 import schemacrawler.schema.Database;
 import schemacrawler.schema.Schema;
 import schemacrawler.schema.Table;
 import schemacrawler.schema.TableRelationshipType;
+import schemacrawler.schemacrawler.SchemaCrawlerException;
 import schemacrawler.schemacrawler.SchemaCrawlerOptions;
 import schemacrawler.schemacrawler.SchemaInfoLevel;
 import schemacrawler.utility.SchemaCrawlerUtility;
 
 public class Codebone extends BaseCommand {
-	
+
 	private String host;
 	private String database;
 	private String user;
@@ -40,64 +38,122 @@ public class Codebone extends BaseCommand {
 	private String port;
 	private String databaseType;
 	
+	private List<Column> columnList = null;
+			
 	@Override
 	public void run(CommandLine line) throws Exception {
-	    setValues(line);
-	    DatabaseType dbType = null;
-	    databaseType = databaseType.toUpperCase();
-	    System.out.println("database type : " + databaseType);
-	    System.out.println("host : " + host);
-	    System.out.println("user : " + user);
-	    System.out.println("password : " + password);
-	    System.out.println("port : " + port);
-	    System.out.println("database : " + database);
-	    System.out.println("table : " + table);
-	    if(databaseType.equals(DatabaseType.MYSQL.toString())){
-	    	dbType = DatabaseType.MYSQL;
-	    }else if(databaseType.equals(DatabaseType.MSSQL.toString())){
-	    	dbType = DatabaseType.MSSQL;
-	    }
-	    DatabaseConfiguration dbConf = new DatabaseConfiguration(dbType, host, Integer.parseInt(port), database, user, password);
-	    Connection connection = null;
-	    DatabaseConnector connector = new MySQLDatabaseConnector(dbConf);
+		setValues(line);
+		DatabaseType dbType = null;
+		databaseType = databaseType.toUpperCase();
+		System.out.println("database type : " + databaseType);
+		System.out.println("host : " + host);
+		System.out.println("user : " + user);
+		System.out.println("password : " + password);
+		System.out.println("port : " + port);
+		System.out.println("database : " + database);
+		System.out.println("table : " + table);
+		if (databaseType.equals(DatabaseType.MYSQL.toString())) {
+			dbType = DatabaseType.MYSQL;
+		} else if (databaseType.equals(DatabaseType.MSSQL.toString())) {
+			dbType = DatabaseType.MSSQL;
+		}
+		DatabaseConfiguration dbConf = new DatabaseConfiguration(dbType, host,
+				Integer.parseInt(port), database, user, password);
+		Connection connection = null;
+		DatabaseConnector connector = new MySQLDatabaseConnector(dbConf);
 		connection = connector.getConnection();
-	    List<String> tableList = DatabaseHelper.getTables(connector);
-	    if(!tableList.contains(table)){
-	    	System.out.println("Table not found!");
-	    	return;
-	    }
-	    
-	    final SchemaCrawlerOptions options = new SchemaCrawlerOptions();
+		List<String> tableList = DatabaseHelper.getTables(connector);
+		if (!tableList.contains(table)) {
+			System.out.println("Table not found!");
+			return;
+		}
+		List<Relationship> applyRelList = FindTableRelationship(connection, table);
+		List<Table> targetTableList = new ArrayList<Table>();
+		for(Relationship rel : applyRelList){
+			if(!targetTableList.contains(rel.getColumn().getParent())){
+				targetTableList.add(rel.getColumn().getParent());
+			}
+			if(!targetTableList.contains(rel.getReferencedColumn().getParent())){
+				targetTableList.add(rel.getReferencedColumn().getParent());
+			}
+		}
+		//Codebone.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+		String pathStr = URLDecoder.decode(ClassLoader.getSystemClassLoader().getResource(".").getPath(), "UTF-8").replaceFirst("/", "");
+		System.out.println("pathStr : " + pathStr);
+		List<Generator> generators = new ArrayList<Generator>();
+		
+		for(Table table : targetTableList){
+			columnSetting(table);
+			Generator generator = new Generator();
+			generator.setTeamplatePath("D:/Windows Profile/workspace/codebone/generator/template");
+			generator.setGeneratePath(pathStr + "/src/main");
+			generator.setColumns(columnList);
+			generator.setTableName(table.getName());
+			generator.setPackageName(ConsolePrinter.queryPackage());
+			generator.setUri(ConsolePrinter.queryUri());
+			generator.setSiteTitle(ConsolePrinter.querySiteTitle());
+			generators.add(generator);
+		}
+		for(Generator generator : generators){
+			ConsolePrinter.printResult(generator.generate(), generator.getTableName());
+		}
+	}
+
+	private void columnSetting(Table table) {
+		columnList = new ArrayList<Column>();
+		for(schemacrawler.schema.Column column : table.getColumns()){
+			String typeName = column.getColumnDataType().getName().toLowerCase();
+			System.out.println("TypeName = " + typeName);
+			Column codeboneColumn = new Column(
+					column.getName(), 
+					column.getColumnDataType().getType(), 
+					typeName,
+					column.getSize(), 
+					Column.defaultValue(typeName), 
+					"", column.isPartOfPrimaryKey(), true);
+			columnList.add(codeboneColumn);
+		}
+	}
+
+	private List<Relationship> FindTableRelationship(Connection connection,
+			String findingTable) throws SchemaCrawlerException {
+		final SchemaCrawlerOptions options = new SchemaCrawlerOptions();
 		options.setSchemaInfoLevel(SchemaInfoLevel.standard());
-		
-		final Database databaseStruct = SchemaCrawlerUtility.getDatabase(connection, options);
+		final Database databaseStruct = SchemaCrawlerUtility.getDatabase(
+				connection, options);
 		Schema schema = databaseStruct.getSchema(database);
-		final Table tableStruct = databaseStruct.getTable(schema, table);
-		
+		final Table tableStruct = databaseStruct.getTable(schema, findingTable);
+
 		List<Relationship> relList = new ArrayList<Relationship>();
-		
-		relList.addAll(SchemaCrawlerHelper.findRelationship(tableStruct, tableStruct));
-		for(Table table : tableStruct.getRelatedTables(TableRelationshipType.child)){
+
+		relList.addAll(SchemaCrawlerHelper.findRelationship(tableStruct,
+				tableStruct));
+		for (Table table : tableStruct
+				.getRelatedTables(TableRelationshipType.child)) {
 			System.out.println(table.getName());
-			relList.addAll(SchemaCrawlerHelper.findRelationship(table, tableStruct));
+			relList.addAll(SchemaCrawlerHelper.findRelationship(table,
+					tableStruct));
 		}
-		for(Relationship rel : relList){
-			ConsolePrinter.queryRelationship(rel);
+		List<Relationship> applyRelList = new ArrayList<Relationship>();
+		for (Relationship rel : relList) {
+			boolean response = ConsolePrinter.queryRelationship(rel);
+			if(response){
+				applyRelList.add(rel);
+			}
 		}
-	    
-	    
+		return applyRelList;
 	}
 
 	private void setValues(CommandLine line) {
 		host = line.getOptionValue("host");
-	    database = line.getOptionValue("dbname");
-	    user = line.getOptionValue("user");
-	    password = line.getOptionValue("password");
-	    table = line.getOptionValue("table");
-	    port = line.getOptionValue("port");
-	    databaseType = line.getOptionValue("type");
+		database = line.getOptionValue("database");
+		user = line.getOptionValue("user");
+		password = line.getOptionValue("password");
+		table = line.getOptionValue("table");
+		port = line.getOptionValue("port");
+		databaseType = line.getOptionValue("type");
 	}
-	
+
 	@Override
 	@SuppressWarnings("static-access")
 	public Options options() {
@@ -119,11 +175,11 @@ public class Codebone extends BaseCommand {
 
 		Option tableOption = OptionBuilder.withArgName("table").hasArg()
 				.withDescription("Database table").create("table");
-		
+
 		Option databasePort = OptionBuilder.withArgName("port").hasArg()
 				.isRequired(false).withDescription("Database port")
 				.create("port");
-		
+
 		Option databaseType = OptionBuilder.withArgName("type").hasArg()
 				.isRequired(true).withDescription("Database type")
 				.create("type");
