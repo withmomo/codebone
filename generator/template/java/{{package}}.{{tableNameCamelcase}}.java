@@ -9,6 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+{{#columns}}
+{{#foreignKey}}
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
+import {{anotherPackage}};
+{{/foreignKey}}
+{{/columns}}
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 @Entity
@@ -24,15 +33,16 @@ public class {{tableNameCamelcase}}{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	{{/primaryKey}}
+	{{#foreignKey}}
+	{{relationAnnotation}}
+	{{optionAnnotation}}
+	{{/foreignKey}}
+	{{^foreignKey}}
 	@Column
+	{{/foreignKey}}
 	private {{javaType}} {{name}} = {{{defaultValue}}};
-	{{/columns}}
 	
-	{{#fkcolumns}}
-	{{relationshipAnnotation}}({{option}})
-	{{joinColumnAnnotation}}({{option}})
-	private {{javaType}} {{name}} = new {{javaType}}();
-	{{/fkcolumns}}
+	{{/columns}}
 	
 	{{#columns}}
 	public {{javaType}} get{{nameCamelcase}}(){
@@ -43,15 +53,6 @@ public class {{tableNameCamelcase}}{
 		this.{{name}} = {{name}};
 	}
 	{{/columns}}
-	{{#fkcolumns}}
-	public {{javaType}} get{{nameCamelcase}}(){
-		return {{name}};
-	}
-
-	public void set{{nameCamelcase}}({{javaType}} {{name}}){
-		this.{{name}} = {{name}};
-	}
-	{{/fkcolumns}}
 	
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);

@@ -2,6 +2,8 @@ package org.codebone.connector;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.codebone.console.Relationship;
+import org.codebone.console.RelationshipType;
 
 public class Column {
 	private String name;
@@ -14,6 +16,12 @@ public class Column {
 	private boolean isPrimaryKey;
 	private boolean isSearchable;
 	private boolean isPredefined = false;
+	private boolean isForeignKey = false;
+	private String relationAnnotation;
+	private String optionAnnotation;
+	private String anotherPackage;
+	private Relationship relation;
+	
 	
 	public Column(String name, int type, String typeName, int size, String defaultValue, String description, boolean isPrimaryKey, boolean isSearchable) {
 		this.name = name;
@@ -26,6 +34,11 @@ public class Column {
 		this.isSearchable = isSearchable;
 	}
 	
+	public Column() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public static String defaultValue(String type) {
 		type = type.toLowerCase();
 		String defaultValue = null;
@@ -167,10 +180,71 @@ public class Column {
 	}
 
 	public String getJavaType() {
+		if(this.javaType!=null){
+			return this.javaType;
+		}
 		return transformJavaType(this.typeName);
 	}
 
 	public void setJavaType(String javaType) {
 		this.javaType = javaType;
+	}
+
+	/**
+	 * @return the isForeignKeyField
+	 */
+	public boolean isForeignKey() {
+		return isForeignKey;
+	}
+
+	/**
+	 * @param isForeignKeyField the isForeignKeyField to set
+	 */
+	public void setForeignKey(boolean isForeignKey) {
+		this.isForeignKey = isForeignKey;
+	}
+
+	public String getRelationAnnotation() {
+		return relationAnnotation;
+	}
+
+	public void setRelationAnnotation(String relationAnnotation) {
+		this.relationAnnotation = relationAnnotation;
+	}
+
+	public String getOptionAnnotation() {
+		return optionAnnotation;
+	}
+
+	public void setOptionAnnotation(String optionAnnotation) {
+		this.optionAnnotation = optionAnnotation;
+	}
+
+	/**
+	 * @return the relation
+	 */
+	public Relationship getRelation() {
+		return relation;
+	}
+
+	/**
+	 * @param relation the relation to set
+	 */
+	public void setRelation(Relationship relation) {
+		this.relation = relation;
+	}
+
+	/**
+	 * @return the anotherPackage
+	 */
+	public String getAnotherPackage() {
+		return anotherPackage;
+	}
+
+	/**
+	 * @param anotherPackage the anotherPackage to set
+	 */
+	public void setAnotherPackage(String anotherPackage) {
+		this.anotherPackage = anotherPackage;
 	}
 }
