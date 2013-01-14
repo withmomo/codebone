@@ -58,11 +58,11 @@ public class ConsolePrinter {
 		return false;
 	}
 	
-	public static String queryPackage(){
+	public static String queryPackage(String tableName){
 		boolean retry = false;
 		String answer = "";
 		do{
-			System.out.println("input Package name");
+			System.out.println("input "+ tableName +"'s Package name");
 			System.out.println("(For Example, org.codebone.domain.User)");
 			System.out.print(">");
 			answer = scan.next();
@@ -73,11 +73,11 @@ public class ConsolePrinter {
 		}while(retry);
 		return answer;
 	}
-	public static String queryUri(){
+	public static String queryUri(String tableName){
 		boolean retry = false;
 		String answer = "";
 		do{
-			System.out.println("input URI Path");
+			System.out.println("input "+ tableName +"'s URI Path");
 			System.out.println("For Example, if ypu want http://localhost/admin/'user'/** URI then press user))");
 			System.out.print(">");
 			answer = scan.next();
@@ -88,11 +88,11 @@ public class ConsolePrinter {
 		}while(retry);
 		return answer;
 	}
-	public static String querySiteTitle(){
+	public static String querySiteTitle(String tableName){
 		boolean retry = false;
 		String answer = "";
 		do{
-			System.out.print("input Site Title >");
+			System.out.print("input "+ tableName +"'s Site Title >");
 			answer = scan.next();
 			if(answer.equals("")){
 				System.out.println("Please retry");

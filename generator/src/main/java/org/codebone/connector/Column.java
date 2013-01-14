@@ -19,6 +19,7 @@ public class Column {
 	private boolean isForeignKey = false;
 	private String relationAnnotation;
 	private String optionAnnotation;
+	private String anotherPackage;
 	private Relationship relation;
 	
 	
@@ -33,6 +34,11 @@ public class Column {
 		this.isSearchable = isSearchable;
 	}
 	
+	public Column() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public static String defaultValue(String type) {
 		type = type.toLowerCase();
 		String defaultValue = null;
@@ -174,6 +180,9 @@ public class Column {
 	}
 
 	public String getJavaType() {
+		if(this.javaType!=null){
+			return this.javaType;
+		}
 		return transformJavaType(this.typeName);
 	}
 
@@ -223,5 +232,19 @@ public class Column {
 	 */
 	public void setRelation(Relationship relation) {
 		this.relation = relation;
+	}
+
+	/**
+	 * @return the anotherPackage
+	 */
+	public String getAnotherPackage() {
+		return anotherPackage;
+	}
+
+	/**
+	 * @param anotherPackage the anotherPackage to set
+	 */
+	public void setAnotherPackage(String anotherPackage) {
+		this.anotherPackage = anotherPackage;
 	}
 }

@@ -150,11 +150,6 @@ public class Generator {
 	            setValue(objectColumn, name, value);
 	            
 	        }
-	        if(column.isForeignKey()){
-	    		
-	    	}else{
-	    		
-	    	}
 	    	objectColumns.add(objectColumn);
 	    }
 	    datas.put("columns", objectColumns);

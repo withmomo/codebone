@@ -3,12 +3,15 @@ package org.codebone.console;
 import java.net.URLDecoder;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
+import org.apache.commons.lang.WordUtils;
 import org.codebone.connector.Column;
 import org.codebone.connector.DatabaseConfiguration;
 import org.codebone.connector.DatabaseConnector;
@@ -23,7 +26,6 @@ import schemacrawler.schema.Database;
 import schemacrawler.schema.Schema;
 import schemacrawler.schema.Table;
 import schemacrawler.schema.TableRelationshipType;
-import schemacrawler.schemacrawler.SchemaCrawlerException;
 import schemacrawler.schemacrawler.SchemaCrawlerOptions;
 import schemacrawler.schemacrawler.SchemaInfoLevel;
 import schemacrawler.utility.SchemaCrawlerUtility;
@@ -92,16 +94,25 @@ public class Codebone extends BaseCommand {
 		String pathStr = URLDecoder.decode(ClassLoader.getSystemClassLoader().getResource(".").getPath(), "UTF-8").replaceFirst("/", "");
 		List<Generator> generators = new ArrayList<Generator>();
 		
+		Map<Table, String> packageMap = new HashMap<Table, String>();
 		for(Table table : targetTableList){
-			columnSetting(table, applyRelList);
+			packageMap.put(table, ConsolePrinter.queryPackage(table.getName()));
+		}
+		
+		for(Table table : targetTableList){
+			
 			Generator generator = new Generator();
+			generator.setPackageName(packageMap.get(table));
 			generator.setTeamplatePath("D:/Windows Profile/workspace/codebone/generator/template");
 			generator.setGeneratePath(pathStr + "/src/main");
+			columnSetting(table, applyRelList, packageMap);
 			generator.setColumns(columnList);
 			generator.setTableName(table.getName());
-			generator.setPackageName(ConsolePrinter.queryPackage());
+			/*generator.setPackageName(ConsolePrinter.queryPackage());
 			generator.setUri(ConsolePrinter.queryUri());
-			generator.setSiteTitle(ConsolePrinter.querySiteTitle());
+			generator.setSiteTitle(ConsolePrinter.querySiteTitle());*/
+			generator.setUri(table.getName());
+			generator.setSiteTitle(table.getName());
 			generators.add(generator);
 		}
 		for(Generator generator : generators){
@@ -109,7 +120,7 @@ public class Codebone extends BaseCommand {
 		}
 	}
 
-	private void columnSetting(Table table, List<Relationship> applyRelList) {
+	private void columnSetting(Table table, List<Relationship> applyRelList, Map<Table, String> packageMap) {
 		columnList = new ArrayList<Column>();
 		for(schemacrawler.schema.Column column : table.getColumns()){
 			String typeName = column.getColumnDataType().getName().toLowerCase();
@@ -121,25 +132,41 @@ public class Codebone extends BaseCommand {
 					Column.defaultValue(typeName), 
 					column.getRemarks(), column.isPartOfPrimaryKey(), true);
 			
-			if(column.isPartOfForeignKey()){
 				for(Relationship rel : applyRelList){
-					if(rel.getColumn().equals(column)){
+					/*if(rel.getColumn().equals(column)){
 						codeboneColumn.setRelation(rel);
-					}else if(rel.getReferencedColumn().equals(column)){
+					}else */
+					if(rel.getReferencedColumn().equals(column)){
 						codeboneColumn.setRelation(rel);
 					}
 				}
-				codeboneColumn.setForeignKey(true);
-				if(codeboneColumn.getRelation().getType().equals(RelationshipType.OneToOne)){
-					schemacrawler.schema.Column refColumn = codeboneColumn.getRelation().getReferencedColumn();
-					codeboneColumn.setRelationAnnotation("@OneToOne");
-					codeboneColumn.setOptionAnnotation("@JoinColumn(name=" + refColumn.getName() + ")");
-				}else if(codeboneColumn.getRelation().getType().equals(RelationshipType.OneToMany)){
-					schemacrawler.schema.Column refColumn = codeboneColumn.getRelation().getReferencedColumn();
-					codeboneColumn.setRelationAnnotation("@OneToMany");
-					codeboneColumn.setOptionAnnotation("@JoinColumn(name=" + refColumn.getName() + ")");
+				if(codeboneColumn.getRelation()!= null){
+					columnList.add(codeboneColumn);
+					Relationship rel = codeboneColumn.getRelation();
+					schemacrawler.schema.Column refColumn = rel.getColumn();
+					codeboneColumn = new Column();
+					codeboneColumn.setForeignKey(true);
+					codeboneColumn.setPrimaryKey(false);
+					codeboneColumn.setSearchable(false);
+					codeboneColumn.setType(0);
+					codeboneColumn.setTypeName("");
+					String anotherPackage = packageMap.get(column.getParent());
+					String camelTableName = WordUtils.capitalizeFully(refColumn.getParent().getName(), new char[]{'_'}).replaceAll("_", "");
+					codeboneColumn.setAnotherPackage(anotherPackage + "." + camelTableName);
+					codeboneColumn.setName(refColumn.getParent().getName());
+					if(rel.getType().equals(RelationshipType.OneToOne)){
+						codeboneColumn.setRelationAnnotation("@OneToOne");
+						codeboneColumn.setOptionAnnotation("@JoinColumn(name=\"" + refColumn.getName() + "\")");
+						codeboneColumn.setJavaType(camelTableName);
+						codeboneColumn.setDefaultValue("new " + camelTableName + "()");
+					}else if(rel.getType().equals(RelationshipType.OneToMany)){
+						codeboneColumn.setRelationAnnotation("@OneToMany");
+						codeboneColumn.setOptionAnnotation("@JoinColumn(name=\"" + refColumn.getName() + "\")");
+						codeboneColumn.setJavaType("List<" + camelTableName + ">");
+						codeboneColumn.setDefaultValue("null");
+					}
 				}
-			}
+				
 			columnList.add(codeboneColumn);
 		}
 	}

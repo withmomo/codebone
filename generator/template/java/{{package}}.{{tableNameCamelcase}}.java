@@ -9,6 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+{{#columns}}
+{{#foreignKey}}
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
+import {{anotherPackage}};
+{{/foreignKey}}
+{{/columns}}
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 @Entity
@@ -27,9 +36,12 @@ public class {{tableNameCamelcase}}{
 	{{#foreignKey}}
 	{{relationAnnotation}}
 	{{optionAnnotation}}
-	{{/foreighKey}}
+	{{/foreignKey}}
+	{{^foreignKey}}
 	@Column
+	{{/foreignKey}}
 	private {{javaType}} {{name}} = {{{defaultValue}}};
+	
 	{{/columns}}
 	
 	{{#columns}}
