@@ -15,9 +15,9 @@ Codebone is a ORM Scaffolding tools. The goal of Codebone rapidly build applicat
 
 # Contributors
 * Sunyong Lim
-* Sung-ju Jin(@geekbeast)
+* Sung-ju Jin([@geekbeast](https://twitter.com/geekbeast))
 * Hyun-gyu Byun
-* Anbaeng
+* Ahn Byunghyun([@anbaeng7](https://twitter.com/anbaeng7))
 * SungHoon Moon
 * Jin-Young Kim
 
