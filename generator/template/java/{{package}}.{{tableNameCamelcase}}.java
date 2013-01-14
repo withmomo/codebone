@@ -24,15 +24,13 @@ public class {{tableNameCamelcase}}{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	{{/primaryKey}}
+	{{#foreignKey}}
+	{{relationAnnotation}}
+	{{optionAnnotation}}
+	{{/foreighKey}}
 	@Column
 	private {{javaType}} {{name}} = {{{defaultValue}}};
 	{{/columns}}
-	
-	{{#fkcolumns}}
-	{{relationshipAnnotation}}({{option}})
-	{{joinColumnAnnotation}}({{option}})
-	private {{javaType}} {{name}} = new {{javaType}}();
-	{{/fkcolumns}}
 	
 	{{#columns}}
 	public {{javaType}} get{{nameCamelcase}}(){
@@ -43,15 +41,6 @@ public class {{tableNameCamelcase}}{
 		this.{{name}} = {{name}};
 	}
 	{{/columns}}
-	{{#fkcolumns}}
-	public {{javaType}} get{{nameCamelcase}}(){
-		return {{name}};
-	}
-
-	public void set{{nameCamelcase}}({{javaType}} {{name}}){
-		this.{{name}} = {{name}};
-	}
-	{{/fkcolumns}}
 	
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);

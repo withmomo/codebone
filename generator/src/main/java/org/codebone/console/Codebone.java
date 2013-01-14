@@ -93,7 +93,7 @@ public class Codebone extends BaseCommand {
 		List<Generator> generators = new ArrayList<Generator>();
 		
 		for(Table table : targetTableList){
-			columnSetting(table);
+			columnSetting(table, applyRelList);
 			Generator generator = new Generator();
 			generator.setTeamplatePath("D:/Windows Profile/workspace/codebone/generator/template");
 			generator.setGeneratePath(pathStr + "/src/main");
@@ -109,7 +109,7 @@ public class Codebone extends BaseCommand {
 		}
 	}
 
-	private void columnSetting(Table table) {
+	private void columnSetting(Table table, List<Relationship> applyRelList) {
 		columnList = new ArrayList<Column>();
 		for(schemacrawler.schema.Column column : table.getColumns()){
 			String typeName = column.getColumnDataType().getName().toLowerCase();
@@ -119,7 +119,24 @@ public class Codebone extends BaseCommand {
 					typeName,
 					column.getSize(), 
 					Column.defaultValue(typeName), 
-					"", column.isPartOfPrimaryKey(), true);
+					column.getRemarks(), column.isPartOfPrimaryKey(), true);
+			
+			if(column.isPartOfForeignKey()){
+				for(Relationship rel : applyRelList){
+					if(rel.getColumn().equals(column)){
+						codeboneColumn.setRelation(rel);
+					}else if(rel.getReferencedColumn().equals(column)){
+						codeboneColumn.setRelation(rel);
+					}
+				}
+				codeboneColumn.setForeignKey(true);
+				if(codeboneColumn.getRelation().getType().equals(RelationshipType.OneToOne)){
+					codeboneColumn.setRelationAnnotation("@OneToOne");
+					codeboneColumn.setOptionAnnotation("@JoinColumn");
+				}else if(codeboneColumn.getRelation().getType().equals(RelationshipType.OneToMany)){
+					
+				}
+			}
 			columnList.add(codeboneColumn);
 		}
 	}
