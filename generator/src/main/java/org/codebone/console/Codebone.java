@@ -131,10 +131,13 @@ public class Codebone extends BaseCommand {
 				}
 				codeboneColumn.setForeignKey(true);
 				if(codeboneColumn.getRelation().getType().equals(RelationshipType.OneToOne)){
+					schemacrawler.schema.Column refColumn = codeboneColumn.getRelation().getReferencedColumn();
 					codeboneColumn.setRelationAnnotation("@OneToOne");
-					codeboneColumn.setOptionAnnotation("@JoinColumn");
+					codeboneColumn.setOptionAnnotation("@JoinColumn(name=" + refColumn.getName() + ")");
 				}else if(codeboneColumn.getRelation().getType().equals(RelationshipType.OneToMany)){
-					
+					schemacrawler.schema.Column refColumn = codeboneColumn.getRelation().getReferencedColumn();
+					codeboneColumn.setRelationAnnotation("@OneToMany");
+					codeboneColumn.setOptionAnnotation("@JoinColumn(name=" + refColumn.getName() + ")");
 				}
 			}
 			columnList.add(codeboneColumn);
