@@ -82,7 +82,6 @@ public class Codebone extends BaseCommand {
 		List<Table> targetTableList = new ArrayList<Table>();
 		targetTableList.add(tableStruct);
 		for(Relationship rel : applyRelList){
-			System.out.println(rel);
 			if(!targetTableList.contains(rel.getColumn().getParent())){
 				targetTableList.add(rel.getColumn().getParent());
 			}

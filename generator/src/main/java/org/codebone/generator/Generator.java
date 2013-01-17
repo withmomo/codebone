@@ -127,6 +127,9 @@ public class Generator {
 		List<HashMap> objectColumns = new ArrayList<HashMap>();
 	    for(Column column : columns ) {
 	    	HashMap<String, Object> objectColumn = new HashMap<String, Object>();
+	    	if(column.isPrimaryKey()){
+	    		setValue(datas, "primaryKey", column.getName());
+	    	}
 	    	
 	    	PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(column.getClass());
 	        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {

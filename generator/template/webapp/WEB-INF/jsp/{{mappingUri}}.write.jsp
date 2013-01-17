@@ -47,7 +47,7 @@
 		<%
 			if (isCreate.equals("Update")) {
 		%>
-		<input type="hidden" class="form-vertical" name="idx" value="<%=model.getIdx()%>">
+		<input type="hidden" class="form-vertical" name="idx" value="<%=model.get{{primaryKeyCamelcase}}()%>">
 		<%
 			}
 		%>
