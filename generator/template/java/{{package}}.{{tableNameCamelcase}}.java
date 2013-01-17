@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
+import java.util.List;
 import {{anotherPackage}};
 {{/foreignKey}}
 {{/columns}}
@@ -21,7 +22,7 @@ import {{anotherPackage}};
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 @Entity
-@Table
+@Table(name="{{tableName}}")
 public class {{tableNameCamelcase}}{
 	
 	public {{tableNameCamelcase}}() {
@@ -35,21 +36,21 @@ public class {{tableNameCamelcase}}{
 	{{/primaryKey}}
 	{{#foreignKey}}
 	{{relationAnnotation}}
-	{{optionAnnotation}}
+	{{{optionAnnotation}}}
 	{{/foreignKey}}
 	{{^foreignKey}}
 	@Column
 	{{/foreignKey}}
-	private {{javaType}} {{name}} = {{{defaultValue}}};
+	private {{{javaType}}} {{name}} = {{{defaultValue}}};
 	
 	{{/columns}}
 	
 	{{#columns}}
-	public {{javaType}} get{{nameCamelcase}}(){
+	public {{{javaType}}} get{{nameCamelcase}}(){
 		return {{name}};
 	}
 
-	public void set{{nameCamelcase}}({{javaType}} {{name}}){
+	public void set{{nameCamelcase}}({{{javaType}}} {{name}}){
 		this.{{name}} = {{name}};
 	}
 	{{/columns}}
