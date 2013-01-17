@@ -37,9 +37,9 @@
 						</button>
 						<ul class="dropdown-menu">
 							<li><a
-								href="<%=request.getContextPath()%>/app/{{mappingUri}}/update?idx=<%=model.getIdx().toString()%>">Update</a></li>
+								href="<%=request.getContextPath()%>/app/{{mappingUri}}/update?idx=<%=model.get{{primaryKeyCamelcase}}().toString()%>">Update</a></li>
 							<li><a
-								href="<%=request.getContextPath()%>/app/{{mappingUri}}/delete?idx=<%=model.getIdx().toString()%>">Delete</a></li>
+								href="<%=request.getContextPath()%>/app/{{mappingUri}}/delete?idx=<%=model.get{{primaryKeyCamelcase}}().toString()%>">Delete</a></li>
 						</ul>
 					</div>
 				</td>
