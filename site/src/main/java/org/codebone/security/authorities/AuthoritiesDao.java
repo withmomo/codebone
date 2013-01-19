@@ -18,7 +18,7 @@ public class AuthoritiesDao extends AbstractDao<Authorities>{
 
 	public List<Authorities> getAuthorities(Long organizationIdx) {
 		logger.info("read authorities by organizationIdx "+ organizationIdx);
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		List<Authorities> list = null;
 		list = (List<Authorities>) session.createCriteria(getEntityClass())
 				.add(Restrictions.eq("organizationIdx", organizationIdx))

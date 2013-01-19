@@ -22,21 +22,21 @@ public abstract class AbstractDao<M> {
 	
 	public void create(M m){
 		logger.info("create model " + m);
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		session.save(m);
 		session.flush();
 	}
 	
 	public M read(String key){
 		logger.info("read model by" + key);
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		M m = (M) session.get(getEntityClass(), Long.parseLong(key));
 		return m;
 	}
 	
 	public List<M> listAll(){
 		logger.info("read model list");
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		List<M> list = null;
 		list = (List<M>) session.createCriteria(getEntityClass())
 				.list();
@@ -45,7 +45,7 @@ public abstract class AbstractDao<M> {
 	
 	public List<M> list(int page, int row){
 		logger.info("read model list - page : "+page+", row : "+row);
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		List<M> list = null;
 		list = (List<M>) session.createCriteria(getEntityClass())
 				.setMaxResults(row).setFirstResult(page)
@@ -55,7 +55,7 @@ public abstract class AbstractDao<M> {
 	
 	public List<M> search(String property, String keyword, int page, int row){
 		logger.info("read model list");
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		List<M> list = null;
 		list = (List<M>) session.createCriteria(getEntityClass())
 				.add(Restrictions.ilike(property, keyword,MatchMode.ANYWHERE))
@@ -66,7 +66,7 @@ public abstract class AbstractDao<M> {
 	
 	public int count(){
 		logger.info("read model's count");
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		List list = null;
 		list = (List) session.createCriteria(getEntityClass())
 				.setProjection(Projections.rowCount())
@@ -76,7 +76,7 @@ public abstract class AbstractDao<M> {
 	
 	public M update(M m){
 		logger.info("update model " + m);
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		session.update(m);
 		session.flush();
 		return m;
@@ -84,7 +84,7 @@ public abstract class AbstractDao<M> {
 	
 	public M merge(M m){
 		logger.info("merge model " + m);
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		session.merge(m);
 		session.flush();
 		return m;
@@ -92,14 +92,14 @@ public abstract class AbstractDao<M> {
 	
 	public void delete(M m){
 		logger.info("delete model " + m);
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		session.delete(m);
 		session.flush();
 	}
 	
 	public void evict(M m){
 		logger.info("evict model " + m);
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		session.evict(m);
 		session.flush();
 	}

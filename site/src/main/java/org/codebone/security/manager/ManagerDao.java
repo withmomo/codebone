@@ -16,7 +16,7 @@ public class ManagerDao extends AbstractDao<Manager>{
 	
 	public Manager readById(String id) {
 		logger.info("read model by" + id);
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		Manager manager = (Manager) session.createCriteria(Manager.class)
 				.add(Restrictions.eq("id", id))
 				.uniqueResult();
