@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.codebone.framework.BaseModel;
+import org.codebone.framework.SuccessModel;
 import org.codebone.framework.generic.AbstractController;
 import org.codebone.framework.generic.AbstractService;
 import org.codebone.security.authorities.Authorities;
@@ -55,12 +56,22 @@ public class OrganizationController extends AbstractController{
 			page = 1;
 		}
 		BaseModel organizationList = getService().list(page);
+		Organization selectedOrganization = null;
 		if(organizationIdx == null){
-			Organization first = (Organization) ((List) organizationList.getData()).get(0);
-			organizationIdx = first.getIdx();
+			selectedOrganization = (Organization) ((List) organizationList.getData()).get(0);
+			organizationIdx = selectedOrganization.getIdx();
+		}else{
+			List<Organization> orgList = (List) organizationList.getData();
+			for(Organization org : orgList){
+				if(org.getIdx().equals(organizationIdx)){
+					selectedOrganization = org;
+					break;
+				}
+			}
 		}
 		map.put("data", organizationList);
-		map.put("authorities", ((OrganizationService) getService()).getAuthorities(organizationIdx));
+		//map.put("authorities", ((OrganizationService) getService()).getAuthorities(organizationIdx));
+		map.put("authorities", new SuccessModel(selectedOrganization.getAuthoritiesList()));
 		map.put("page", page);
 		map.put("organizationIdx", organizationIdx);
 
