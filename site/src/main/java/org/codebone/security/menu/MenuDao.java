@@ -19,7 +19,7 @@ public class MenuDao extends AbstractDao<Menu>{
 	@SuppressWarnings("unchecked")
 	public List<Menu> listAll(){
 		logger.info("read model list");
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		List<Menu> list = null;
 		list = (List<Menu>) session.createCriteria(getEntityClass())
 				.addOrder(Order.asc("priOrder"))
@@ -31,7 +31,7 @@ public class MenuDao extends AbstractDao<Menu>{
 	@SuppressWarnings("unchecked")
 	public List<Menu> list(){
 		logger.info("read model list");
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		List<Menu> list = null;
 		list = (List<Menu>) session.createCriteria(getEntityClass())
 				.addOrder(Order.asc("priOrder"))
@@ -44,7 +44,7 @@ public class MenuDao extends AbstractDao<Menu>{
 	@SuppressWarnings("unchecked")
 	public List<Menu> list(int page, int row){
 		logger.info("read model list - page : "+page+", row : "+row);
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		List<Menu> list = null;
 		list = (List<Menu>) session.createCriteria(getEntityClass())
 				.addOrder(Order.asc("priOrder"))
@@ -55,7 +55,7 @@ public class MenuDao extends AbstractDao<Menu>{
 	}
 
 	public int deleteFamily(Integer priOrder, Integer subOrder) {
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		StringBuilder query = new StringBuilder();
 		query.append("delete from Menu where priOrder = "+priOrder);
 		if(subOrder!=0){
@@ -84,7 +84,7 @@ public class MenuDao extends AbstractDao<Menu>{
 		}
 		
 		
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		StringBuilder query = new StringBuilder();
 		query.append("update Menu");
 		query.append(" set " + orderName + " = -1");
@@ -132,7 +132,7 @@ public class MenuDao extends AbstractDao<Menu>{
 		if(priOrder==0){
 			return;
 		}
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		StringBuilder query = new StringBuilder();
 		query.append("update Menu");
 		query.append(" set priOrder = priOrder + 1");
@@ -158,7 +158,7 @@ public class MenuDao extends AbstractDao<Menu>{
 	 * @param idx
 	 */
 	public void LevelDown(Integer priOrder, Long idx){
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		StringBuilder query = new StringBuilder();
 		query.append("update Menu");
 		query.append(" set subOrder = subOrder + 1");
