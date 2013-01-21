@@ -123,13 +123,16 @@ public class Codebone extends BaseCommand {
 		columnList = new ArrayList<Column>();
 		for(schemacrawler.schema.Column column : table.getColumns()){
 			String typeName = column.getColumnDataType().getName().toLowerCase();
+			String remarks = (column.getRemarks().equals("")) ? column.getName() : column.getRemarks();
 			Column codeboneColumn = new Column(
 					column.getName(), 
 					column.getColumnDataType().getType(), 
 					typeName,
 					column.getSize(), 
 					Column.defaultValue(typeName), 
-					column.getRemarks(), column.isPartOfPrimaryKey(), true);
+					remarks,
+					column.isPartOfPrimaryKey(), true);
+			
 			
 				for(Relationship rel : applyRelList){
 					/*if(rel.getColumn().equals(column)){
