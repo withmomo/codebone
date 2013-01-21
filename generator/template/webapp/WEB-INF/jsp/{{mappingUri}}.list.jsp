@@ -15,7 +15,9 @@
 		<thead>
 			<tr>
 				{{#columns}}
+				{{^foreignKey}}
 				<th>{{description}}</th>
+				{{/foreignKey}}
 				{{/columns}}
 			</tr>
 		</thead>
@@ -26,7 +28,9 @@
 			%>
 			<tr>
 				{{#columns}}
+				{{^foreignKey}}
 				<td><%=model.get{{nameCamelcase}}()%></td>
+				{{/foreignKey}}
 				{{/columns}}
 
 				<td>
