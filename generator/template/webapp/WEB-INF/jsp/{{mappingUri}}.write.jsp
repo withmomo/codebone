@@ -28,15 +28,18 @@
 		<div class="row-fluid">
 			<div class="span12">
 				{{#columns}}
+				{{^foreignKey}}
 				<div class="control-group">
 					<label class="control-label" for="{{name}}">{{description}}</label>
 					<div class="controls">
-						<input type="text" class="input-large" id="{{name}}"
+						<input type="text" class="input-large" id="{{name}}" name="{{nameCamelCase}}"
 							value="<%=model.get{{nameCamelcase}}()%>">
 					</div>
-				</tr>
+				</div>
+				{{/foreignKey}}
 				{{/columns}}
 			</div>
+			
 		</div>
 
 		<div class="form-actions">
