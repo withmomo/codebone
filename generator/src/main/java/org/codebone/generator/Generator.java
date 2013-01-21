@@ -131,6 +131,7 @@ public class Generator {
 	    		setValue(datas, "primaryKey", column.getName());
 	    	}
 	    	
+	    	setValue(datas, "name", column.getName());
 	    	PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(column.getClass());
 	        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
 

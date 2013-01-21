@@ -32,7 +32,7 @@ public class {{tableNameCamelcase}}{
 	{{#columns}}
 	{{#primaryKey}}
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	{{/primaryKey}}
 	{{#foreignKey}}
 	{{relationAnnotation}}
