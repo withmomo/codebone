@@ -74,31 +74,26 @@ public class ConsolePrinter {
 		return answer;
 	}
 	public static String queryUri(String tableName){
-		boolean retry = false;
 		String answer = "";
-		do{
 			System.out.println("input "+ tableName +"'s URI Path");
-			System.out.println("For Example, if ypu want http://localhost/admin/'user'/** URI then press user))");
+			System.out.println("For Example, if you want http://localhost:8080/admin/'user'/** URI then press 'user'");
+			System.out.println("if you want just table's name to URI, then press enter");
 			System.out.print(">");
 			answer = scan.nextLine();
 			if(answer.equals("")){
-				System.out.println("Please retry");
-				retry = true;
+				answer = tableName;
 			}
-		}while(retry);
 		return answer;
 	}
 	public static String querySiteTitle(String tableName){
-		boolean retry = false;
 		String answer = "";
-		do{
-			System.out.print("input "+ tableName +"'s Site Title >");
+			System.out.println("input "+ tableName +"'s Site Title");
+			System.out.println("if you want just table's name to Title, then press enter");
+			System.out.print(">");
 			answer = scan.nextLine();
 			if(answer.equals("")){
-				System.out.println("Please retry");
-				retry = true;
+				answer = tableName;
 			}
-		}while(retry);
 		return answer;
 	}
 	
@@ -113,7 +108,7 @@ public class ConsolePrinter {
 	public static String getTemplatePath() {
 		String answer = "";
 		System.out.println("input Template file path");
-		System.out.println("you can write ../ to locate parent directory, or blank to same directory");
+		System.out.println("you can write ../ to locate parent directory, or just press enter to default directory");
 		System.out.print(">");
 		answer = scan.nextLine();
 		if(answer.equals("")){
