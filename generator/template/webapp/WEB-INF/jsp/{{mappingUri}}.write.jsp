@@ -29,6 +29,9 @@
 			<div class="span12">
 				{{#columns}}
 				{{^foreignKey}}
+				{{#primaryKey}}
+				<%= if(isCreate.equals("Create")){ %>
+				{{/primaryKey}}
 				<div class="control-group">
 					<label class="control-label" for="{{name}}">{{description}}</label>
 					<div class="controls">
@@ -36,6 +39,9 @@
 							value="<%=model.get{{nameCamelcase}}()%>">
 					</div>
 				</div>
+				{{#primaryKey}}
+				<%=} %>
+				{{/primaryKey}}
 				{{/foreignKey}}
 				{{/columns}}
 			</div>
@@ -50,7 +56,7 @@
 		<%
 			if (isCreate.equals("Update")) {
 		%>
-		<input type="hidden" class="form-vertical" name="idx" value="<%=model.get{{primaryKeyCamelcase}}()%>">
+		<input type="hidden" class="form-vertical" name="{{primaryKeyCamelcase}}" value="<%=model.get{{primaryKeyCamelcase}}()%>">
 		<%
 			}
 		%>
