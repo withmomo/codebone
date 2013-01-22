@@ -47,13 +47,6 @@ public class Codebone extends BaseCommand {
 		setValues(line);
 		DatabaseType dbType = null;
 		databaseType = databaseType.toUpperCase();
-		System.out.println("database type : " + databaseType);
-		System.out.println("host : " + host);
-		System.out.println("user : " + user);
-		System.out.println("password : " + password);
-		System.out.println("port : " + port);
-		System.out.println("database : " + database);
-		System.out.println("table : " + table);
 		if (databaseType.equals(DatabaseType.MYSQL.toString())) {
 			dbType = DatabaseType.MYSQL;
 		} else if (databaseType.equals(DatabaseType.MSSQL.toString())) {
@@ -89,20 +82,20 @@ public class Codebone extends BaseCommand {
 				targetTableList.add(rel.getReferencedColumn().getParent());
 			}
 		}
-		//Codebone.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+		
 		String pathStr = URLDecoder.decode(ClassLoader.getSystemClassLoader().getResource(".").getPath(), "UTF-8").replaceFirst("/", "");
 		List<Generator> generators = new ArrayList<Generator>();
 		
+		String templatePath = ConsolePrinter.getTemplatePath();
 		Map<Table, String> packageMap = new HashMap<Table, String>();
 		for(Table table : targetTableList){
 			packageMap.put(table, ConsolePrinter.queryPackage(table.getName()));
 		}
-		
 		for(Table table : targetTableList){
 			
 			Generator generator = new Generator();
 			generator.setPackageName(packageMap.get(table));
-			generator.setTeamplatePath("D:/Windows Profile/workspace/codebone/generator/template");
+			generator.setTeamplatePath(pathStr + templatePath);
 			generator.setGeneratePath(pathStr + "/src/main");
 			columnSetting(table, applyRelList, packageMap);
 			generator.setColumns(columnList);
@@ -181,7 +174,6 @@ public class Codebone extends BaseCommand {
 				tableStruct));
 		for (Table table : tableStruct
 				.getRelatedTables(TableRelationshipType.child)) {
-			System.out.println(table.getName());
 			relList.addAll(SchemaCrawlerHelper.findRelationship(table,
 					tableStruct));
 		}

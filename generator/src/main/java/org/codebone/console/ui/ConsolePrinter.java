@@ -43,7 +43,7 @@ public class ConsolePrinter {
 		do {
 			System.out
 					.println("Codebone will copy this relationship into JPA Model File. copy it? (Y/N) >");
-			String answer = scan.next();
+			String answer = scan.nextLine();
 			if (answer.toLowerCase().equals("y")) {
 				System.out.println("Apply the relationship");
 				return true;
@@ -65,7 +65,7 @@ public class ConsolePrinter {
 			System.out.println("input "+ tableName +"'s Package name");
 			System.out.println("(For Example, org.codebone.domain.User)");
 			System.out.print(">");
-			answer = scan.next();
+			answer = scan.nextLine();
 			if(answer.equals("")){
 				System.out.println("Please retry");
 				retry = true;
@@ -80,7 +80,7 @@ public class ConsolePrinter {
 			System.out.println("input "+ tableName +"'s URI Path");
 			System.out.println("For Example, if ypu want http://localhost/admin/'user'/** URI then press user))");
 			System.out.print(">");
-			answer = scan.next();
+			answer = scan.nextLine();
 			if(answer.equals("")){
 				System.out.println("Please retry");
 				retry = true;
@@ -93,7 +93,7 @@ public class ConsolePrinter {
 		String answer = "";
 		do{
 			System.out.print("input "+ tableName +"'s Site Title >");
-			answer = scan.next();
+			answer = scan.nextLine();
 			if(answer.equals("")){
 				System.out.println("Please retry");
 				retry = true;
@@ -108,5 +108,18 @@ public class ConsolePrinter {
 		}else{
 			System.out.println("Table " + tableName + " Code Generate Fail!");
 		}
+	}
+
+	public static String getTemplatePath() {
+		String answer = "";
+		System.out.println("input Template file path");
+		System.out.println("you can write ../ to locate parent directory, or blank to same directory");
+		System.out.print(">");
+		answer = scan.nextLine();
+		if(answer.equals("")){
+			//TODO change to just "template"
+			answer = "../../template";
+		}
+		return answer;
 	}
 }
