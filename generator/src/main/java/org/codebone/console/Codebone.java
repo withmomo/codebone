@@ -88,21 +88,24 @@ public class Codebone extends BaseCommand {
 		
 		String templatePath = ConsolePrinter.getTemplatePath();
 		Map<Table, String> packageMap = new HashMap<Table, String>();
+		Map<Table, String> uriMap = new HashMap<Table, String>();
+		Map<Table, String> titleMap = new HashMap<Table, String>();
 		for(Table table : targetTableList){
 			packageMap.put(table, ConsolePrinter.queryPackage(table.getName()));
+			uriMap.put(table, ConsolePrinter.queryUri(table.getName()));
+			titleMap.put(table, ConsolePrinter.querySiteTitle(table.getName()));
 		}
 		for(Table table : targetTableList){
 			
 			Generator generator = new Generator();
 			generator.setPackageName(packageMap.get(table));
+			generator.setUri(uriMap.get(table));
+			generator.setSiteTitle(titleMap.get(table));
 			generator.setTeamplatePath(pathStr + templatePath);
 			generator.setGeneratePath(pathStr + "/src/main");
 			columnSetting(table, applyRelList, packageMap);
 			generator.setColumns(columnList);
 			generator.setTableName(table.getName());
-			/*generator.setPackageName(ConsolePrinter.queryPackage());
-			generator.setUri(ConsolePrinter.queryUri());
-			generator.setSiteTitle(ConsolePrinter.querySiteTitle());*/
 			generator.setUri(table.getName());
 			generator.setSiteTitle(table.getName());
 			generators.add(generator);
