@@ -129,6 +129,7 @@ public class Generator {
 	    	HashMap<String, Object> objectColumn = new HashMap<String, Object>();
 	    	if(column.isPrimaryKey()){
 	    		setValue(datas, "primaryKey", column.getName());
+	    		datas.put("primaryKeyType", column.getJavaType());
 	    	}
 	    	
 	    	setValue(datas, "name", column.getName());

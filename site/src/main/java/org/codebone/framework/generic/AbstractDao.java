@@ -1,5 +1,6 @@
 package org.codebone.framework.generic;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -30,7 +31,7 @@ public abstract class AbstractDao<M> {
 	public M read(String key){
 		logger.info("read model by" + key);
 		Session session = sessionFactory.openSession();
-		M m = (M) session.get(getEntityClass(), Long.parseLong(key));
+		M m = (M) session.get(getEntityClass(), parse(key));
 		return m;
 	}
 	
@@ -105,4 +106,5 @@ public abstract class AbstractDao<M> {
 	}
 	
 	protected abstract Class<M> getEntityClass();
+	protected abstract Serializable parse(String key);
 }
