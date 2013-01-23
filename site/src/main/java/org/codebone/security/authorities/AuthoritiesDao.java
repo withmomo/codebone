@@ -1,5 +1,6 @@
 package org.codebone.security.authorities;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.codebone.framework.generic.AbstractDao;
@@ -24,5 +25,8 @@ public class AuthoritiesDao extends AbstractDao<Authorities>{
 				.add(Restrictions.eq("organizationIdx", organizationIdx))
 				.list();
 		return list;
+	}
+	protected Serializable parse(String key) {
+		return new Long(key);
 	}
 }

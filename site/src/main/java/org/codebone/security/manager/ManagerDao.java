@@ -1,5 +1,7 @@
 package org.codebone.security.manager;
 
+import java.io.Serializable;
+
 import org.codebone.framework.generic.AbstractDao;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -21,5 +23,8 @@ public class ManagerDao extends AbstractDao<Manager>{
 				.add(Restrictions.eq("id", id))
 				.uniqueResult();
 		return manager;
+	}
+	protected Serializable parse(String key) {
+		return new Long(key);
 	}
 }

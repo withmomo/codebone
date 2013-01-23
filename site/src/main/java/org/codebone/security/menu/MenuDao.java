@@ -1,5 +1,6 @@
 package org.codebone.security.menu;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.codebone.framework.generic.AbstractDao;
@@ -176,5 +177,8 @@ public class MenuDao extends AbstractDao<Menu>{
 		logger.info(query.toString());
 		// 해당 메뉴를 서브메뉴로 격하시킴
 		session.createQuery(query.toString()).executeUpdate();
+	}
+	protected Serializable parse(String key) {
+		return new Long(key);
 	}
 }
