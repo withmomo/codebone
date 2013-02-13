@@ -13,7 +13,7 @@
 	
 	<groupId>org.codebone</groupId>
 	<artifactId>codebone</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.2.0</version>
 	<name>${bundle.symbolicName} [${bundle.namespace}]</name>
 	<description>codebone Project</description>
 	<packaging>pom</packaging>
