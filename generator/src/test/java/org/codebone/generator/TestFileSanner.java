@@ -10,7 +10,7 @@ import org.junit.Test;
 public class TestFileSanner {
 	@Test
 	public void scan() throws FileNotFoundException {
-		String path = "src/main/template";
+		String path = "src/main/";
 		new FileScanner(path, new FileListner() {
 			public void found(File file) {
 				System.out.println(file.getPath());
