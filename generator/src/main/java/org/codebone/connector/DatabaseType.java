@@ -1,7 +1,7 @@
 package org.codebone.connector;
 
 public enum DatabaseType {
-	MYSQL, MSSQL;
+	MYSQL, ORACLE, POSTGRESQL, MSSQL, SQLITE;
 	
 	public static boolean isMySQL(DatabaseType databaseType) {
 		return databaseType == MYSQL ? true : false;

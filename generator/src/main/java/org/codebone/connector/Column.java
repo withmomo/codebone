@@ -3,7 +3,6 @@ package org.codebone.connector;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.codebone.console.Relationship;
-import org.codebone.console.RelationshipType;
 
 public class Column {
 	private String name;

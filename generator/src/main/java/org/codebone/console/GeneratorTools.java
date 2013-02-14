@@ -1,6 +1,8 @@
 package org.codebone.console;
 
-import java.net.URLDecoder;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,15 +13,16 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.WordUtils;
 import org.codebone.connector.Column;
 import org.codebone.connector.DatabaseConfiguration;
 import org.codebone.connector.DatabaseConnector;
 import org.codebone.connector.DatabaseHelper;
-import org.codebone.connector.DatabaseType;
 import org.codebone.connector.MySQLDatabaseConnector;
 import org.codebone.connector.SchemaCrawlerHelper;
 import org.codebone.console.ui.ConsolePrinter;
+import org.codebone.generator.Define;
 import org.codebone.generator.Generator;
 
 import schemacrawler.schema.Database;
@@ -30,32 +33,22 @@ import schemacrawler.schemacrawler.SchemaCrawlerOptions;
 import schemacrawler.schemacrawler.SchemaInfoLevel;
 import schemacrawler.utility.SchemaCrawlerUtility;
 
-public class Codebone extends BaseCommand {
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-	private String host;
-	private String database;
-	private String user;
-	private String password;
+public class GeneratorTools extends BaseCommand {
+
 	private String table;
-	private String port;
-	private String databaseType;
+	private String path;
 	
 	private List<Column> columnList = null;
 			
 	@Override
 	public void run(CommandLine line) throws Exception {
 		setValues(line);
-		DatabaseType dbType = null;
-		databaseType = databaseType.toUpperCase();
-		if (databaseType.equals(DatabaseType.MYSQL.toString())) {
-			dbType = DatabaseType.MYSQL;
-		} else if (databaseType.equals(DatabaseType.MSSQL.toString())) {
-			dbType = DatabaseType.MSSQL;
-		}
-		DatabaseConfiguration dbConf = new DatabaseConfiguration(dbType, host,
-				Integer.parseInt(port), database, user, password);
+		DatabaseConfiguration databaseConfiguration = getDatabaseConfiguration();
 		Connection connection = null;
-		DatabaseConnector connector = new MySQLDatabaseConnector(dbConf);
+		DatabaseConnector connector = new MySQLDatabaseConnector(databaseConfiguration);
 		connection = connector.getConnection();
 		List<String> tableList = DatabaseHelper.getTables(connector);
 		if (!tableList.contains(table)) {
@@ -67,11 +60,11 @@ public class Codebone extends BaseCommand {
 		options.setSchemaInfoLevel(SchemaInfoLevel.standard());
 		final Database databaseStruct = SchemaCrawlerUtility.getDatabase(
 				connection, options);
-		Schema schema = databaseStruct.getSchema(database);
+		Schema schema = databaseStruct.getSchema(databaseConfiguration.getDatabase());
 		final Table tableStruct = databaseStruct.getTable(schema, table);
 		
 		
-		List<Relationship> applyRelList = FindTableRelationship(connection, tableStruct);
+		List<Relationship> applyRelList = findTableRelationship(connection, tableStruct);
 		List<Table> targetTableList = new ArrayList<Table>();
 		targetTableList.add(tableStruct);
 		for(Relationship rel : applyRelList){
@@ -83,10 +76,15 @@ public class Codebone extends BaseCommand {
 			}
 		}
 		
-		String pathStr = URLDecoder.decode(ClassLoader.getSystemClassLoader().getResource(".").getPath(), "UTF-8").replaceFirst("/", "");
 		List<Generator> generators = new ArrayList<Generator>();
 		
-		String templatePath = ConsolePrinter.getTemplatePath();
+		String templatePath = path + "/template";
+		File templateDirectory = new File(templatePath);
+		if( !templateDirectory.exists() ) {
+			System.out.println("Not found template folder. " + templateDirectory);
+			System.exit(0);
+		//	templatePath = ConsolePrinter.getTemplatePath();
+		}
 		Map<Table, String> packageMap = new HashMap<Table, String>();
 		Map<Table, String> uriMap = new HashMap<Table, String>();
 		Map<Table, String> titleMap = new HashMap<Table, String>();
@@ -96,13 +94,12 @@ public class Codebone extends BaseCommand {
 			titleMap.put(table, ConsolePrinter.querySiteTitle(table.getName()));
 		}
 		for(Table table : targetTableList){
-			
 			Generator generator = new Generator();
 			generator.setPackageName(packageMap.get(table));
 			generator.setUri(uriMap.get(table));
 			generator.setSiteTitle(titleMap.get(table));
-			generator.setTeamplatePath(pathStr + templatePath);
-			generator.setGeneratePath(pathStr + "/src/main");
+			generator.setTeamplatePath(templatePath);
+			generator.setGeneratePath(path + "/src/main");
 			columnSetting(table, applyRelList, packageMap);
 			generator.setColumns(columnList);
 			generator.setTableName(table.getName());
@@ -113,6 +110,19 @@ public class Codebone extends BaseCommand {
 		for(Generator generator : generators){
 			ConsolePrinter.printResult(generator.generate(), generator.getTableName());
 		}
+	}
+
+	private DatabaseConfiguration getDatabaseConfiguration() {
+		String json = null;
+		try {
+			String configPath = path + "/" + Define.definefile;
+			json = FileUtils.readFileToString(new File(configPath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Gson gson = new Gson();
+		Type type = new TypeToken<DatabaseConfiguration>(){}.getType();
+		return gson.fromJson(json, type);
 	}
 
 	private void columnSetting(Table table, List<Relationship> applyRelList, Map<Table, String> packageMap) {
@@ -169,7 +179,7 @@ public class Codebone extends BaseCommand {
 		}
 	}
 
-	private List<Relationship> FindTableRelationship(Connection connection,
+	private List<Relationship> findTableRelationship(Connection connection,
 			Table tableStruct){
 		List<Relationship> relList = new ArrayList<Relationship>();
 
@@ -191,87 +201,25 @@ public class Codebone extends BaseCommand {
 	}
 
 	private void setValues(CommandLine line) {
-		host = line.getOptionValue("host");
-		database = line.getOptionValue("database");
-		user = line.getOptionValue("user");
-		password = line.getOptionValue("password");
 		table = line.getOptionValue("table");
-		port = line.getOptionValue("port");
-		databaseType = line.getOptionValue("type");
+		path = line.getOptionValue("path");
 	}
 
 	@Override
 	@SuppressWarnings("static-access")
 	public Options options() {
-		Option hostOption = OptionBuilder.withArgName("host").hasArg()
-				.isRequired(true).withDescription("Datababase host")
-				.create("host");
-
-		Option userOption = OptionBuilder.withArgName("user").hasArg()
-				.isRequired(true).withDescription("Database username")
-				.create("user");
-
-		Option passwordOption = OptionBuilder.withArgName("password").hasArg()
-				.isRequired(true).withDescription("Database password")
-				.create("password");
-
-		Option databaseOption = OptionBuilder.withArgName("database").hasArg()
-				.isRequired(true).withDescription("Database name")
-				.create("database");
+		Option pathOption = OptionBuilder.withArgName("path").hasArg()
+				.isRequired(true)
+				.withDescription("Database configuration file path")
+				.create("path");
 
 		Option tableOption = OptionBuilder.withArgName("table").hasArg()
 				.withDescription("Database table").create("table");
 
-		Option databasePort = OptionBuilder.withArgName("port").hasArg()
-				.isRequired(false).withDescription("Database port")
-				.create("port");
-
-		Option databaseType = OptionBuilder.withArgName("type").hasArg()
-				.isRequired(true).withDescription("Database type")
-				.create("type");
-
 		Options options = new Options();
-		options.addOption(hostOption);
-		options.addOption(userOption);
-		options.addOption(passwordOption);
-		options.addOption(databaseOption);
+		options.addOption(pathOption);
 		options.addOption(tableOption);
-		options.addOption(databasePort);
-		options.addOption(databaseType);
-
 		return options;
-	}
-
-	public String getHost() {
-		return host;
-	}
-
-	public void setHost(String host) {
-		this.host = host;
-	}
-
-	public String getDatabase() {
-		return database;
-	}
-
-	public void setDatabase(String database) {
-		this.database = database;
-	}
-
-	public String getUser() {
-		return user;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getTable() {

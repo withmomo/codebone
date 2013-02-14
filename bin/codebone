@@ -7,7 +7,7 @@ else
 fi
 
 if [ -n "$CODEBONE_HOME" ]; then
-	CODEBONE_HOME=.
+	CODEBONE_HOME=$CODEBONE_HOME
 else
 	echo "ERROR: CODEBONE_HOME not found in your enviroment."
 	echo "Please set the CODEBONE_HOME variable in your enviroment to match the location of your CODEBONE installation."
@@ -21,18 +21,20 @@ CMD="$JAVA -jar $CODEBONE_HOME/codebone-generator-*.jar"
 if [ "$1" == "init" ]; then
 	echo "Initialize project..."
 	cp -r $CODEBONE_SITE/* .
+	mkdir template
+	cp -r $CODEBONE_TEMPLATE/* ./template
 	exit 0;
 elif [ "$1" == "version" ]; then
-	CLASSNAME="Version"
+	CLASSNAME="VersionTools"
 	CMD="$CMD $CLASSNAME"
 	$CMD
 	exit 0;
 elif [ "$1" == "config" ]; then
-	CLASSNAME="Config"
-	CMD="$CMD $CLASSNAME ${@:2}"
+	CLASSNAME="DatabaseConfigurationTools"
+	CMD="$CMD $CLASSNAME -init -path ${PWD}"
 else
-	CLASSNAME="Codebone"
-	CMD="$CMD $CLASSNAME $@"
+	CLASSNAME="GeneratorTools"
+	CMD="$CMD $CLASSNAME -path ${PWD} $@"
 fi
 
 $CMD

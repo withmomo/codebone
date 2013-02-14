@@ -18,6 +18,9 @@ public class DatabaseConfiguration {
 		this.password = password;
 	}
 
+	public DatabaseConfiguration() {
+	}
+
 	public DatabaseType getDatabaseType() {
 		return databaseType;
 	}
