@@ -91,7 +91,7 @@
 					
 					<ul class="nav">
 					<%
-					String navigation = "navigation1";
+					String navigation = "&nbsp;";
 					for(Menu menu : list){
 						String dropdownDef = "";
 						String tagDef = "";
