@@ -66,10 +66,36 @@ public class DatabaseConfigurationTools extends BaseCommand {
 		Gson gson = new Gson();
 		String json = gson.toJson(databaseConfiguration);
 		
+		StringBuilder builder = new StringBuilder();
+        builder.append("codebone.database.host=");
+        builder.append(databaseConfiguration.getHost());
+        builder.append("\n");
+        builder.append("codebone.database.port=");
+        builder.append(databaseConfiguration.getPort());
+        builder.append("\n");
+        builder.append("codebone.database.name=");
+        builder.append(databaseConfiguration.getDatabase());
+        builder.append("\n");
+        builder.append("codebone.database.username=");
+        builder.append(databaseConfiguration.getId());
+        builder.append("\n");
+        builder.append("codebone.database.password=");
+        builder.append(databaseConfiguration.getPassword());
+        builder.append("\n");
+        String propertyString = builder.toString();
+        
 		try {
-			path = path + "/" + Define.definefile;
-            FileUtils.writeStringToFile(new File(path), json);
-            System.out.println("Generated config file : " + path);
+			String configPath = path + "/" + Define.definefile;
+            FileUtils.writeStringToFile(new File(configPath), json);
+            System.out.println("Generated config file : " + configPath);
+            
+            String siteConfigPath = path + "/src/main/resources/codebone.properties";
+            System.out.println("Check site config file : " + siteConfigPath);
+            File siteConfigFile = new File(siteConfigPath);
+            if(siteConfigFile.exists()) {
+            	FileUtils.writeStringToFile(siteConfigFile, propertyString);
+                System.out.println("Generated site config file : " + siteConfigFile);
+            }
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
