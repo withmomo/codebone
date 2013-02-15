@@ -112,27 +112,27 @@ public class BootstrapController extends AbstractController{
 	
 	private void makeBaseMenu(){
 		Menu m = new Menu();
-		m.setName("관리자 메뉴");
+		m.setName("Administrator");
 		m.setPriOrder(1);
 		m.setSubOrder(0);
 		menuService.create(m);
 		
 		m = new Menu();
-		m.setName("관리자");
+		m.setName("Manager");
 		m.setUrl("/app/manager");
 		m.setPriOrder(1);
 		m.setSubOrder(1);
 		menuService.create(m);
 		
 		m = new Menu();
-		m.setName("메뉴");
+		m.setName("Menu");
 		m.setUrl("/app/menu");
 		m.setPriOrder(1);
 		m.setSubOrder(2);
 		menuService.create(m);
 		
 		m = new Menu();
-		m.setName("권한");
+		m.setName("Organizations");
 		m.setUrl("/app/organization");
 		m.setPriOrder(1);
 		m.setSubOrder(3);
@@ -145,13 +145,13 @@ public class BootstrapController extends AbstractController{
 		menuService.create(m);
 		
 		m = new Menu();
-		m.setName("사용자 메뉴");
+		m.setName("Customs");
 		m.setPriOrder(3);
 		m.setSubOrder(0);
 		menuService.create(m);
 		
 		m = new Menu();
-		m.setName("Codebone WebSite");
+		m.setName("codebone");
 		m.setUrl("https://github.com/withmomo/codebone");
 		m.setPriOrder(3);
 		m.setSubOrder(1);
