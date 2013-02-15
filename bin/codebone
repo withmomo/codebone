@@ -16,7 +16,7 @@ fi
 
 CODEBONE_SITE="$CODEBONE_HOME/site"
 CODEBONE_TEMPLATE="$CODEBONE_HOME/template"
-CMD="$JAVA -jar $CODEBONE_HOME/codebone-generator-*.jar"
+CMD="$JAVA -cp \"$CODEBONE_HOME/lib/*.jar\" -jar $CODEBONE_HOME/codebone-generator-*.jar"
 
 if [ "$1" == "init" ]; then
 	echo "Initialize project..."
