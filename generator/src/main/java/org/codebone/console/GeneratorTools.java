@@ -103,8 +103,6 @@ public class GeneratorTools extends BaseCommand {
 			columnSetting(table, applyRelList, packageMap);
 			generator.setColumns(columnList);
 			generator.setTableName(table.getName());
-			generator.setUri(table.getName());
-			generator.setSiteTitle(table.getName());
 			generators.add(generator);
 		}
 		for(Generator generator : generators){
