@@ -35,8 +35,9 @@ public class AuthoritiesService extends AbstractService<Authorities> {
 		}
 	}
 
-	public void delete(String idx) {
+	public BaseModel delete(String idx) {
 		Authorities auth = (Authorities) read(idx).getData();
 		delete(auth);
+		return new SuccessModel();
 	}
 }

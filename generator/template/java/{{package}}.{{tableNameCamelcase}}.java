@@ -14,6 +14,10 @@ import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import java.util.List;
 import {{anotherPackage}};
 {{/foreignKey}}
@@ -23,6 +27,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @Entity
 @Table(name="{{tableName}}")
+@XmlRootElement(name = "{{tableName}}")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class {{tableNameCamelcase}}{
 	
 	public {{tableNameCamelcase}}() {
