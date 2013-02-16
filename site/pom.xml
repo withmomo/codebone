@@ -12,7 +12,7 @@
 
 		<spring.version>3.1.1.RELEASE</spring.version>
 		<spring.security.version>3.1.1.RELEASE</spring.security.version>
-		<jersey-version>1.12</jersey-version>
+		<jersey-version>1.17</jersey-version>
 		<org.aspectj-version>1.6.9</org.aspectj-version>
 		<log4j-version>1.2.16</log4j-version>
 		<slf4j-version>1.6.1</slf4j-version>
@@ -195,6 +195,47 @@
 			<artifactId>hibernate-annotations</artifactId>
 			<version>3.4.0.GA</version>
 		</dependency>
+		
+		<!-- Jersey -->
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-json</artifactId>
+			<version>${jersey-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.jersey.contribs</groupId>
+			<artifactId>jersey-spring</artifactId>
+			<version>${jersey-version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-beans</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-web</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-aop</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>${jersey-version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>commons-beanutils</groupId>
@@ -326,6 +367,13 @@
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>1.7</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.wordnik</groupId>
+			<artifactId>swagger-jaxrs_2.9.1</artifactId>
+			<version>1.2.0</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 	
