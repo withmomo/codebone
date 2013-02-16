@@ -1,16 +1,23 @@
-package {{package}};
+package org.codebone.domain.customer;
 
 import java.util.List;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import org.apache.log4j.Logger;
+import org.codebone.framework.BaseModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.codebone.framework.BaseModel;
-import org.codebone.framework.SuccessModel;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -18,11 +25,11 @@ import com.wordnik.swagger.annotations.ApiParam;
 
 
 
-@Path("/{{tableName}}")
+@Path("/customer")
 @Component
-@Api(value = "/{{tableName}}", basePath="/rest", description = "{{tableName}} API")
+@Api(value = "/customer", basePath="/rest", description = "customer API")
 @Scope("singleton")
-public class {{tableNameCamelcase}}Rest{
+public class CustomerRest{
 
 	/**
 	 * Logger
@@ -33,20 +40,20 @@ public class {{tableNameCamelcase}}Rest{
 	 * Service
 	 */
 	@Autowired(required=true)
-	private {{tableNameCamelcase}}Service service;
+	private CustomerService service;
 
 	@POST
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
 	@SuppressWarnings("unchecked")
-	@ApiOperation(value = "{{tableNameCamelcase}} Create")
-	public {{tableNameCamelcase}} create(
-			@ApiParam(value="Creating {{tableNameCamelcase}} Data")@ModelAttribute {{tableNameCamelcase}} model) {
+	@ApiOperation(value = "Customer Create")
+	public Customer create(
+			@ApiParam(value="Creating Customer Data", required=true) @ModelAttribute Customer model) {
 		logger.debug( "data is" + model);
 		// Create Model
 		BaseModel returnModel = service.create(model);
 		// Return Result
-		return ({{tableNameCamelcase}}) returnModel.getData();
+		return (Customer) returnModel.getData();
 	}
 	
 	@GET
@@ -54,14 +61,14 @@ public class {{tableNameCamelcase}}Rest{
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
 	@SuppressWarnings("unchecked")
-	@ApiOperation(value = "{{tableNameCamelcase}} Read")
-	public {{tableNameCamelcase}} read(
-			@ApiParam(value="Reading {{tableNameCamelcase}} index")@PathParam("idx") String idx) {
+	@ApiOperation(value = "Customer Read")
+	public Customer read(
+			@ApiParam(value="Reading Customer index") @PathParam("idx") String idx) {
 		logger.debug( "idx is " + idx);
 		// Create Model
 		BaseModel returnModel = service.read(idx);
 		// Return Result
-		return ({{tableNameCamelcase}}) returnModel.getData();
+		return (Customer) returnModel.getData();
 	}
 	
 	@GET
@@ -69,9 +76,9 @@ public class {{tableNameCamelcase}}Rest{
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
 	@SuppressWarnings("unchecked")
-	@ApiOperation(value = "{{tableNameCamelcase}} List Read")
-	public List<{{tableNameCamelcase}}> list(
-			@ApiParam(value="List Page")@QueryParam("page") Integer page) {
+	@ApiOperation(value = "Customer List Read")
+	public List<Customer> list(
+			@ApiParam(value="List Page") @QueryParam("page") Integer page) {
 		logger.debug( "page is " + page);
 		// Create Model
 		BaseModel returnModel = service.list(page);
@@ -83,14 +90,14 @@ public class {{tableNameCamelcase}}Rest{
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
 	@SuppressWarnings("unchecked")
-	@ApiOperation(value = "{{tableNameCamelcase}} Update")
-	public {{tableNameCamelcase}} update(
-			@ApiParam(value="Updating {{tableNameCamelcase}} Data")@ModelAttribute {{tableNameCamelcase}} model) {
+	@ApiOperation(value = "Customer Update")
+	public Customer update(
+			@ApiParam(value="Updating Customer Data") @ModelAttribute Customer model) {
 		logger.debug( "data is" + model);
 		// Create Model
 		BaseModel returnModel = service.update(model);
 		// Return Result
-		return ({{tableNameCamelcase}}) returnModel.getData();
+		return (Customer) returnModel.getData();
 	}
 	
 	@DELETE
@@ -98,9 +105,9 @@ public class {{tableNameCamelcase}}Rest{
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
 	@SuppressWarnings("unchecked")
-	@ApiOperation(value = "{{tableNameCamelcase}} Delete")
+	@ApiOperation(value = "Customer Delete")
 	public BaseModel delete(
-			@ApiParam(value="Deleting {{tableNameCamelcase}} index")@PathParam("idx") String idx) {
+			@ApiParam(value="Deleting Customer index")@PathParam("idx") String idx) {
 		logger.debug( "idx is " + idx);
 		// Create Model
 		BaseModel returnModel = service.delete(idx);

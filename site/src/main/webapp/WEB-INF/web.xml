@@ -61,7 +61,7 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
 	<filter>
 		<filter-name>sitemesh</filter-name>
 		<filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
@@ -70,7 +70,7 @@
 		<filter-name>sitemesh</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
 	<!-- ==================================== Listener ==================================== -->
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
@@ -81,20 +81,28 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
+
 	<!-- Jersey Servlet -->
 	<servlet>
 		<servlet-name>Jersey Spring Web Application</servlet-name>
 		<servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>org.codebone;com.wordnik.swagger.jaxrs.listing;</param-value>
+			<param-value>org.codebone;com.wordnik.swagger.jaxrs.JavaApiListing;</param-value>
 		</init-param>
 		<init-param>
 			<param-name>swagger.api.basepath</param-name>
 			<param-value>http://localhost:8081/rest</param-value>
 		</init-param>
-		<load-on-startup>2</load-on-startup>
+		<init-param>
+            <param-name>api.version</param-name>
+            <param-value>0.1</param-value>
+        </init-param>
+        <init-param>
+            <param-name>swagger.version</param-name>
+            <param-value>1.0</param-value>
+        </init-param>
+		<load-on-startup>3</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Jersey Spring Web Application</servlet-name>
@@ -102,9 +110,15 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>Bootstrap</servlet-name>
+		<servlet-class>org.codebone.framework.util.SwaggerBootstrap</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
 		<servlet-name>codebone</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
+		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>codebone</servlet-name>
