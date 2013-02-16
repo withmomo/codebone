@@ -30,7 +30,7 @@
 				{{#columns}}
 				{{^foreignKey}}
 				{{#primaryKey}}
-				<%= if(isCreate.equals("Create")){ %>
+				<% if(isCreate.equals("Create")){ %>
 				{{/primaryKey}}
 				<div class="control-group">
 					<label class="control-label" for="{{name}}">{{description}}</label>
@@ -40,7 +40,7 @@
 					</div>
 				</div>
 				{{#primaryKey}}
-				<%=} %>
+				<% } %>
 				{{/primaryKey}}
 				{{/foreignKey}}
 				{{/columns}}
