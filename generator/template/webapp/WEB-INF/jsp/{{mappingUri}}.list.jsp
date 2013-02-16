@@ -78,11 +78,6 @@
 				<input type="text" class="search-query" name="keyword">
 				<button type="submit" class="btn">Search</button>
 			</div>
-
-			<div class="controls" style="text-align: right">
-				<select name="property">
-				</select>
-			</div>
 		</form>
 		</div>
 	</div>
