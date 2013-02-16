@@ -158,7 +158,7 @@ public class GeneratorTools extends BaseCommand {
 					codeboneColumn.setSearchable(false);
 					codeboneColumn.setType(0);
 					codeboneColumn.setTypeName("");
-					String anotherPackage = packageMap.get(column.getParent());
+					String anotherPackage = packageMap.get(refColumn.getParent());
 					String camelTableName = WordUtils.capitalizeFully(refColumn.getParent().getName(), new char[]{'_'}).replaceAll("_", "");
 					codeboneColumn.setAnotherPackage(anotherPackage + "." + camelTableName);
 					codeboneColumn.setName(refColumn.getParent().getName());
