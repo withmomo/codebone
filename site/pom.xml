@@ -1,11 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.codebone</groupId>
-		<artifactId>codebone</artifactId>
-		<version>0.2.0</version>
-	</parent>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,9 +14,13 @@
 		<spring.security.version>3.1.1.RELEASE</spring.security.version>
 		<jersey-version>1.12</jersey-version>
 		<org.aspectj-version>1.6.9</org.aspectj-version>
+		<log4j-version>1.2.16</log4j-version>
+		<slf4j-version>1.6.1</slf4j-version>
 	</properties>
 	
+	<groupId>org.codebone</groupId>
 	<artifactId>codebone-site</artifactId>
+	<version>0.2.0</version>
 	<name>${bundle.symbolicName} [${bundle.namespace}]</name>
 	<description>Template Site for codebone.</description>
 	<packaging>war</packaging>
@@ -215,24 +214,35 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j-version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
+			<version>${slf4j-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${slf4j-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jul-to-slf4j</artifactId>
+			<version>${slf4j-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
