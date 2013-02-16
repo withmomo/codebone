@@ -1,10 +1,8 @@
 # About
---------------------------------------
 
 Codebone is a ORM Scaffolding tools. The goal of Codebone rapidly build application.
 
 # Features
---------------------------------------
 * General code generator based on DBMS schema.
 * Basic web console based on Spring + Hibernate + Sitemesh
 * Automated APIs Documents
@@ -13,13 +11,11 @@ Codebone is a ORM Scaffolding tools. The goal of Codebone rapidly build applicat
   * REST APIs    
 
 # Requirements
---------------------------------------
 
 * JDK 1.6 Over.
 * Maven
 
 # Getting Started
---------------------------------------
 
 ### Install
 
@@ -82,9 +78,7 @@ Generated site config file : /Users/realbeast/develop/workspace/likefacebook/src
 mvn jetty:run
 ```
 
-Launch your browser, and call this url. `http://localhost:8081/app/bootstrap/install`
-
-![installer](docs/images/install.png)
+Launch your browser, and call this url. `http://localhost:8081/app/bootstrap/install` Input administrator information.
 
 ### Run automated source generator
 
@@ -151,6 +145,10 @@ Table Users Code Generate Success!
 Domain, DAO, Service, Controller classes generated.
 
 ![generatedfiles.png](docs/images/generatedfiles.png)
+
+`http://localhost:8081/app/users`
+
+![site.png](docs/images/site.png)
 
 Make an awesome your project! ;)
 
