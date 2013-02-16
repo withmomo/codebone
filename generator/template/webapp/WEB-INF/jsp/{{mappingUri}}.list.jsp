@@ -10,7 +10,6 @@
 %>
 
 <section id="contents">
-	<h1>{{siteTitle}}</h1>
 	<table class="table">
 		<thead>
 			<tr>
@@ -35,16 +34,13 @@
 
 				<td>
 					<div class="btn-group">
-						<button class="btn btn-primary dropdown-toggle"
-							data-toggle="dropdown">
-							<i class="icon-pencil icon-white"></i>Action
-						</button>
-						<ul class="dropdown-menu">
-							<li><a
-								href="<%=request.getContextPath()%>/app/{{mappingUri}}/update?idx=<%=model.get{{primaryKeyCamelcase}}().toString()%>">Update</a></li>
-							<li><a
-								href="<%=request.getContextPath()%>/app/{{mappingUri}}/delete?idx=<%=model.get{{primaryKeyCamelcase}}().toString()%>">Delete</a></li>
-						</ul>
+						<a class="btn btn-small"
+							href="<%=request.getContextPath()%>/app/{{mappingUri}}/update?idx=<%=model.get{{primaryKeyCamelcase}}().toString()%>">
+							<i class="icon-edit"></i> Update
+						</a> <a class="btn btn-small"
+							href="<%=request.getContextPath()%>/app/{{mappingUri}}/delete?idx=<%=model.get{{primaryKeyCamelcase}}().toString()%>">
+							<i class="icon-trash"></i> Delete
+						</a>
 					</div>
 				</td>
 			</tr>
@@ -63,7 +59,8 @@
 				<i class="icon-pencil"></i> Create
 			</a>
 		</div>
-
+		
+		<div class="pull-right">
 		<form class="form-search"
 			action="<%=request.getContextPath()%>/app/{{mappingUri}}/search"
 			method="post">
@@ -87,6 +84,7 @@
 				</select>
 			</div>
 		</form>
+		</div>
 	</div>
 </section>
 
