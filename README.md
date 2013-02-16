@@ -153,7 +153,7 @@ Domain, DAO, Service, Controller classes generated.
 Make an awesome your project! ;)
 
 # Contributors
---------------------------------------
+
 * Sunyong Lim
 * Sung-ju Jin([@geekbeast](https://twitter.com/geekbeast))
 * Hyun-gyu Byun
@@ -162,9 +162,9 @@ Make an awesome your project! ;)
 * Jin-Young Kim
 
 # Contribute
---------------------------------------
+
 If you would like to contribute code to Codebone you can do so through GitHub by forking the repository and sending a pull request.
 
 # License
---------------------------------------
+
 Codebone is licensed under the MIT.
