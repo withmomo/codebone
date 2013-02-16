@@ -119,6 +119,4 @@ pip-log.txt
 # Mac crap
 .DS_Store
 #Codebone
-Define.java
-TestGenerator.java
 /*.project
