@@ -72,4 +72,10 @@ public abstract class AbstractService<M> {
 		getDao().delete(m);
 		return new SuccessModel();
 	}
+	
+	public BaseModel delete (String idx){
+		logger.info("delete model by " + idx);
+		getDao().delete(getDao().read(idx));
+		return new SuccessModel();
+	}
 }
