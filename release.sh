@@ -30,5 +30,19 @@ cp -r bin $DIST/bin
 #Zipping
 cd dist
 zip -r codebone-$VERSION.zip codebone-$VERSION
+cd ..
+ls -al dist
 
-ls -al
+if [ "$1" == "deploy" ]; then
+	echo "Start release flow : codebone-$VERSION"
+	mvn clean
+	cp dist/codebone-$VERSION.zip ../
+	git checkout gh-pages
+	git reset HEAD --hard
+	rm -rf release/codebone-$VERSION.zip
+	mv ../codebone-$VERSION.zip release
+	git add .
+	git commit -m "release codebone $VERSION"
+	git push
+	echo "End release flow : codebone-$VERSION"
+fi
