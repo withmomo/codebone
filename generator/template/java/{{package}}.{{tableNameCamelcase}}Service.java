@@ -26,7 +26,7 @@ public class {{tableNameCamelcase}}Service{
 	public BaseModel create ({{tableNameCamelcase}} {{tableNameLowercase}}){
 		logger.info("create model " + {{tableNameLowercase}});
 		getDao().create({{tableNameLowercase}});
-		return new SuccessModel();
+		return new SuccessModel({{tableNameLowercase}});
 	}
 	
 	public BaseModel read (String key){
@@ -72,6 +72,12 @@ public class {{tableNameCamelcase}}Service{
 	public BaseModel delete ({{tableNameCamelcase}} {{tableNameLowercase}}){
 		logger.info("delete model " + {{tableNameLowercase}});
 		getDao().delete({{tableNameLowercase}});
+		return new SuccessModel();
+	}
+	
+	public BaseModel delete (String idx){
+		logger.info("delete model " + idx);
+		getDao().delete(getDao().read(idx));
 		return new SuccessModel();
 	}
 }
