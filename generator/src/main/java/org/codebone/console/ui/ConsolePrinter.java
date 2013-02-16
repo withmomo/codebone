@@ -2,6 +2,7 @@ package org.codebone.console.ui;
 
 import java.util.Scanner;
 
+import org.apache.commons.lang.StringUtils;
 import org.codebone.console.Relationship;
 import org.codebone.console.RelationshipType;
 
@@ -11,26 +12,29 @@ public class ConsolePrinter {
 
 	private static Scanner scan = new Scanner(System.in);
 	
-	
 	public static boolean queryRelationship(Relationship rel) {
 		Column referencedColumn = rel.getReferencedColumn();
 		if (rel.getType().equals(RelationshipType.OneToOne)) {
-			System.out.println("OneToOne Detected!");
-			System.out.println(referencedColumn.getParent().getName()
-					+ " 1 -> 1 " + rel.getColumn().getParent().getName());
+			System.out.println("------------- `OneToOne` detected. -------------");
+			System.out.println();
+			System.out.println("\t[" + referencedColumn.getParent().getName()
+					+ "] 1 -> 1 [" + rel.getColumn().getParent().getName() + "]");
+			System.out.println();
 			return query();
 		} else if (rel.getType().equals(RelationshipType.OneToMany)) {
-			System.out.println("OneToMany Detected!");
-			System.out.println(referencedColumn.getParent().getName()
-					+ " 1 -> N " + rel.getColumn().getParent().getName());
+			System.out.println("------------- `OneToMany` detected. -------------");
+			System.out.println();
+			System.out.println("\t[" + referencedColumn.getParent().getName()
+					+ "] 1 -> N [" + rel.getColumn().getParent().getName() + "]");
+			System.out.println();
 			return query();
 		} else if (rel.getType().equals(RelationshipType.ManyToMany)) {
-			System.out.println("ManyToMany Detected!");
-			System.out.println(rel.getColumn()
-					.getParent().getName()
-					+ " N <-> N "
-					+ referencedColumn.getParent()
-							.getName());
+			System.out.println("------------- ManyToMany detected -------------");
+			System.out.println();
+			System.out.println("\t[" + rel.getColumn().getParent().getName()
+					+ "] N <-> N ["
+					+ referencedColumn.getParent().getName() + "]");
+			System.out.println();
 			return query();
 		} else {
 		}
@@ -41,18 +45,28 @@ public class ConsolePrinter {
 		
 		boolean error = false;
 		do {
-			System.out
-					.println("Codebone will copy this relationship into JPA Model File. copy it? (Y/N) >");
-			String answer = scan.nextLine();
-			if (answer.toLowerCase().equals("y")) {
-				System.out.println("Apply the relationship");
-				return true;
-			} else if (answer.toLowerCase().equals("n")) {
-				System.out.println("Ignore the relationship");
-				return false;
-			} else {
-				System.out.println("Error");
+			error = false;
+			
+			System.out.println("Q. Do you want to generate relation file?");
+			System.out.println("1. Yes");
+			System.out.println("2. No");
+			
+			int choose = -1;
+			try {
+				choose = Integer.parseInt(scan.nextLine());
+			} catch (Exception e) {
 				error = true;
+			}
+			
+			if( !error ) {
+				if( !(choose >= 1 && choose <= 2) ) {
+					System.out.println("Must be select 1 or 2." + choose);
+					error = true;
+				}
+			}
+			
+			if( !error ) {
+				return choose == 1 ? true : false;
 			}
 		} while (error);
 		return false;
@@ -62,12 +76,10 @@ public class ConsolePrinter {
 		boolean retry = false;
 		String answer = "";
 		do{
-			System.out.println("input "+ tableName +"'s Package name");
-			System.out.println("(For Example, org.codebone.domain.User)");
-			System.out.print(">");
+			System.out.print("Input [" + tableName + "] source package (ex. org.coebone) : ");
 			answer = scan.nextLine();
 			if(answer.equals("")){
-				System.out.println("Please retry");
+				System.out.println("Mustbe fill it.");
 				retry = true;
 			}
 		}while(retry);
@@ -75,25 +87,20 @@ public class ConsolePrinter {
 	}
 	public static String queryUri(String tableName){
 		String answer = "";
-			System.out.println("input "+ tableName +"'s URI Path");
-			System.out.println("For Example, if you want http://localhost:8080/admin/'user'/** URI then press 'user'");
-			System.out.println("if you want just table's name to URI, then press enter");
-			System.out.print(">");
-			answer = scan.nextLine();
-			if(answer.equals("")){
-				answer = tableName;
-			}
+		System.out.print("Input [" + tableName + "] URI path (ex. /app/'"+tableName.toLowerCase()+"'/**) : ");
+		answer = scan.nextLine();
+		if(StringUtils.isEmpty(answer)){
+			answer = tableName;
+		}
 		return answer;
 	}
 	public static String querySiteTitle(String tableName){
 		String answer = "";
-			System.out.println("input "+ tableName +"'s Site Title");
-			System.out.println("if you want just table's name to Title, then press enter");
-			System.out.print(">");
-			answer = scan.nextLine();
-			if(answer.equals("")){
-				answer = tableName;
-			}
+		System.out.print("Input [" + tableName + "] title : ");
+		answer = scan.nextLine();
+		if(StringUtils.isEmpty(answer)){
+			answer = tableName;
+		}
 		return answer;
 	}
 	
