@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.codebone.connector.Column;
 
@@ -172,6 +173,15 @@ public class Generator {
 	    String camelcase = name + "Camelcase";
 	    String camelcaseValue = WordUtils.capitalizeFully(value.toString(), new char[]{'_'}).replaceAll("_", "");
 	    obj.put(camelcase, camelcaseValue);
+	    
+	    
+	    String variablecase = name + "Variablecase";
+	    String variablecaseValue = null;
+	    if( camelcaseValue.length() >= 2)
+	    	variablecaseValue = camelcaseValue.substring(0, 1).toLowerCase() + camelcaseValue.substring(1);
+	    else
+	    	variablecaseValue = camelcaseValue;
+	    obj.put(variablecase, variablecaseValue);
 	}
 
 	public String getTeamplatePath() {
