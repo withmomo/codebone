@@ -14,15 +14,13 @@ import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import java.util.List;
 import {{anotherPackage}};
 {{/foreignKey}}
 {{/columns}}
 
+import javax.xml.bind.annotation.*;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 @Entity

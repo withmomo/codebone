@@ -18,7 +18,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 
 
 
-@Path("/{{tableName}}")
+@Path("/{{mappingUri}}")
 @Component
 @Api(value = "/{{tableName}}", basePath="/rest", description = "{{tableName}} API")
 @Scope("singleton")
@@ -65,13 +65,17 @@ public class {{tableNameCamelcase}}Rest{
 	}
 	
 	@GET
-	@Path("/list")
+	@Path("/")
 	@Consumes({ "application/xml", "application/json" })
 	@Produces({ "application/xml", "application/json" })
 	@SuppressWarnings("unchecked")
 	@ApiOperation(value = "{{tableNameCamelcase}} List Read")
 	public List<{{tableNameCamelcase}}> list(
 			@ApiParam(value="List Page")@QueryParam("page") Integer page) {
+
+		if( page == null )
+			page = 1;
+		
 		logger.debug( "page is " + page);
 		// Create Model
 		BaseModel returnModel = service.list(page);
