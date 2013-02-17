@@ -15,14 +15,17 @@ mkdir -p $DIST
 cp -r generator/target/codebone-*.jar $DIST
 cp -r generator/target/lib $DIST/lib
 
-#Make template
-cp -r generator/template $DIST/template
-
-#Make site
+#Make server
 cd site
 mvn clean
 cd ..
 cp -r site $DIST/site
+
+#Make android
+cd android
+mvn clean
+cd ..
+cp -r android $DIST/android
 
 #Make bin
 cp -r bin $DIST/bin
