@@ -36,8 +36,8 @@ public class {{tableNameCamelcase}}Rest{
 	private {{tableNameCamelcase}}Service service;
 
 	@POST
-	@Consumes({ "application/xml", "application/json" })
-	@Produces({ "application/xml", "application/json" })
+	@Consumes({ "application/json" })
+	@Produces({ "application/json" })
 	@SuppressWarnings("unchecked")
 	@ApiOperation(value = "{{tableNameCamelcase}} Create")
 	public {{tableNameCamelcase}} create(
@@ -51,8 +51,8 @@ public class {{tableNameCamelcase}}Rest{
 	
 	@GET
 	@Path("/{idx}")
-	@Consumes({ "application/xml", "application/json" })
-	@Produces({ "application/xml", "application/json" })
+	@Consumes({ "application/json" })
+	@Produces({ "application/json" })
 	@SuppressWarnings("unchecked")
 	@ApiOperation(value = "{{tableNameCamelcase}} Read")
 	public {{tableNameCamelcase}} read(
@@ -66,8 +66,8 @@ public class {{tableNameCamelcase}}Rest{
 	
 	@GET
 	@Path("/")
-	@Consumes({ "application/xml", "application/json" })
-	@Produces({ "application/xml", "application/json" })
+	@Consumes({ "application/json" })
+	@Produces({ "application/json" })
 	@SuppressWarnings("unchecked")
 	@ApiOperation(value = "{{tableNameCamelcase}} List Read")
 	public List<{{tableNameCamelcase}}> list(
@@ -84,8 +84,8 @@ public class {{tableNameCamelcase}}Rest{
 	}
 	
 	@PUT
-	@Consumes({ "application/xml", "application/json" })
-	@Produces({ "application/xml", "application/json" })
+	@Consumes({ "application/json" })
+	@Produces({ "application/json" })
 	@SuppressWarnings("unchecked")
 	@ApiOperation(value = "{{tableNameCamelcase}} Update")
 	public {{tableNameCamelcase}} update(
@@ -99,8 +99,8 @@ public class {{tableNameCamelcase}}Rest{
 	
 	@DELETE
 	@Path("/{idx}")
-	@Consumes({ "application/xml", "application/json" })
-	@Produces({ "application/xml", "application/json" })
+	@Consumes({ "application/json" })
+	@Produces({ "application/json" })
 	@SuppressWarnings("unchecked")
 	@ApiOperation(value = "{{tableNameCamelcase}} Delete")
 	public BaseModel delete(
