@@ -27,12 +27,12 @@ public class DatabaseConfigurationTools extends BaseCommand {
 		String path = line.getOptionValue("path");
 		String sourcepath = line.getOptionValue("sourcepath");
 		if( !StringUtils.isEmpty(sourcepath) )
-			load(sourcepath);
+			load(sourcepath, path);
 		else
 			init(path);
 	}
 	
-	private void load(String sourcepath) {
+	private void load(String sourcepath, String path) {
 		File sourceFile = new File(sourcepath + "/" + Define.definefile);
 		if( !sourceFile.exists() ) {
 			System.out.println( sourcepath + " file does not exists.");
@@ -61,7 +61,7 @@ public class DatabaseConfigurationTools extends BaseCommand {
 		} while( !(number > 0 && number <= 1 ) );
 		
 		if( number == 1)
-			saveConfigFile(sourcepath, databaseConfiguration);
+			saveConfigFile(path, databaseConfiguration);
 	}
 
 	private void init(String path) {
@@ -149,7 +149,7 @@ public class DatabaseConfigurationTools extends BaseCommand {
 	@SuppressWarnings("static-access")
 	public Options options() {
 		Option sourcepathOption = OptionBuilder.withArgName("sourcepath").hasArg()
-				.isRequired(true)
+				.isRequired(false)
 				.withDescription("Database configuration sourcepath file path")
 				.create("sourcepath");
 		

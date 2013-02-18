@@ -37,7 +37,11 @@ elif [ "$1" == "version" ]; then
 	exit 0;
 elif [ "$1" == "config" ]; then
 	CLASSNAME="DatabaseConfigurationTools"
-	CMD="$CMD $CLASSNAME -init -path ${PWD}"
+	if [ -n "$2" ]; then
+		CMD="$CMD $CLASSNAME -path ${PWD} -sourcepath $2"
+	else
+		CMD="$CMD $CLASSNAME -path ${PWD}"
+	fi
 else
 	CONFIG_FILE="${PWD}/.codebone"
 	if [ -e $CONFIG_FILE ]; then
