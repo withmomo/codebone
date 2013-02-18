@@ -9,14 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 {{#columns}}
 {{#foreignKey}}
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import java.util.List;
 import {{anotherPackage}};
