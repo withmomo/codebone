@@ -56,7 +56,7 @@ public class {{tableNameCamelcase}}Rest{
 	@SuppressWarnings("unchecked")
 	@ApiOperation(value = "{{tableNameCamelcase}} Read")
 	public {{tableNameCamelcase}} read(
-			@ApiParam(value="Reading {{tableNameCamelcase}} index")@PathParam("idx") {{primaryKeyType}} idx) {
+			@ApiParam(value="Reading {{tableNameCamelcase}} index")@PathParam("idx") String idx) {
 		logger.debug( "idx is " + idx);
 		// Create Model
 		BaseModel returnModel = service.read(idx);
@@ -100,7 +100,7 @@ public class {{tableNameCamelcase}}Rest{
 	@SuppressWarnings("unchecked")
 	@ApiOperation(value = "{{tableNameCamelcase}} Delete")
 	public BaseModel delete(
-			@ApiParam(value="Deleting {{tableNameCamelcase}} index")@PathParam("idx") {{primaryKeyType}} idx) {
+			@ApiParam(value="Deleting {{tableNameCamelcase}} index")@PathParam("idx") String idx) {
 		logger.debug( "idx is " + idx);
 		// Create Model
 		BaseModel returnModel = service.delete(idx);
