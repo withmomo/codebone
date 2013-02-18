@@ -92,6 +92,7 @@ public class GeneratorTools extends BaseCommand {
 			packageMap.put(table, ConsolePrinter.queryPackage(table.getName()));
 			uriMap.put(table, ConsolePrinter.queryUri(table.getName()));
 			titleMap.put(table, ConsolePrinter.querySiteTitle(table.getName()));
+			System.out.println();
 		}
 		for(Table table : targetTableList){
 			Generator generator = new Generator();
