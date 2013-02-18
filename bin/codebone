@@ -15,14 +15,20 @@ else
 fi
 
 CODEBONE_SITE="$CODEBONE_HOME/site"
+CODEBONE_ANDROID="$CODEBONE_HOME/android"
 CODEBONE_TEMPLATE="$CODEBONE_HOME/template"
 CMD="$JAVA -cp \"$CODEBONE_HOME/lib/*.jar\" -jar $CODEBONE_HOME/codebone-generator-*.jar"
 
 if [ "$1" == "init" ]; then
-	echo "Initialize project..."
-	cp -r $CODEBONE_SITE/* .
-	mkdir template
-	cp -r $CODEBONE_TEMPLATE/* ./template
+	if [ "$2" == "android" ]; then
+		echo "Initialize android project..."
+		cp -r $CODEBONE_ANDROID/* .
+	elif [ "$2" == "server" ]; then
+		echo "Initialize server project..."
+		cp -r $CODEBONE_SITE/* .
+	else
+		echo "Please set the project mode. server or android"
+	fi
 	exit 0;
 elif [ "$1" == "version" ]; then
 	CLASSNAME="VersionTools"
@@ -31,8 +37,21 @@ elif [ "$1" == "version" ]; then
 	exit 0;
 elif [ "$1" == "config" ]; then
 	CLASSNAME="DatabaseConfigurationTools"
-	CMD="$CMD $CLASSNAME -init -path ${PWD}"
+	if [ -n "$2" ]; then
+		CMD="$CMD $CLASSNAME -path ${PWD} -sourcepath $2"
+	else
+		CMD="$CMD $CLASSNAME -path ${PWD}"
+	fi
 else
+	CONFIG_FILE="${PWD}/.codebone"
+	if [ -e $CONFIG_FILE ]; then
+		CONFIG_FILE="$CONFIG_FILE"
+	else
+		echo "ERROR: Config file[$CONFIG_FILE] does not exist."
+		echo "Please config your project, codebone config"
+		exit 0;
+	fi
+
 	CLASSNAME="GeneratorTools"
 	CMD="$CMD $CLASSNAME -path ${PWD} $@"
 fi

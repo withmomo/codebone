@@ -6,11 +6,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<bundle.symbolicName>org.codebone</bundle.symbolicName>
 		<bundle.namespace>org.codebone</bundle.namespace>
-		
+
 		<log4j-version>1.2.16</log4j-version>
-		<slf4j-version>1.6.1</slf4j-version>                
+		<slf4j-version>1.6.1</slf4j-version>
 	</properties>
-	
+
 	<groupId>org.codebone</groupId>
 	<artifactId>codebone</artifactId>
 	<version>0.2.0</version>
@@ -20,6 +20,7 @@
 	<modules>
 		<module>generator</module>
 		<module>site</module>
+		<module>android</module>
 	</modules>
 
 </project>

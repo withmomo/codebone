@@ -24,6 +24,7 @@ import {{anotherPackage}};
 {{/foreignKey}}
 {{/columns}}
 
+import javax.xml.bind.annotation.*;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 @Entity
