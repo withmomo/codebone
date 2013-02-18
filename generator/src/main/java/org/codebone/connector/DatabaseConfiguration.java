@@ -1,5 +1,8 @@
 package org.codebone.connector;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 public class DatabaseConfiguration {
 
 	private DatabaseType databaseType;
@@ -67,5 +70,10 @@ public class DatabaseConfiguration {
 
 	public void setDatabase(String database) {
 		this.database = database;
+	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 }
