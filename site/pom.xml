@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<bundle.symbolicName>org.codebone.site</bundle.symbolicName>
 		<bundle.namespace>org.codebone</bundle.namespace>
-		
+
 		<downloadSources>true</downloadSources>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -17,14 +17,14 @@
 		<log4j-version>1.2.16</log4j-version>
 		<slf4j-version>1.6.1</slf4j-version>
 	</properties>
-	
+
 	<groupId>org.codebone</groupId>
 	<artifactId>codebone-site</artifactId>
 	<version>0.2.0</version>
 	<name>${bundle.symbolicName} [${bundle.namespace}]</name>
 	<description>Template Site for codebone.</description>
 	<packaging>war</packaging>
-	
+
 	<build>
 
 		<resources>
@@ -120,11 +120,11 @@
 					</execution>
 				</executions>
 			</plugin>
-				
-			
+
+
 		</plugins>
 	</build>
-	
+
 	<dependencies>
 
 		<dependency>
@@ -195,7 +195,7 @@
 			<artifactId>hibernate-annotations</artifactId>
 			<version>3.4.0.GA</version>
 		</dependency>
-		
+
 		<!-- Jersey -->
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
@@ -230,11 +230,17 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-server</artifactId>
 			<version>${jersey-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+			<version>1.9.12</version>
 		</dependency>
 
 		<dependency>
@@ -253,7 +259,7 @@
 			<artifactId>cglib</artifactId>
 			<version>2.2.2</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
@@ -356,7 +362,7 @@
 			<artifactId>sitemesh</artifactId>
 			<version>2.4.2</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
@@ -368,7 +374,7 @@
 			<artifactId>commons-codec</artifactId>
 			<version>1.7</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.wordnik</groupId>
 			<artifactId>swagger-jaxrs_2.9.1</artifactId>
@@ -376,5 +382,5 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
-	
+
 </project>
