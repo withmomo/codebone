@@ -5,10 +5,12 @@ Codebone is a ORM Scaffolding tools. The goal of Codebone rapidly build applicat
 # Features
 * General code generator based on DBMS schema.
 * Basic web console based on Spring + Hibernate + Sitemesh
+* Basic Android project based on retrofit
 * Automated APIs Documents
 * Basic code template
   * CRUD web console pages.
-  * REST APIs    
+  * REST APIs
+  * Android REST APIs
 
 # Requirements
 
@@ -42,7 +44,7 @@ codebone version : 0.2.0
 ```
 $ mkdir likefacebook
 $ cd likefacebook
-$ codebone init
+$ codebone init server
 Initialize project...
 $ ls -al
 total 24
