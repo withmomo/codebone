@@ -2,6 +2,8 @@
 
 Codebone is a ORM Scaffolding tools. The goal of Codebone rapidly build application.
 
+* Google Group: [!http://groups.google.com/group/codebone](http://groups.google.com/group/codebone)
+
 # Features
 * General code generator based on DBMS schema.
 * Basic web console based on Spring + Hibernate + Sitemesh
@@ -14,6 +16,10 @@ Codebone is a ORM Scaffolding tools. The goal of Codebone rapidly build applicat
 
 ### How it works
 [![works](docs/images/codebone-youtube.png)](http://youtu.be/UDlr5ziCpsI)
+
+### Limitation
+* Not support oAuth 1.x, 2.0 - Need to implement
+* code generator not exactly found ManyToMany related table. - Need to enhance
 
 # Requirements
 
