@@ -12,6 +12,9 @@ Codebone is a ORM Scaffolding tools. The goal of Codebone rapidly build applicat
   * REST APIs
   * Android REST APIs
 
+### How it works
+[![works](docs/images/codebone-youtube.png)](http://youtu.be/UDlr5ziCpsI)
+
 # Requirements
 
 * JDK 1.6 Over.
