@@ -18,7 +18,7 @@ Codebone is a ORM Scaffolding tools. The goal of Codebone rapidly build applicat
 * Not support oAuth 1.x, 2.0 - Need to implement
 * code generator not exactly found ManyToMany related table. - Need to enhance
 
-### How it works
+# Demo
 [![works](docs/images/codebone-youtube.png)](http://youtu.be/UDlr5ziCpsI)
 
 # Requirements
