@@ -21,7 +21,7 @@ public interface {{tableNameCamelcase}}RestService {
 	@GET("/api/{{mappingUri}}/{id}")
 	{{tableNameCamelcase}} get(@Named("id") {{primaryKeyType}} id);
 	
-	@PUT("/api/{{mappingUri}}")
+	@PUT("/api/{{mappingUri}}/{id}")
 	void update(@SingleEntity {{tableNameCamelcase}} {{tableNameLowercase}});
 	
 	@DELETE("/api/{{mappingUri}}/{id}")
