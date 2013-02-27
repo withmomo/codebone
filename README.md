@@ -40,7 +40,7 @@ Need to environment variable `$PATH`, `$CODEBONE_HOME`
 ```
 Mac users
 $ export CODEBONE_HOME={your_codebone_home_path}
-$ export PATH=$PATH;$CODEBONE_HONE/bin
+$ export PATH=$CODEBONE_HONE/bin:$PATH
 ```
 Check it.
 
